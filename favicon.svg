@@ -1,48 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 734 720">
   <defs>
-    <radialGradient id="bg" cx="36%" cy="28%" r="75%">
-      <stop offset="0%"   stop-color="#0d0d28"/>
-      <stop offset="100%" stop-color="#04040d"/>
-    </radialGradient>
-    <radialGradient id="orb" cx="34%" cy="30%" r="70%">
-      <stop offset="0%"   stop-color="#b8f4ff"/>
-      <stop offset="14%"  stop-color="#44aaff"/>
-      <stop offset="38%"  stop-color="#7722ee"/>
-      <stop offset="72%"  stop-color="#1c0845"/>
-      <stop offset="100%" stop-color="#05030e"/>
-    </radialGradient>
-    <radialGradient id="atmo" cx="50%" cy="50%" r="50%">
-      <stop offset="52%"  stop-color="#3d6fff" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#3d6fff" stop-opacity="0.40"/>
-    </radialGradient>
-    <radialGradient id="spec" cx="38%" cy="32%" r="58%">
-      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.80"/>
-      <stop offset="65%"  stop-color="#aaddff" stop-opacity="0.20"/>
-      <stop offset="100%" stop-color="#aaddff" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="rim" cx="70%" cy="72%" r="45%">
-      <stop offset="0%"   stop-color="#8833ff" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#8833ff" stop-opacity="0"/>
-    </radialGradient>
-    <clipPath id="c">
-      <rect width="32" height="32" rx="7"/>
-    </clipPath>
+    <linearGradient id="logo-color" x1="70" y1="95" x2="664" y2="642" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#23d3e7"/>
+      <stop offset=".28" stop-color="#4b7aff"/>
+      <stop offset=".54" stop-color="#9a56eb"/>
+      <stop offset=".76" stop-color="#e44bb4"/>
+      <stop offset="1" stop-color="#ff955a"/>
+    </linearGradient>
   </defs>
-
-  <g clip-path="url(#c)">
-    <!-- Background -->
-    <rect width="32" height="32" fill="url(#bg)"/>
-
-    <!-- Atmospheric halo -->
-    <circle cx="16" cy="16" r="15" fill="url(#atmo)"/>
-
-    <!-- Sphere body -->
-    <circle cx="16" cy="16" r="11" fill="url(#orb)"/>
-
-    <!-- Plasma back-rim light (bottom-right) -->
-    <circle cx="16" cy="16" r="11" fill="url(#rim)"/>
-
-    <!-- Specular highlight (top-left) -->
-    <ellipse cx="12.6" cy="12" rx="3.6" ry="2.4" fill="url(#spec)"/>
-  </g>
+  <path d="M615.56,322.03c83.48-77.87,35.22-159.33-49.02-188.89-53-18.6-111.58-11.63-159.59,17.52-2.49,1.51-4.96,3.07-7.38,4.65-23.71,15.5-41.41,38.58-49.97,65.58-10.88,34.31-6.76,60.57,17.42,88.91,10.68,12.52,23.52,23.01,37.68,31.39,69.5,41.14,162.85,67.34,227.77,117.58,23.33,18.05,36.55,46.39,35.16,75.86-2.31,49.03-29.69,82.78-72.62,104.18-38.44,19.17-82.35,24.08-124.43,15.44-39.27-8.06-77.3-25.29-109.16-49.46 M90.9 393.21c.7-1.46 1.42-2.92 2.15-4.37 63.09-125.12 135.81-472.96 330.862619-247.353689 M90.9 393.21c-5.27 10.93-9.79 22.2-13.32 33.8-85.5 280.81 440.42 12.99 458.49592-23.2902 M452.81,366.27c-116.52-25.09-255.7-39.21-361.91,26.94"
+        fill="none" stroke="url(#logo-color)" stroke-width="92" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

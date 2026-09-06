@@ -2952,6 +2952,7 @@ html.case-modal-open .ai-chat-page .ai-chat-input-scrollbar.is-dragging .ai-chat
   .ai-chat-shell { grid-template-rows:52px minmax(0,1fr);gap:10px;padding:12px; }
   .ai-chat-toolbar { grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:8px;margin-right:58px;padding:0; }
   .modal-card > .modal-close { top:max(16px,env(safe-area-inset-top)); }
+  .modal.has-case-page .modal-card > .modal-close { top:max(28px,env(safe-area-inset-top)); }
   .ai-chat-logo { width:42px;height:42px;flex-basis:42px; }
   .ai-chat-logo svg { width:29px;height:29px; }
   .ai-chat-title { font-size:16px; }
@@ -8158,6 +8159,9 @@ html.native-profile-morphing #motionNative .motion-profile-visual .motion-profil
     padding-top:34px;
     background-size:auto,36px 36px;
     font-size:8px;
+  }
+  #motionNative .native-graphic-post .graphic-media-status {
+    background-size:36px 36px;
   }
   #motionNative [data-graphic-media-state="error"] > .graphic-media-status {
     background-size:16px 16px,auto;
@@ -16505,7 +16509,7 @@ function refreshWorksLayoutMetrics(){
     const section=worksFlow.parentElement;
     const style=getComputedStyle(section);
     worksAvailableCache=section.clientWidth-(parseFloat(style.paddingLeft)||0)-(parseFloat(style.paddingRight)||0);
-    worksFlowLimitCache=Math.max(0,worksFlow.scrollWidth-worksAvailableCache);
+    worksFlowLimitCache=worksStudyAuthoredFlowLimit();
     refreshWorksStudyTimeline();
   }
   worksStudyCards.forEach(refreshWorksStudyTextMetric);
@@ -16559,6 +16563,22 @@ function worksStudyCenterInSection(card){
     node=node.offsetParent;
   }
   return center;
+}
+function worksStudyAuthoredFlowLimit(){
+  if(!worksFlow||!worksStudyStack||!worksStudyCards.length)return 0;
+  let contentRight=0;
+  worksStudyCards.forEach(card=>{
+    let right=card.offsetWidth;
+    let node=card;
+    while(node&&node!==worksFlow){
+      right+=node.offsetLeft;
+      node=node.offsetParent;
+    }
+    if(node===worksFlow)contentRight=Math.max(contentRight,right);
+  });
+  const stackStyle=getComputedStyle(worksStudyStack);
+  const authoredTail=parseFloat(stackStyle.paddingRight)||0;
+  return Math.max(0,contentRight+authoredTail-worksAvailableCache);
 }
 function worksStudyColumnGroups(centers){
   const groups=[];

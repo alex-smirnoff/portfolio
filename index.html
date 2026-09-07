@@ -15223,7 +15223,15 @@ addEventListener('journey-progress',event=>{
     &&!root.classList.contains('modal-runtime-paused');
   const notify=()=>dispatchEvent(new Event('external-ai-viewport-restored'));
   const visibleHeight=()=>viewport.height*viewport.scale;
-  const geometry=()=>[innerHeight,visibleHeight(),viewport.offsetTop,viewport.pageTop,scrollY,document.body.scrollTop,document.body.getBoundingClientRect().top].join('|');
+  const geometry=()=>[
+    innerHeight,visibleHeight(),viewport.offsetTop,viewport.pageTop,scrollY,
+    document.body.scrollTop,document.body.getBoundingClientRect().top,
+    session?.probe.getBoundingClientRect().height,
+    ...['body > .top-nav','body > #aiGuide'].flatMap(selector=>{
+      const rect=document.querySelector(selector)?.getBoundingClientRect();
+      return rect?[rect.top,rect.bottom]:[];
+    })
+  ].join('|');
   // Browser chrome can change height as the keyboard closes. Its change is
   // reflected by dvh; the keyboard itself only reduces the visual viewport.
   const obscured=current=>visibleHeight()<current.probe.getBoundingClientRect().height-current.viewportInset-2;
@@ -15237,8 +15245,10 @@ addEventListener('journey-progress',event=>{
     cancelAnimationFrame(frame);
     frame=0;
     unlock();
+    session.observer?.disconnect();
     session.probe.remove();
     session=null;
+    delete window.__externalAiViewportSettling;
     delete window.__externalAiSceneHeight;
     notify();
   };
@@ -15263,6 +15273,7 @@ addEventListener('journey-progress',event=>{
     const keyboard=obscured(current);
     if(keyboard){
       current.phase='open';
+      delete window.__externalAiViewportSettling;
       window.__externalAiSceneHeight=current.height;
       root.style.setProperty('--design-viewport-height',`${current.height}px`);
       root.classList.add('external-ai-keyboard-lock');
@@ -15277,6 +15288,13 @@ addEventListener('journey-progress',event=>{
       frame=requestAnimationFrame(sync);
       return;
     }
+    if(current.phase==='settling'){
+      delete window.__externalAiViewportSettling;
+      current.phase='closed';
+      current.geometry=geometry();
+      notify();
+      return;
+    }
     // This runs in rAF after the viewport event, when its measurements update.
     // Blur alone does not mean that the keyboard has finished moving.
     current.phase='restoring';
@@ -15288,15 +15306,19 @@ addEventListener('journey-progress',event=>{
       // actual height instead of invalidating completion on every event.
       if(obscured(current)){schedule();return;}
       if(!eligible()){cancel();return;}
+      window.__externalAiViewportSettling=true;
       unlock();
       const cssHeight=Math.max(1,current.probe.getBoundingClientRect().height);
       // Use the DOM's actual CSS height if innerHeight is still stale. The
       // ordinary resize path resumes as soon as both measurements agree.
       if(Math.abs(cssHeight-innerHeight)>2)window.__externalAiSceneHeight=cssHeight;
       else delete window.__externalAiSceneHeight;
-      current.phase='closed';
-      current.geometry=geometry();
-      notify();
+      current.phase='settling';
+      current.candidate='';
+      dispatchEvent(new Event('external-ai-viewport-prepare'));
+      // The AI input sync is queued in rAF. Observe its final vertical bounds
+      // before copying them into the detached titles and scene coordinates.
+      frame=requestAnimationFrame(sync);
     });
   };
   const schedule=()=>{
@@ -15318,8 +15340,12 @@ addEventListener('journey-progress',event=>{
     window.__externalAiSceneHeight=height;
     root.style.setProperty('--design-viewport-height',`${height}px`);
     root.classList.add('external-ai-keyboard-lock');
+    if('ResizeObserver' in window){
+      session.observer=new ResizeObserver(schedule);
+      session.observer.observe(probe);
+    }
   };
-  input.addEventListener('focus',begin);
+  input.addEventListener('focus',()=>begin());
   // Done can dismiss the keyboard without blurring. A second tap must create
   // a fresh cycle instead of reusing the first focus's height indefinitely.
   input.addEventListener('pointerdown',()=>{if(document.activeElement===input)begin();});
@@ -15353,7 +15379,7 @@ const horizontalSectionWidth=()=>Math.min(MAX_HORIZONTAL_SECTION_WIDTH,viewportS
 const horizontalFrameLeft=()=>Math.max(0,(window.innerWidth-horizontalSectionWidth())*.5);
 const horizontalFrameRight=()=>horizontalFrameLeft()+horizontalSectionWidth();
 const sceneViewportHeight=()=>Math.max(1,window.__externalAiSceneHeight||window.innerHeight);
-const externalAiKeyboardLayoutHeld=()=>doc.classList.contains('external-ai-keyboard-lock');
+const externalAiKeyboardLayoutHeld=()=>doc.classList.contains('external-ai-keyboard-lock')||Boolean(window.__externalAiViewportSettling);
 const nativeHandoffOffsetY=()=>Number.parseFloat(
   getComputedStyle(doc).getPropertyValue('--native-handoff-y')
 )||0;
@@ -16430,7 +16456,7 @@ function syncWorksStudyCardScrollbar(card){
   const track=card?._studyBackScrollbarTrack;
   const thumb=card?._studyBackScrollbarThumb;
   if(!description||!scrollbar||!track||!thumb)return;
-  const compact=window.innerHeight<=615;
+  const compact=sceneViewportHeight()<=615;
   const maxScroll=Math.max(0,description.scrollHeight-description.clientHeight);
   const scrollable=compact&&description.clientHeight>0&&maxScroll>1;
   scrollbar.classList.toggle('is-scrollable',scrollable);
@@ -16459,7 +16485,7 @@ function setupWorksStudyCardScrollbar(card){
   if(!description||!scrollbar||!track||!thumb)return;
   description.addEventListener('scroll',()=>syncWorksStudyCardScrollbar(card),{passive:true});
   description.addEventListener('wheel',event=>{
-    if(window.innerHeight>615)return;
+    if(sceneViewportHeight()>615)return;
     const maxScroll=Math.max(0,description.scrollHeight-description.clientHeight);
     const consumes=(event.deltaY<0&&description.scrollTop>0)
       ||(event.deltaY>0&&description.scrollTop<maxScroll-1);
@@ -16565,7 +16591,7 @@ function fitWorksStudyCopyTypography(){
 }
 function syncWorksStudyShortBoundary(){
   if(!worksStudyStack)return;
-  if(window.innerHeight>680){
+  if(sceneViewportHeight()>680){
     worksStudyStack.style.setProperty('--works-study-short-boundary-y','0px');
     worksStudyCopy?.style.setProperty('--works-study-copy-y','0px');
     return;
@@ -16578,7 +16604,7 @@ function syncWorksStudyShortBoundary(){
   const section=worksFlow?.parentElement;
   const aiPanel=document.querySelector('body > .ai-hero:not(.native-ai-morph-layer)');
   const upperBottom=worksStudyUpperUiBottom();
-  const aiTop=aiPanel?.getBoundingClientRect().top??window.innerHeight;
+  const aiTop=aiPanel?.getBoundingClientRect().top??sceneViewportHeight();
   if(!cardBounds||!section||aiTop<=upperBottom){
     worksStudyStack.style.setProperty('--works-study-short-boundary-y','0px');
     worksStudyCopy?.style.setProperty('--works-study-copy-y','0px');
@@ -16605,7 +16631,7 @@ function syncWorksStudyTallCorridor(){
   if(!worksStudyStack)return;
   const aiPanel=document.querySelector('body > .ai-hero:not(.native-ai-morph-layer)');
   const aiInput=aiPanel?.querySelector('.ai-input');
-  const tallPromptActive=window.innerHeight>=1250&&(aiInput?.offsetHeight||0)>80;
+  const tallPromptActive=sceneViewportHeight()>=1250&&(aiInput?.offsetHeight||0)>80;
   if(!tallPromptActive){
     worksStudyStack.style.setProperty('--works-study-corridor-y','0px');
     return;
@@ -16767,7 +16793,7 @@ function worksStudyNaturalStartRoute(localCenter,activationX){
 function refreshWorksStudyTimeline(){
   const mobile=window.innerWidth<=700;
   const compactIntro=window.innerWidth<=580;
-  const tallGrid=window.innerHeight>=1250;
+  const tallGrid=sceneViewportHeight()>=1250;
   const visibleFrameLeft=Math.max(0,horizontalFrameLeft());
   const visibleFrameRight=Math.min(window.innerWidth,horizontalFrameRight());
   const visibleFrameWidth=Math.max(1,visibleFrameRight-visibleFrameLeft);
@@ -16923,7 +16949,7 @@ function renderWorksCaseStudies(routeState){
     const cardIsVisible=cardRect.right>visibleFrameLeft
       &&cardRect.left<visibleFrameRight
       &&cardRect.bottom>0
-      &&cardRect.top<innerHeight;
+      &&cardRect.top<sceneViewportHeight();
     const frost=card._studyFrost;
     if(frost){
       frost.style.display=cardIsVisible?'block':'none';
@@ -21288,16 +21314,16 @@ if (worldCanvas && !reduced3d) {
     return {x:compact.x*horizontalScale,y:compact.y,z:compact.z};
   }
   function heroTallNarrowForegroundLift(stage=0){
-    if(window.innerWidth>=530||window.innerHeight<=1100)return 0;
-    const heightProgress=clamp3d((Math.min(window.innerHeight,1200)-1100)/100);
+    if(window.innerWidth>=530||sceneViewportHeight()<=1100)return 0;
+    const heightProgress=clamp3d((Math.min(sceneViewportHeight(),1200)-1100)/100);
     const heightEase=heightProgress*heightProgress*(3-2*heightProgress);
     const releaseRaw=clamp3d(stage/.42);
     const release=releaseRaw*releaseRaw*(3-2*releaseRaw);
     return .18*heightEase*(1-release);
   }
   function heroTallNarrowMistDensity(){
-    if(window.innerWidth>=529||window.innerHeight<=1100)return 1;
-    const densityProgress=clamp3d((Math.min(window.innerHeight,1160)-1100)/60);
+    if(window.innerWidth>=529||sceneViewportHeight()<=1100)return 1;
+    const densityProgress=clamp3d((Math.min(sceneViewportHeight(),1160)-1100)/60);
     const densityEase=densityProgress*densityProgress*(3-2*densityProgress);
     return 1-densityEase*.42;
   }
@@ -23214,9 +23240,13 @@ initFooterGarden();
 setJourneyScrollPosition(0,{sync:true});
 // VisualViewport completion does not always produce a window resize. Rebuild
 // only the 3D screen geometry; do not rerun media or alter the journey position.
-addEventListener('external-ai-viewport-restored',()=>{
-  refreshJourneyScrollLayout();
+addEventListener('external-ai-viewport-prepare',()=>{
   syncHeroResponsiveCss(renderProgress*(sections3d.length-1));
+  window.__syncExternalAiInputLayout?.();
+});
+addEventListener('external-ai-viewport-restored',()=>{
+  syncHeroResponsiveCss(renderProgress*(sections3d.length-1));
+  refreshJourneyScrollLayout();
   syncHeroTitleDepth();
   scheduleProductCompositionCenter();
   productObservatoryRenderDirty=true;
@@ -23224,7 +23254,6 @@ addEventListener('external-ai-viewport-restored',()=>{
   downstreamScenesHeroIdleSynced=false;
   scheduleWorksRoute();
   scheduleNativeMorphGeometryRebuild();
-  window.__syncExternalAiInputLayout?.();
 });
 </script>
 
@@ -26131,7 +26160,7 @@ const externalAiInputController=(()=>{
   };
   const expandedSourceHeight=()=>{
     const maximum=innerWidth<=450?129:136;
-    return clamp(innerHeight*.36-284,112,maximum);
+    return clamp((window.__externalAiSceneHeight||innerHeight)*.36-284,112,maximum);
   };
   const setSourceMetrics=(root,scale,visualHeight,routesHeight)=>{
     if(!root)return;

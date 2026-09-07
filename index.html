@@ -10989,9 +10989,22 @@ html.native-scroll-active #motionNative .native-cosmic-backdrop {
   height:var(--design-viewport-height);
 }
 .world3d { height:var(--hero-3d-render-height,var(--design-viewport-height)); }
-/* iOS may temporarily turn the software keyboard into a short viewport.
-   Keep only the 3D artwork on its pre-keyboard canvas; the external AI panel
-   remains fixed to the visible viewport and can still sit above the keyboard. */
+/* During external 3D input, fixed artwork and fixed HTML chrome share one
+   containing block. Safari can pan its visual viewport independently of resize;
+   the frame follows that origin without changing any route/morph transforms. */
+html.external-ai-keyboard-lock body {
+  position:fixed;
+  top:var(--external-ai-frame-top,0px);
+  left:0;
+  width:100%;
+  height:var(--design-viewport-height);
+  min-height:0;
+  overflow:clip;
+  transform:translateZ(0);
+}
+html.external-ai-keyboard-lock body > .ai-hero:not(.native-ai-morph-layer) {
+  translate:0 var(--external-ai-dock-y,0px);
+}
 html.external-ai-keyboard-lock #launch,
 html.external-ai-keyboard-lock .hero-work-backdrop,
 html.external-ai-keyboard-lock .hero-aurora,
@@ -15221,110 +15234,87 @@ addEventListener('journey-progress',event=>{
 (()=>{
   const root=document.documentElement;
   const input=document.getElementById('aiInput');
-  if(!input)return;
   const viewport=window.visualViewport;
-  let session=null,releaseTimer=0,frame=0,settleUntil=0,returnPosition=null;
-  const isExternal3dInput=()=>
-    matchMedia('(pointer:coarse)').matches
-    &&input.closest('.ai-hero')?.parentElement===document.body
-    &&!input.closest('.ai-hero')?.classList.contains('native-ai-morph-layer')
-    &&!root.classList.contains('native-scroll-active');
-  const measure=()=>({
-    width:window.innerWidth,height:window.innerHeight,
-    visibleHeight:viewport?.height||window.innerHeight,
-    scale:viewport?.scale||1,offsetTop:viewport?.offsetTop||0,scrollX:window.scrollX,scrollY:window.scrollY
-  });
-  let resting=measure();
-  const refresh=()=>{
-    if(frame)return;
-    frame=requestAnimationFrame(()=>{
-      frame=0;
-      // Safari can apply a final focus-scroll *after* blur and the first reset.
-      // Correct only that short return phase in the same 3D viewport.
-      if(returnPosition&&performance.now()<settleUntil&&isExternal3dInput()
-        &&Math.abs(window.innerWidth-returnPosition.width)<=2){
-        window.scrollTo({left:returnPosition.scrollX,top:returnPosition.scrollY,behavior:'instant'});
-      }
-      dispatchEvent(new Event('resize'));
-    });
-  };
-  const release=({restoreScroll=true}={})=>{
+  if(!input||!viewport)return;
+  const panel=input.closest('.ai-hero');
+  let session=null;
+  let frame=0;
+  // Outside body: this reference must not inherit the temporary 3D frame.
+  const reference=document.createElement('div');
+  reference.setAttribute('aria-hidden','true');
+  reference.style.cssText='position:fixed;left:0;top:0;width:0;height:100dvh;visibility:hidden;pointer-events:none;contain:strict;';
+  root.append(reference);
+  const eligible=()=>matchMedia('(pointer:coarse)').matches
+    &&panel?.parentElement===document.body
+    &&!panel.classList.contains('native-ai-morph-layer')
+    &&!root.classList.contains('native-scroll-active')
+    &&!root.classList.contains('native-handoff-active')
+    &&!root.classList.contains('modal-runtime-paused');
+  const notify=()=>dispatchEvent(new Event('portfolio-3d-viewport-change'));
+  const release=()=>{
     if(!session)return;
-    const saved=session;
     session=null;
-    clearTimeout(releaseTimer);
     root.classList.remove('external-ai-keyboard-lock');
-    root.style.removeProperty('--design-viewport-height');
+    for(const name of ['--design-viewport-height','--external-ai-frame-top','--external-ai-dock-y'])root.style.removeProperty(name);
     delete window.__externalAiSceneHeight;
-    // Restore only the synthetic 3D page offset, never native 2D scrolling.
-    if(restoreScroll&&isExternal3dInput()){
-      window.scrollTo({left:saved.scrollX,top:saved.scrollY,behavior:'instant'});
-    }
-    resting=measure();
-    returnPosition=restoreScroll?saved:null;
-    settleUntil=performance.now()+1500;
-    // Cover delayed toolbar/keyboard animation completion even if Safari
-    // omits the final window resize event. Every pass uses current dimensions.
-    [100,350,750].forEach(delay=>setTimeout(()=>{
-      if(!session&&returnPosition===saved&&isExternal3dInput())refresh();
-    },delay));
-    // Reuse the normal layout/canvas resize pipeline after Safari settles.
-    refresh();
+    window.__syncExternalAiInputLayout?.();
+    notify();
   };
-  const checkViewport=()=>{
-    clearTimeout(releaseTimer);
-    if(!session){
-      if(document.activeElement!==input)resting=measure();
-      return;
-    }
-    if(!isExternal3dInput()||Math.abs(window.innerWidth-session.width)>2){
-      release({restoreScroll:false});return;
-    }
-    const visible=(viewport?.height||window.innerHeight)*(viewport?.scale||1)/session.scale;
-    const threshold=Math.max(80,session.visibleHeight*.15);
-    const keyboardOpen=visible<session.visibleHeight-threshold;
-    if(keyboardOpen)session.sawKeyboard=true;
-    if(!keyboardOpen&&(session.sawKeyboard||document.activeElement!==input)){
-      // Wait for a quiet viewport, not a fixed delay from blur. Done may
-      // close the keyboard without blurring the textarea on mobile browsers.
-      releaseTimer=setTimeout(()=>release(),180);
-    }
+  const restoreDocumentOrigin=()=>{
+    // body is a separate programmatically scrollable box (the route is synthetic).
+    // window.scrollTo alone does not reset that box.
+    document.body.scrollTop=0;
+    document.body.scrollLeft=0;
+    if(scrollX||scrollY)window.scrollTo({left:0,top:0,behavior:'instant'});
   };
-  const lock=()=>{
-    if(!isExternal3dInput()||session)return;
-    clearTimeout(releaseTimer);
-    returnPosition=null;
-    settleUntil=0;
-    const current=measure();
-    // pointerdown saves the unoccluded viewport before focus can pan it.
-    const baseline=Math.abs(current.width-resting.width)<=2?resting:current;
-    session={...baseline,sawKeyboard:false};
+  const sync=()=>{
+    frame=0;
+    if(!session)return;
+    if(!eligible()||Math.abs(innerWidth-session.width)>2||Math.abs(viewport.scale-session.scale)>.01){release();return;}
+    const measured=reference.getBoundingClientRect();
+    const visibleHeight=Math.max(1,viewport.height);
+    const keyboard=visibleHeight<session.height-Math.max(80,session.height*.15);
+    if(keyboard)session.sawKeyboard=true;
+    const focused=document.activeElement===input;
+    // A blur is not a keyboard-close event. Keep the shared coordinate frame
+    // throughout the viewport animation, including delayed Safari scroll events.
+    if(!keyboard)restoreDocumentOrigin();
+    const sceneHeight=keyboard?session.height:visibleHeight;
+    const sceneTop=viewport.offsetTop-measured.top;
+    const changed=Math.abs((window.__externalAiSceneHeight||0)-sceneHeight)>.25
+      ||Math.abs(session.top-sceneTop)>.25;
+    session.top=sceneTop;
+    window.__externalAiSceneHeight=sceneHeight;
+    root.style.setProperty('--design-viewport-height',`${sceneHeight}px`);
+    root.style.setProperty('--external-ai-frame-top',`${sceneTop}px`);
+    root.style.setProperty('--external-ai-dock-y',`${Math.min(0,visibleHeight-sceneHeight)}px`);
+    if(changed)notify();
+    // Do not discard the correction while Safari still reports a shifted origin.
+    // At a healthy origin the original layout takes over, with no residual styles.
+    if(!keyboard&&(!focused||session.sawKeyboard)
+      &&Math.abs(viewport.offsetTop)<.5&&Math.abs(measured.top)<.5
+      &&Math.abs(visibleHeight-measured.height)<2&&Math.abs(visibleHeight-innerHeight)<2){release();}
+  };
+  const schedule=()=>{if(session&&!frame)frame=requestAnimationFrame(sync);};
+  const begin=()=>{
+    if(session||!eligible()||Math.abs(viewport.scale-1)>.01)return;
+    session={width:innerWidth,height:Math.max(1,reference.getBoundingClientRect().height),scale:viewport.scale,top:0,sawKeyboard:false};
     window.__externalAiSceneHeight=session.height;
     root.style.setProperty('--design-viewport-height',`${session.height}px`);
     root.classList.add('external-ai-keyboard-lock');
-    checkViewport();
+    sync();
+    notify();
   };
-  input.addEventListener('pointerdown',()=>{
-    if(isExternal3dInput()&&!session&&document.activeElement!==input)resting=measure();
-    // A second tap can reopen a keyboard while focus stayed on the input.
-    if(document.activeElement===input)lock();
-  },{passive:true});
-  input.addEventListener('focus',lock);
-  input.addEventListener('blur',checkViewport);
-  addEventListener('resize',checkViewport,{passive:true});
-  addEventListener('orientationchange',()=>release({restoreScroll:false}),{passive:true});
-  const visualChange=()=>{
-    checkViewport();
-    if(!session&&performance.now()<settleUntil&&isExternal3dInput())refresh();
-  };
-  viewport?.addEventListener('resize',visualChange,{passive:true});
-  viewport?.addEventListener('scroll',visualChange,{passive:true});
-  addEventListener('scroll',()=>{
-    if(!session&&returnPosition&&performance.now()<settleUntil&&isExternal3dInput()
-      &&(Math.abs(scrollY-returnPosition.scrollY)>1||Math.abs(scrollX-returnPosition.scrollX)>1))refresh();
-  },{passive:true});
-  new MutationObserver(()=>{if(session&&!isExternal3dInput())release({restoreScroll:false});})
-    .observe(root,{attributes:true,attributeFilter:['class']});
+  input.addEventListener('focus',begin);
+  input.addEventListener('pointerdown',()=>{if(document.activeElement===input)begin();});
+  input.addEventListener('blur',schedule);
+  viewport.addEventListener('resize',schedule,{passive:true});
+  viewport.addEventListener('scroll',schedule,{passive:true});
+  addEventListener('resize',schedule,{passive:true});
+  addEventListener('scroll',schedule,{passive:true});
+  addEventListener('orientationchange',release,{passive:true});
+  new ResizeObserver(schedule).observe(reference);
+  new MutationObserver(()=>{if(session&&!eligible())release();}).observe(root,{attributes:true,attributeFilter:['class']});
 })();
 </script>
 <script type="module">
@@ -15345,6 +15335,16 @@ const horizontalSectionWidth=()=>Math.min(MAX_HORIZONTAL_SECTION_WIDTH,viewportS
 const horizontalFrameLeft=()=>Math.max(0,(window.innerWidth-horizontalSectionWidth())*.5);
 const horizontalFrameRight=()=>horizontalFrameLeft()+horizontalSectionWidth();
 const sceneViewportHeight=()=>Math.max(1,window.__externalAiSceneHeight||window.innerHeight);
+const onSceneViewportChange=callback=>{
+  addEventListener('resize',callback,{passive:true});
+  addEventListener('portfolio-3d-viewport-change',callback);
+};
+// A measured DOM rect is in client coordinates. A 3D fixed layer can have a
+// different origin after Safari pans the viewport or while the keyboard frame owns it.
+const sceneClientOrigin=()=>{
+  if(doc.classList.contains('external-ai-keyboard-lock'))return document.body.getBoundingClientRect();
+  return {left:0,top:0};
+};
 const nativeHandoffOffsetY=()=>Number.parseFloat(
   getComputedStyle(doc).getPropertyValue('--native-handoff-y')
 )||0;
@@ -15573,8 +15573,9 @@ function syncHeroTitleDepth() {
   const launchSection=heroUpperLine.closest('#launch');
   const launchTransform=launchSection?getComputedStyle(launchSection).transform:'none';
   const launchMatrix=launchTransform&&launchTransform!=='none'?new DOMMatrixReadOnly(launchTransform):null;
-  const referenceLeft=rect.left-(launchMatrix?.m41||0);
-  const referenceTop=rect.top-(launchMatrix?.m42||0)-nativeHandoffOffsetY();
+  const origin=sceneClientOrigin();
+  const referenceLeft=rect.left-origin.left-(launchMatrix?.m41||0);
+  const referenceTop=rect.top-origin.top-(launchMatrix?.m42||0)-nativeHandoffOffsetY();
   const style = getComputedStyle(heroUpperLine);
   const fontSize = Number.parseFloat(style.fontSize) || 0;
   const lineHeight = Number.parseFloat(style.lineHeight) || fontSize;
@@ -15605,7 +15606,7 @@ function syncHeroTitleDepth() {
     });
   }
 }
-addEventListener('resize',()=>{syncHeroResponsiveCss(renderProgress*(sections3d.length-1));syncHeroTitleDepth();},{passive:true});
+onSceneViewportChange(()=>{syncHeroResponsiveCss(renderProgress*(sections3d.length-1));syncHeroTitleDepth();});
 document.fonts?.ready.then(()=>{syncHeroResponsiveCss();syncHeroTitleDepth();});
 syncHeroResponsiveCss();
 requestAnimationFrame(syncHeroTitleDepth);
@@ -16125,19 +16126,19 @@ function scheduleProductCompositionCenter(){
      transient frame moves the whole Product composition, then the final
      source measurement snaps it back two frames later. Keep the last valid
      resting centre until the hand-off has fully released. */
-  if(productSharedUiInFlight())return;
+  if(productSharedUiInFlight()||doc.classList.contains('external-ai-keyboard-lock'))return;
   syncProductActionsHorizontalSpacing();
   cancelAnimationFrame(productCenterFrame);
   productCenterFrame=requestAnimationFrame(()=>{
-    if(productSharedUiInFlight())return;
+    if(productSharedUiInFlight()||doc.classList.contains('external-ai-keyboard-lock'))return;
     productCenterFrame=requestAnimationFrame(()=>{
-      if(productSharedUiInFlight())return;
+      if(productSharedUiInFlight()||doc.classList.contains('external-ai-keyboard-lock'))return;
       syncProductTitleHeightScale();
       centerProductCompositionVertically();
     });
   });
 }
-addEventListener('resize',scheduleProductCompositionCenter,{passive:true});
+onSceneViewportChange(scheduleProductCompositionCenter);
 document.fonts?.ready.then(scheduleProductCompositionCenter);
 if('ResizeObserver'in window){
   const productCenterObserver=new ResizeObserver(scheduleProductCompositionCenter);
@@ -16191,7 +16192,7 @@ function hideProductArcCard(card){
   if(card.style.opacity!=='0')card.style.opacity='0';
   if(card.getAttribute('aria-hidden')!=='true')card.setAttribute('aria-hidden','true');
 }
-addEventListener('resize',()=>{productObservatoryRenderDirty=true;productCarouselCompactRendered=null;},{passive:true});
+onSceneViewportChange(()=>{productObservatoryRenderDirty=true;productCarouselCompactRendered=null;});
 function hydrateProductArc(){
   if(productArcHydrated)return;
   productArcHydrated=true;
@@ -16890,6 +16891,8 @@ function renderWorksCaseStudies(routeState){
   const isCaseStudyTravel=routeState?.segment==='approach'||routeState?.segment==='works';
   const visibleFrameLeft=Math.max(0,horizontalFrameLeft());
   const visibleFrameRight=Math.min(window.innerWidth,horizontalFrameRight());
+  const frostOrigin=worksStudyFrostLayer.getBoundingClientRect();
+  const actionOrigin=worksStudyActionLayer.getBoundingClientRect();
   worksStudyCards.forEach((card,index)=>{
     let phase=1;
     if(isCaseStudyTravel){
@@ -16918,8 +16921,8 @@ function renderWorksCaseStudies(routeState){
         const frostHeight=card.offsetHeight;
         const frostCenterX=cardRect.left+cardRect.width*.5;
         const frostCenterY=cardRect.top+cardRect.height*.5;
-        frost.style.left=`${(frostCenterX-frostWidth*.5).toFixed(2)}px`;
-        frost.style.top=`${(frostCenterY-frostHeight*.5).toFixed(2)}px`;
+        frost.style.left=`${(frostCenterX-frostOrigin.left-frostWidth*.5).toFixed(2)}px`;
+        frost.style.top=`${(frostCenterY-frostOrigin.top-frostHeight*.5).toFixed(2)}px`;
         frost.style.width=`${frostWidth.toFixed(2)}px`;
         frost.style.height=`${frostHeight.toFixed(2)}px`;
         frost.style.setProperty('--study-frost-rotate-y',`${rotation.toFixed(3)}deg`);
@@ -16995,7 +16998,7 @@ function renderWorksCaseStudies(routeState){
         actionProxy.style.display='block';
         actionProxy.style.width=`${proxyWidth.toFixed(2)}px`;
         actionProxy.style.height=`${proxyHeight.toFixed(2)}px`;
-        actionProxy.style.transform=`translate3d(${(actionCenterX-proxyWidth*.5).toFixed(2)}px,${(actionCenterY-proxyHeight*.5).toFixed(2)}px,0)`;
+        actionProxy.style.transform=`translate3d(${(actionCenterX-actionOrigin.left-proxyWidth*.5).toFixed(2)}px,${(actionCenterY-actionOrigin.top-proxyHeight*.5).toFixed(2)}px,0)`;
         actionProxy.style.zIndex=cardScrollActive?'2':'1';
       }
     }
@@ -18121,6 +18124,9 @@ function scheduleNativeMorphGeometryRebuild(){
   });
 }
 addEventListener('resize',scheduleNativeMorphGeometryRebuild,{passive:true});
+addEventListener('portfolio-3d-viewport-change',()=>{
+  if(!doc.classList.contains('external-ai-keyboard-lock'))scheduleNativeMorphGeometryRebuild();
+});
 function mixNativeRect(from,to,amount){
   if(!from||!to)return null;
   return {
@@ -20589,7 +20595,7 @@ sections3d.forEach((section,index)=>{
 
 let lastWorksRouteFrame=performance.now();
 let downstreamScenesHeroIdleSynced=false;
-addEventListener('resize',()=>{downstreamScenesHeroIdleSynced=false;},{passive:true});
+onSceneViewportChange(()=>{downstreamScenesHeroIdleSynced=false;});
 let worksRouteFrame=0;
 function scheduleWorksRoute(){
   if(worksRouteFrame||document.hidden||doc.classList.contains('modal-runtime-paused'))return;
@@ -20794,7 +20800,7 @@ function renderWorksRoute(now){
   if(window.__journeyAnimating||nativeHandoffTakeoverDirection) scheduleWorksRoute();
 }
 addEventListener('native-motion-leave',scheduleWorksRoute);
-addEventListener('resize',scheduleWorksRoute,{passive:true});
+onSceneViewportChange(scheduleWorksRoute);
 addEventListener('visibilitychange',()=>{if(!document.hidden)scheduleWorksRoute();});
 addEventListener('portfolio-modal-resume',scheduleWorksRoute);
 document.fonts?.ready?.then(scheduleWorksRoute);
@@ -23249,6 +23255,7 @@ function queueStarsResize(){
 }
 resizeStars();
 addEventListener('resize',queueStarsResize,{passive:true});
+addEventListener('portfolio-3d-viewport-change',queueStarsResize);
 
 function drawStars() {
   ctx.clearRect(0, 0, starsViewportWidth, starsViewportHeight);

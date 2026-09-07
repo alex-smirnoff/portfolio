@@ -13435,6 +13435,7 @@ body > .ai-hero:not(.native-ai-morph-layer) .ai-input {
 .ai-hero .ai-input::-webkit-scrollbar { display:none;width:0;height:0; }
 body > .ai-hero:not(.native-ai-morph-layer) .ai-input {
   --external-ai-input-scale:var(--external-ai-source-scale,.9411764706);
+  font-size:17px;
   width:var(--external-ai-input-physical-width,106.25%);
   height:var(--external-ai-input-physical-height,48.875px);
   min-height:0;
@@ -15207,189 +15208,6 @@ addEventListener('journey-progress',event=>{
 });
 </script>
 <script>window.__heroStartup?.mount();</script>
-<script>
-(()=>{
-  const root=document.documentElement;
-  const input=document.getElementById('aiInput');
-  const viewport=window.visualViewport;
-  if(!input||!viewport)return;
-  let session=null;
-  let frame=0;
-  const eligible=()=>matchMedia('(pointer:coarse)').matches
-    &&input.closest('.ai-hero')?.parentElement===document.body
-    &&!input.closest('.ai-hero')?.classList.contains('native-ai-morph-layer')
-    &&!root.classList.contains('native-scroll-active')
-    &&!root.classList.contains('native-handoff-active')
-    &&!root.classList.contains('modal-runtime-paused');
-  const notify=()=>dispatchEvent(new Event('external-ai-viewport-restored'));
-  const visibleHeight=()=>viewport.height*viewport.scale;
-  const geometry=()=>[
-    innerHeight,visibleHeight(),viewport.offsetTop,viewport.pageTop,scrollY,
-    document.body.scrollTop,document.body.getBoundingClientRect().top,
-    session?.probe.getBoundingClientRect().height,
-    ...['body > .top-nav','body > #aiGuide'].flatMap(selector=>{
-      const rect=document.querySelector(selector)?.getBoundingClientRect();
-      return rect?[rect.top,rect.bottom]:[];
-    })
-  ].join('|');
-  // Browser chrome can change height as the keyboard closes. Its change is
-  // reflected by dvh; the keyboard itself only reduces the visual viewport.
-  const obscured=current=>visibleHeight()<current.probe.getBoundingClientRect().height-current.viewportInset-2;
-  const unlock=()=>{
-    root.classList.remove('external-ai-keyboard-lock');
-    if(session?.previousHeight)root.style.setProperty('--design-viewport-height',session.previousHeight,session.previousPriority);
-    else root.style.removeProperty('--design-viewport-height');
-  };
-  const cancel=()=>{
-    if(!session)return;
-    cancelAnimationFrame(frame);
-    frame=0;
-    unlock();
-    session.observer?.disconnect();
-    session.probe.remove();
-    session=null;
-    delete window.__externalAiViewportSettling;
-    delete window.__externalAiSceneHeight;
-    notify();
-  };
-  const restoreOrigin=()=>{
-    // WebKit can retain its keyboard viewport offset even when scrollY is zero.
-    // Assign the root scroll position unconditionally; a conditional scrollTo
-    // does not ask WebKit to reconcile that stale viewport state.
-    root.scrollTop=0;
-    root.scrollLeft=0;
-    document.body.scrollTop=0;
-    document.body.scrollLeft=0;
-    window.scrollTo({top:0,left:0,behavior:'instant'});
-  };
-  const rebindTopLayers=current=>{
-    const selectors=[
-      'body > .top-nav','body > .hero-corner-left','body > .hero-contact',
-      '#launch','.case-sections-viewport','.works-study-frost-layer',
-      '.works-study-action-layer','body > .hero-work-backdrop',
-      'body > .hero-aurora','body > .hero-focus-light',
-      'body > .hero-back-title','body > .hero-back-title-echo',
-      'body > .product-comet-back-title'
-    ];
-    const layers=[current.probe,...document.querySelectorAll(selectors.join(','))]
-      .filter(element=>getComputedStyle(element).position==='fixed');
-    const saved=layers.map(element=>[element,
-      element.style.getPropertyValue('position'),element.style.getPropertyPriority('position')]);
-    try{
-      // Drop stale fixed-position constraints, then rebuild them against the
-      // restored viewport. Both layouts happen in this same JS task: the
-      // temporary absolute positioning is never presented as an animation frame.
-      layers.forEach(element=>element.style.setProperty('position','absolute','important'));
-      void current.probe.offsetTop;
-    }finally{
-      saved.forEach(([element,value,priority])=>{
-        if(value)element.style.setProperty('position',value,priority);
-        else element.style.removeProperty('position');
-      });
-    }
-    void current.probe.offsetTop;
-  };
-  const sync=()=>{
-    frame=0;
-    const current=session;
-    if(!current)return;
-    if(!eligible()){cancel();return;}
-    if(current.phase==='closed'&&current.geometry===geometry())return;
-    // Focus zoom is not a layout resize. Compare the visible height in the
-    // pre-focus scale, and keep ownership throughout the closing animation.
-    const keyboard=obscured(current);
-    if(keyboard){
-      current.phase='open';
-      delete window.__externalAiViewportSettling;
-      window.__externalAiSceneHeight=current.height;
-      root.style.setProperty('--design-viewport-height',`${current.height}px`);
-      root.classList.add('external-ai-keyboard-lock');
-      current.candidate='';
-      current.sawKeyboard=true;
-      return;
-    }
-    if(current.phase==='open'&&document.activeElement===input&&!current.sawKeyboard)return;
-    const candidate=geometry();
-    if(current.candidate!==candidate){
-      current.candidate=candidate;
-      frame=requestAnimationFrame(sync);
-      return;
-    }
-    if(current.phase==='settling'){
-      delete window.__externalAiViewportSettling;
-      current.phase='closed';
-      current.geometry=geometry();
-      notify();
-      return;
-    }
-    // This runs in rAF after the viewport event, when its measurements update.
-    // Blur alone does not mean that the keyboard has finished moving.
-    current.phase='restoring';
-    restoreOrigin();
-    frame=requestAnimationFrame(()=>{
-      frame=0;
-      if(session!==current)return;
-      // Our scroll correction may itself emit viewport events. Validate the
-      // actual height instead of invalidating completion on every event.
-      if(obscured(current)){schedule();return;}
-      if(!eligible()){cancel();return;}
-      window.__externalAiViewportSettling=true;
-      unlock();
-      rebindTopLayers(current);
-      restoreOrigin();
-      const cssHeight=Math.max(1,current.probe.getBoundingClientRect().height);
-      // Use the DOM's actual CSS height if innerHeight is still stale. The
-      // ordinary resize path resumes as soon as both measurements agree.
-      if(Math.abs(cssHeight-innerHeight)>2)window.__externalAiSceneHeight=cssHeight;
-      else delete window.__externalAiSceneHeight;
-      current.phase='settling';
-      current.candidate='';
-      dispatchEvent(new Event('external-ai-viewport-prepare'));
-      // The AI input sync is queued in rAF. Observe its final vertical bounds
-      // before copying them into the detached titles and scene coordinates.
-      frame=requestAnimationFrame(sync);
-    });
-  };
-  const schedule=()=>{
-    if(!session)return;
-    if(!frame)frame=requestAnimationFrame(sync);
-  };
-  const begin=()=>{
-    if(!eligible())return;
-    if(session&&session.phase==='open')return;
-    cancel();
-    const probe=document.createElement('div');
-    probe.setAttribute('aria-hidden','true');
-    probe.style.cssText='position:fixed;top:0;left:0;width:0;height:100dvh;visibility:hidden;pointer-events:none;contain:strict;';
-    document.body.append(probe);
-    const height=Math.max(1,probe.getBoundingClientRect().height);
-    session={probe,height,viewportInset:height-visibleHeight(),phase:'open',sawKeyboard:false,geometry:'',candidate:'',
-      previousHeight:root.style.getPropertyValue('--design-viewport-height'),
-      previousPriority:root.style.getPropertyPriority('--design-viewport-height')};
-    window.__externalAiSceneHeight=height;
-    root.style.setProperty('--design-viewport-height',`${height}px`);
-    root.classList.add('external-ai-keyboard-lock');
-    if('ResizeObserver' in window){
-      session.observer=new ResizeObserver(schedule);
-      session.observer.observe(probe);
-    }
-  };
-  input.addEventListener('focus',()=>begin());
-  // Done can dismiss the keyboard without blurring. A second tap must create
-  // a fresh cycle instead of reusing the first focus's height indefinitely.
-  input.addEventListener('pointerdown',()=>{if(document.activeElement===input)begin();});
-  input.addEventListener('blur',schedule);
-  viewport.addEventListener('resize',schedule,{passive:true});
-  viewport.addEventListener('scroll',schedule,{passive:true});
-  addEventListener('resize',schedule,{passive:true});
-  addEventListener('orientationchange',cancel,{passive:true});
-  // Layout scrolling is separate from VisualViewport scrolling.
-  addEventListener('scroll',event=>{
-    if(event.target===document||event.target===root||event.target===document.body)schedule();
-  },{capture:true,passive:true});
-  new MutationObserver(()=>{if(session&&!eligible())cancel();}).observe(root,{attributes:true,attributeFilter:['class']});
-})();
-</script>
 <script type="module">
 import * as THREE from './vendor/three.module.js';
 import { GLTFLoader } from './wow-assets/three-addons/loaders/GLTFLoader.js';
@@ -15407,8 +15225,7 @@ const viewportStageWidth=()=>Math.max(DESIGN_VIEWPORT_WIDTH,window.innerWidth);
 const horizontalSectionWidth=()=>Math.min(MAX_HORIZONTAL_SECTION_WIDTH,viewportStageWidth());
 const horizontalFrameLeft=()=>Math.max(0,(window.innerWidth-horizontalSectionWidth())*.5);
 const horizontalFrameRight=()=>horizontalFrameLeft()+horizontalSectionWidth();
-const sceneViewportHeight=()=>Math.max(1,window.__externalAiSceneHeight||window.innerHeight);
-const externalAiKeyboardLayoutHeld=()=>doc.classList.contains('external-ai-keyboard-lock')||Boolean(window.__externalAiViewportSettling);
+const sceneViewportHeight=()=>Math.max(1,window.innerHeight);
 const nativeHandoffOffsetY=()=>Number.parseFloat(
   getComputedStyle(doc).getPropertyValue('--native-handoff-y')
 )||0;
@@ -15632,8 +15449,6 @@ function syncHeroResponsiveCss(stage=0) {
   syncHeroShortUiScale(stage);
 }
 function syncHeroTitleDepth() {
-  // Focus panning is not a new authored position for the detached title.
-  if(externalAiKeyboardLayoutHeld())return;
   if (!heroBackTitle || !heroUpperLine) return;
   const rect = heroUpperLine.getBoundingClientRect();
   const launchSection=heroUpperLine.closest('#launch');
@@ -16185,8 +16000,7 @@ function centerProductCompositionVertically(){
   productCometBackTitle3d.style.setProperty('--pc-center-y',shiftValue);
 }
 let productCenterFrame=0;
-const productSharedUiInFlight=()=>externalAiKeyboardLayoutHeld()
-  ||(doc.classList.contains('native-handoff-active')&&!doc.classList.contains('native-scroll-active'));
+const productSharedUiInFlight=()=>doc.classList.contains('native-handoff-active')&&!doc.classList.contains('native-scroll-active');
 function scheduleProductCompositionCenter(){
   /* Product is centred inside the resting gap between the source navigation
      and source AI panel. During either shared-element hand-off those same
@@ -16692,7 +16506,6 @@ function syncWorksStudyTallCorridor(){
   );
 }
 function refreshWorksLayoutMetrics(){
-  if(externalAiKeyboardLayoutHeld())return worksFlowLimitCache;
   productRightWheelStartRoute=Number.NaN;
   if(worksFlow){
     fitWorksStudyCopyTypography();
@@ -18174,7 +17987,6 @@ function clearNativeMorphGeometry(){
 }
 let nativeMorphResizeFrame=0;
 function scheduleNativeMorphGeometryRebuild(){
-  if(externalAiKeyboardLayoutHeld())return;
   if(nativeMorphResizeFrame)cancelAnimationFrame(nativeMorphResizeFrame);
   if(nativeScrollActive){
     nativeMorphResizeFrame=0;
@@ -18183,7 +17995,6 @@ function scheduleNativeMorphGeometryRebuild(){
   }
   nativeMorphResizeFrame=requestAnimationFrame(()=>{
     nativeMorphResizeFrame=0;
-    if(externalAiKeyboardLayoutHeld())return;
     const progress=clamp3d(nativeHandoffRenderPosition/Math.max(1,nativeHandoffDistanceCache));
     if(!nativeScrollActive&&progress>.0001){
       resetNativeNavLayerMorph();
@@ -20213,7 +20024,6 @@ if(pageScrollbar&&pageScrollbarTrack&&pageScrollbarThumb){
   requestAnimationFrame(()=>requestAnimationFrame(measurePageScrollbarGeometry));
 }
 function refreshJourneyScrollLayout(){
-  if(externalAiKeyboardLayoutHeld())return;
   const previousMetrics=journeyScrollMetricsCache;
   const previousHandoffDistance=nativeHandoffDistanceCache;
   const previousStop=journeyHandoffStopRoute(previousMetrics);
@@ -23270,23 +23080,6 @@ function initFooterGarden(initializeImmediately=false){
 }
 initFooterGarden();
 setJourneyScrollPosition(0,{sync:true});
-// VisualViewport completion does not always produce a window resize. Rebuild
-// only the 3D screen geometry; do not rerun media or alter the journey position.
-addEventListener('external-ai-viewport-prepare',()=>{
-  syncHeroResponsiveCss(renderProgress*(sections3d.length-1));
-  window.__syncExternalAiInputLayout?.();
-});
-addEventListener('external-ai-viewport-restored',()=>{
-  syncHeroResponsiveCss(renderProgress*(sections3d.length-1));
-  refreshJourneyScrollLayout();
-  syncHeroTitleDepth();
-  scheduleProductCompositionCenter();
-  productObservatoryRenderDirty=true;
-  productCarouselCompactRendered=null;
-  downstreamScenesHeroIdleSynced=false;
-  scheduleWorksRoute();
-  scheduleNativeMorphGeometryRebuild();
-});
 </script>
 
 <script>
@@ -23294,7 +23087,7 @@ const root = document.documentElement;
 const DESIGN_VIEWPORT_WIDTH=1536;
 const DESIGN_VIEWPORT_HEIGHT=730;
 const journeyNativeStart=Number(window.__journeyNativeStart)||.25;
-const starsStageHeight=()=>Math.max(1,window.__externalAiSceneHeight||window.innerHeight);
+const starsStageHeight=()=>Math.max(1,window.innerHeight);
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d', { alpha: true });
 let stars = [];
@@ -23341,7 +23134,6 @@ function queueStarsResize(){
 }
 resizeStars();
 addEventListener('resize',queueStarsResize,{passive:true});
-addEventListener('external-ai-viewport-restored',queueStarsResize);
 
 function drawStars() {
   ctx.clearRect(0, 0, starsViewportWidth, starsViewportHeight);
@@ -26192,7 +25984,7 @@ const externalAiInputController=(()=>{
   };
   const expandedSourceHeight=()=>{
     const maximum=innerWidth<=450?129:136;
-    return clamp((window.__externalAiSceneHeight||innerHeight)*.36-284,112,maximum);
+    return clamp(innerHeight*.36-284,112,maximum);
   };
   const setSourceMetrics=(root,scale,visualHeight,routesHeight)=>{
     if(!root)return;

@@ -15225,7 +15225,7 @@ const viewportStageWidth=()=>Math.max(DESIGN_VIEWPORT_WIDTH,window.innerWidth);
 const horizontalSectionWidth=()=>Math.min(MAX_HORIZONTAL_SECTION_WIDTH,viewportStageWidth());
 const horizontalFrameLeft=()=>Math.max(0,(window.innerWidth-horizontalSectionWidth())*.5);
 const horizontalFrameRight=()=>horizontalFrameLeft()+horizontalSectionWidth();
-const sceneViewportHeight=()=>Math.max(1,window.innerHeight);
+const sceneViewportHeight=()=>Math.max(1,doc.clientHeight||window.innerHeight);
 const nativeHandoffOffsetY=()=>Number.parseFloat(
   getComputedStyle(doc).getPropertyValue('--native-handoff-y')
 )||0;

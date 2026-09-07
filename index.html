@@ -52,8 +52,8 @@ See /LICENCE.md.
     event.stopImmediatePropagation();
   }
   blocked.forEach(type=>window.addEventListener(type,guard,{capture:true,passive:false}));
-  const uiSelector='body > .hero-corner,body > .top-nav,body > .hero-contact,body > .journey-status,body > #aiGuide';
-  const contentSelector='body > main,body > #world3d,body > .hero-back-title,body > .hero-back-title-echo,body > .hero-work-backdrop,body > .hero-aurora,body > .hero-focus-light,body > .product-comet-back-title';
+  const uiSelector='body > .hero-corner,body > .hero-contact,body > .journey-status,body > #aiGuide';
+  const contentSelector='body > .top-nav,body > main,body > #world3d,body > .hero-back-title,body > .hero-back-title-echo,body > .hero-work-backdrop,body > .hero-aurora,body > .hero-focus-light,body > .product-comet-back-title';
   let locked=[];
   function finish(){
     animations.forEach(animation=>animation.cancel());
@@ -89,7 +89,7 @@ See /LICENCE.md.
     // Request only the typefaces and characters used by the first screen.
     // Opacity keeps their layout intact while the loader is visible.
     const samples=new Map();
-    document.querySelectorAll(uiSelector+',#launch,.hero-back-title,.hero-back-title-echo').forEach(container=>{
+    document.querySelectorAll(uiSelector+',body > .top-nav,#launch,.hero-back-title,.hero-back-title-echo').forEach(container=>{
       const walker=document.createTreeWalker(container,NodeFilter.SHOW_TEXT);
       for(let node=walker.nextNode();node;node=walker.nextNode()){
         const text=node.textContent.trim();
@@ -14083,8 +14083,8 @@ html.hero-boot-pending #heroStartupLoader {
   44%,60% { stroke-dashoffset:0; }
   100% { stroke-dashoffset:-1; }
 }
-html.hero-boot-pending:not(.hero-boot-ui) body > :is(.hero-corner,.top-nav,.hero-contact,.journey-status,#aiGuide) { opacity:0!important; }
-html.hero-boot-pending:not(.hero-boot-revealing) body > :is(main,#world3d,.hero-back-title,.hero-back-title-echo,.hero-work-backdrop,.hero-aurora,.hero-focus-light,.product-comet-back-title) { opacity:0!important; }
+html.hero-boot-pending:not(.hero-boot-ui) body > :is(.hero-corner,.hero-contact,.journey-status,#aiGuide) { opacity:0!important; }
+html.hero-boot-pending:not(.hero-boot-revealing) body > :is(.top-nav,main,#world3d,.hero-back-title,.hero-back-title-echo,.hero-work-backdrop,.hero-aurora,.hero-focus-light,.product-comet-back-title) { opacity:0!important; }
 html.hero-boot-pending #pageScrollbar { opacity:0!important;pointer-events:none!important; }
 html.hero-boot-pending body > :is(.hero-corner,.top-nav,.hero-contact,.journey-status,#aiGuide,main) { pointer-events:none!important; }
 </style>
@@ -16274,7 +16274,7 @@ function productCarouselResponsiveScale(){
 }
 const productArcExitSlotDistance=()=>47.45;
 const journeyInputScale=.84;
-const touchJourneyInputScale=1.15;
+const touchJourneyInputScale=1.25;
 function runWhenJourneyIdle(task,timeout=900){
   const run=()=>{
     if(performance.now()-lastJourneyInputAt<260||Math.abs(journeyScrollPosition-journeyScrollRenderPosition)>.25||Math.abs(journeyScrollRenderVelocity)>.5){schedule();return;}
@@ -16758,6 +16758,17 @@ function worksStudyAnimationAtRoute(route,timeline=worksStudyTimelineCache){
     return {index,phase:clamp3d((route-card.start)/Math.max(.001,card.duration))};
   }
   return null;
+}
+function touchWorksCardMoveScale(direction){
+  const timeline=worksStudyTimelineCache;
+  if(!timeline.scriptedFlow||!direction)return 1;
+  const route=journeyScrollPosition-launchScrollDistance;
+  return timeline.segments.some((segment,index)=>{
+    if(segment.kind!=='move'||timeline.segments[index+1]?.kind!=='hold')return false;
+    return direction>0
+      ?route>=segment.routeStart-.5&&route<segment.routeEnd-.5
+      :route>segment.routeStart+.5&&route<=segment.routeEnd+.5;
+  })?3:1;
 }
 function worksStudyPulseRouteSpan(){
   const firstCard=worksStudyCards[0];
@@ -20420,7 +20431,8 @@ addEventListener('touchmove',event => {
   }
   event.preventDefault();
   touchJourneyGestureCaptured=true;
-  const routedDelta=deltaY*journeyScrollDistance/1900*touchJourneyInputScale;
+  const routedDelta=deltaY*journeyScrollDistance/1900*touchJourneyInputScale
+    *touchWorksCardMoveScale(Math.sign(deltaY));
   if(!requestNativeHandoffTakeover(deltaY)){
     routeJourneyInput(routedDelta,{handoffDelta:deltaY});
   }

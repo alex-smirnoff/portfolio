@@ -4967,8 +4967,6 @@ html.native-scroll-active .world3d,
 html.native-scroll-active .hero-work-backdrop,
 html.native-scroll-active .hero-aurora,
 html.native-scroll-active .hero-focus-light,
-html.native-scroll-active .hero-back-title,
-html.native-scroll-active .hero-back-title-echo,
 html.native-scroll-active .product-comet-back-title,
 html.native-scroll-active .top-nav,
 html.native-scroll-active .hero-corner,
@@ -4977,6 +4975,10 @@ html.native-scroll-active .journey-status,
 html.native-scroll-active .works-study-frost-layer,
 html.native-scroll-active .works-study-action-layer {
   visibility:hidden;
+}
+html.native-scroll-active .hero-back-title,
+html.native-scroll-active .hero-back-title-echo {
+  opacity:0 !important;
 }
 html.native-scroll-active main * {
   animation-play-state:paused !important;
@@ -8162,7 +8164,8 @@ html.native-profile-morphing #motionNative .motion-profile-visual .motion-profil
     background-size:auto,36px 36px;
     font-size:8px;
   }
-  #motionNative .native-graphic-post .graphic-media-status {
+  #motionNative .native-graphic-post .graphic-media-status,
+  #motionNative .smm-story-frame .graphic-media-status {
     background-size:36px 36px;
   }
   #motionNative [data-graphic-media-state="error"] > .graphic-media-status {

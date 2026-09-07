@@ -15262,6 +15262,33 @@ addEventListener('journey-progress',event=>{
     document.body.scrollLeft=0;
     window.scrollTo({top:0,left:0,behavior:'instant'});
   };
+  const rebindTopLayers=current=>{
+    const selectors=[
+      'body > .top-nav','body > .hero-corner-left','body > .hero-contact',
+      '#launch','.case-sections-viewport','.works-study-frost-layer',
+      '.works-study-action-layer','body > .hero-work-backdrop',
+      'body > .hero-aurora','body > .hero-focus-light',
+      'body > .hero-back-title','body > .hero-back-title-echo',
+      'body > .product-comet-back-title'
+    ];
+    const layers=[current.probe,...document.querySelectorAll(selectors.join(','))]
+      .filter(element=>getComputedStyle(element).position==='fixed');
+    const saved=layers.map(element=>[element,
+      element.style.getPropertyValue('position'),element.style.getPropertyPriority('position')]);
+    try{
+      // Drop stale fixed-position constraints, then rebuild them against the
+      // restored viewport. Both layouts happen in this same JS task: the
+      // temporary absolute positioning is never presented as an animation frame.
+      layers.forEach(element=>element.style.setProperty('position','absolute','important'));
+      void current.probe.offsetTop;
+    }finally{
+      saved.forEach(([element,value,priority])=>{
+        if(value)element.style.setProperty('position',value,priority);
+        else element.style.removeProperty('position');
+      });
+    }
+    void current.probe.offsetTop;
+  };
   const sync=()=>{
     frame=0;
     const current=session;
@@ -15308,6 +15335,8 @@ addEventListener('journey-progress',event=>{
       if(!eligible()){cancel();return;}
       window.__externalAiViewportSettling=true;
       unlock();
+      rebindTopLayers(current);
+      restoreOrigin();
       const cssHeight=Math.max(1,current.probe.getBoundingClientRect().height);
       // Use the DOM's actual CSS height if innerHeight is still stale. The
       // ordinary resize path resumes as soon as both measurements agree.
@@ -15611,7 +15640,10 @@ function syncHeroTitleDepth() {
   const launchTransform=launchSection?getComputedStyle(launchSection).transform:'none';
   const launchMatrix=launchTransform&&launchTransform!=='none'?new DOMMatrixReadOnly(launchTransform):null;
   const referenceLeft=rect.left-(launchMatrix?.m41||0);
-  const referenceTop=rect.top-(launchMatrix?.m42||0)-nativeHandoffOffsetY();
+  const launchRect=launchSection?.getBoundingClientRect();
+  // The section's top includes browser viewport panning and route translation.
+  // Subtract that origin before assigning a local CSS top to the fixed title.
+  const referenceTop=rect.top-(launchRect?.top??((launchMatrix?.m42||0)+nativeHandoffOffsetY()));
   const style = getComputedStyle(heroUpperLine);
   const fontSize = Number.parseFloat(style.fontSize) || 0;
   const lineHeight = Number.parseFloat(style.lineHeight) || fontSize;
@@ -15955,11 +15987,12 @@ function enforceProductFlowSpacing(){
 function productUiCorridor(){
   const aiGuide=document.querySelector('body > .ai-hero:not(.native-ai-morph-layer)')
     ||productAiGuide3d;
-  const navBottom=productTopNav3d?.getBoundingClientRect().bottom??0;
-  const aiTop=aiGuide?.getBoundingClientRect().top??sceneViewportHeight();
+  const frameTop=productObservatory3d?.closest('.case-sections-viewport')?.getBoundingClientRect().top??0;
+  const navBottom=(productTopNav3d?.getBoundingClientRect().bottom??frameTop)-frameTop;
+  const aiTop=(aiGuide?.getBoundingClientRect().top??(frameTop+sceneViewportHeight()))-frameTop;
   const top=navBottom+12;
   const bottom=Math.max(top+1,aiTop-12);
-  return {navBottom,aiTop,top,bottom,height:bottom-top};
+  return {navBottom,aiTop,top,bottom,height:bottom-top,frameTop};
 }
 function fitProductTitleIntoUiCorridor(backTitle){
   productCorridorTitleScale=1;
@@ -16127,10 +16160,9 @@ function syncProductActionsHorizontalSpacing(){
 }
 function centerProductCompositionVertically(){
   if(!productObservatoryStage3d||!productCometBackTitle3d||!productTitleReveal3d||!productMeta3d||!productActions3d)return;
-  const {navBottom,aiTop}=productUiCorridor();
-  productCompositionCenterY=aiTop>navBottom
-    ? (navBottom+aiTop)*.5
-    : sceneViewportHeight()*.5;
+  const {navBottom,aiTop,frameTop}=productUiCorridor();
+  const layoutCenterY=aiTop>navBottom?(navBottom+aiTop)*.5:sceneViewportHeight()*.5;
+  productCompositionCenterY=layoutCenterY+frameTop-(worldCanvas?.getBoundingClientRect().top??0);
   const backTitleContent=productCometBackTitle3d.firstElementChild;
   const compositionTop=Math.min(productCometBackTitle3d.offsetTop,productTitleReveal3d.offsetTop);
   const backTitleBottom=productCometBackTitle3d.offsetTop+(backTitleContent?.offsetHeight||0);
@@ -16139,7 +16171,7 @@ function centerProductCompositionVertically(){
   const compositionBottom=Math.max(backTitleBottom,actionsBottom);
   productTallCoreShift=(baseCompositionBottom-compositionBottom)*.5;
   productObservatory3d.style.setProperty('--pc-carousel-center-counter-y',`${(-productTallCoreShift).toFixed(2)}px`);
-  const idealCenterShift=productCompositionCenterY-(compositionTop+compositionBottom)*.5;
+  const idealCenterShift=layoutCenterY-(compositionTop+compositionBottom)*.5;
   const minimumShift=navBottom+12-compositionTop;
   const maximumShift=aiTop-12-compositionBottom;
   const centerShift=Math.round(

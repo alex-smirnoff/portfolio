@@ -15222,37 +15222,109 @@ addEventListener('journey-progress',event=>{
   const root=document.documentElement;
   const input=document.getElementById('aiInput');
   if(!input)return;
-  let releaseTimer=0;
-
+  const viewport=window.visualViewport;
+  let session=null,releaseTimer=0,frame=0,settleUntil=0,returnPosition=null;
   const isExternal3dInput=()=>
     matchMedia('(pointer:coarse)').matches
-    &&input.parentElement
     &&input.closest('.ai-hero')?.parentElement===document.body
     &&!input.closest('.ai-hero')?.classList.contains('native-ai-morph-layer')
     &&!root.classList.contains('native-scroll-active');
-
-  const lockSceneViewport=()=>{
-    if(!isExternal3dInput())return;
+  const measure=()=>({
+    width:window.innerWidth,height:window.innerHeight,
+    visibleHeight:viewport?.height||window.innerHeight,
+    scale:viewport?.scale||1,offsetTop:viewport?.offsetTop||0,scrollX:window.scrollX,scrollY:window.scrollY
+  });
+  let resting=measure();
+  const refresh=()=>{
+    if(frame)return;
+    frame=requestAnimationFrame(()=>{
+      frame=0;
+      // Safari can apply a final focus-scroll *after* blur and the first reset.
+      // Correct only that short return phase in the same 3D viewport.
+      if(returnPosition&&performance.now()<settleUntil&&isExternal3dInput()
+        &&Math.abs(window.innerWidth-returnPosition.width)<=2){
+        window.scrollTo({left:returnPosition.scrollX,top:returnPosition.scrollY,behavior:'instant'});
+      }
+      dispatchEvent(new Event('resize'));
+    });
+  };
+  const release=({restoreScroll=true}={})=>{
+    if(!session)return;
+    const saved=session;
+    session=null;
     clearTimeout(releaseTimer);
-    const height=Math.max(1,window.innerHeight,root.clientHeight);
-    window.__externalAiSceneHeight=height;
-    root.style.setProperty('--design-viewport-height',`${height}px`);
+    root.classList.remove('external-ai-keyboard-lock');
+    root.style.removeProperty('--design-viewport-height');
+    delete window.__externalAiSceneHeight;
+    // Restore only the synthetic 3D page offset, never native 2D scrolling.
+    if(restoreScroll&&isExternal3dInput()){
+      window.scrollTo({left:saved.scrollX,top:saved.scrollY,behavior:'instant'});
+    }
+    resting=measure();
+    returnPosition=restoreScroll?saved:null;
+    settleUntil=performance.now()+1500;
+    // Cover delayed toolbar/keyboard animation completion even if Safari
+    // omits the final window resize event. Every pass uses current dimensions.
+    [100,350,750].forEach(delay=>setTimeout(()=>{
+      if(!session&&returnPosition===saved&&isExternal3dInput())refresh();
+    },delay));
+    // Reuse the normal layout/canvas resize pipeline after Safari settles.
+    refresh();
+  };
+  const checkViewport=()=>{
+    clearTimeout(releaseTimer);
+    if(!session){
+      if(document.activeElement!==input)resting=measure();
+      return;
+    }
+    if(!isExternal3dInput()||Math.abs(window.innerWidth-session.width)>2){
+      release({restoreScroll:false});return;
+    }
+    const visible=(viewport?.height||window.innerHeight)*(viewport?.scale||1)/session.scale;
+    const threshold=Math.max(80,session.visibleHeight*.15);
+    const keyboardOpen=visible<session.visibleHeight-threshold;
+    if(keyboardOpen)session.sawKeyboard=true;
+    if(!keyboardOpen&&(session.sawKeyboard||document.activeElement!==input)){
+      // Wait for a quiet viewport, not a fixed delay from blur. Done may
+      // close the keyboard without blurring the textarea on mobile browsers.
+      releaseTimer=setTimeout(()=>release(),180);
+    }
+  };
+  const lock=()=>{
+    if(!isExternal3dInput()||session)return;
+    clearTimeout(releaseTimer);
+    returnPosition=null;
+    settleUntil=0;
+    const current=measure();
+    // pointerdown saves the unoccluded viewport before focus can pan it.
+    const baseline=Math.abs(current.width-resting.width)<=2?resting:current;
+    session={...baseline,sawKeyboard:false};
+    window.__externalAiSceneHeight=session.height;
+    root.style.setProperty('--design-viewport-height',`${session.height}px`);
     root.classList.add('external-ai-keyboard-lock');
+    checkViewport();
   };
-
-  const releaseSceneViewport=()=>{
-    clearTimeout(releaseTimer);
-    releaseTimer=setTimeout(()=>{
-      if(document.activeElement===input)return;
-      root.classList.remove('external-ai-keyboard-lock');
-      root.style.removeProperty('--design-viewport-height');
-      delete window.__externalAiSceneHeight;
-      requestAnimationFrame(()=>dispatchEvent(new Event('resize')));
-    },450);
+  input.addEventListener('pointerdown',()=>{
+    if(isExternal3dInput()&&!session&&document.activeElement!==input)resting=measure();
+    // A second tap can reopen a keyboard while focus stayed on the input.
+    if(document.activeElement===input)lock();
+  },{passive:true});
+  input.addEventListener('focus',lock);
+  input.addEventListener('blur',checkViewport);
+  addEventListener('resize',checkViewport,{passive:true});
+  addEventListener('orientationchange',()=>release({restoreScroll:false}),{passive:true});
+  const visualChange=()=>{
+    checkViewport();
+    if(!session&&performance.now()<settleUntil&&isExternal3dInput())refresh();
   };
-
-  input.addEventListener('focus',lockSceneViewport);
-  input.addEventListener('blur',releaseSceneViewport);
+  viewport?.addEventListener('resize',visualChange,{passive:true});
+  viewport?.addEventListener('scroll',visualChange,{passive:true});
+  addEventListener('scroll',()=>{
+    if(!session&&returnPosition&&performance.now()<settleUntil&&isExternal3dInput()
+      &&(Math.abs(scrollY-returnPosition.scrollY)>1||Math.abs(scrollX-returnPosition.scrollX)>1))refresh();
+  },{passive:true});
+  new MutationObserver(()=>{if(session&&!isExternal3dInput())release({restoreScroll:false});})
+    .observe(root,{attributes:true,attributeFilter:['class']});
 })();
 </script>
 <script type="module">

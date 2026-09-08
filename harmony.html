@@ -20873,7 +20873,7 @@ if (worldCanvas && !reduced3d) {
       object.updateMatrixWorld(true);box=new THREE.Box3().setFromObject(object);
       object.position.sub(box.getCenter(new THREE.Vector3()));
       const proxy=new THREE.Mesh(new THREE.DodecahedronGeometry(.54,1),cometMaterial);
-      const lod=new THREE.LOD();lod.addLevel(object,0);lod.addLevel(proxy,8);
+      const lod=new THREE.LOD();lod.addLevel(object,0);lod.addLevel(proxy,15);
       nucleusPivot.add(lod);state.nucleus=lod;state.ready=true;
       state.nextAt=clock.getElapsedTime()+3+Math.random()*3;
       readyListeners.splice(0).forEach(listener=>listener(lod.clone(true)));
@@ -29096,7 +29096,7 @@ function createAiChatCustomScrollbar(scroller,scrollbar,track,thumb,onMeasure=nu
     observer.observe(scroller,{childList:true,subtree:true,characterData:true});
   }
   requestAnimationFrame(()=>requestAnimationFrame(measure));
-  return {measure:queueMeasure,sync};
+  return {measure:queueMeasure,sync,applyWheel:applyWheelToScroller};
 }
 function createAiChatInputCustomScrollbar(scroller,scrollbar,track,thumb,owner){
   if(!scroller||!scrollbar||!track||!thumb||!owner)return {measure(){},sync(){}};
@@ -29430,6 +29430,21 @@ aiChatScrollbar.addEventListener('keydown',event=>{
   });
 });
 aiChatScrollbarController=createAiChatCustomScrollbar(aiChatStream,aiChatScrollbar,aiChatScrollbarTrack,aiChatScrollbarThumb);
+document.addEventListener('wheel',event=>{
+  if(aiChatPage.hidden||event.defaultPrevented||event.ctrlKey||innerWidth<1901||aiChatScrollbar.hidden)return;
+  const streamRect=aiChatStream.getBoundingClientRect();
+  const scrollbarRect=aiChatScrollbar.getBoundingClientRect();
+  const insideWideGap=event.clientX>=streamRect.right
+    &&event.clientX<=scrollbarRect.left
+    &&event.clientY>=streamRect.top
+    &&event.clientY<=streamRect.bottom;
+  if(!insideWideGap)return;
+  markAiChatUserScrollIntent();
+  if(event.deltaY<0)aiChatAutoScroll=false;
+  if(aiChatScrollbarController?.applyWheel(event))return;
+  if(event.cancelable)event.preventDefault();
+  event.stopPropagation();
+},{passive:false});
 aiChatSuggestionsScrollbarController=createAiChatCustomScrollbar(
   aiChatSuggestions,
   aiChatSuggestionsScrollbar,

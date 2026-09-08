@@ -3391,7 +3391,7 @@ a { color:inherit;text-decoration:none; }
 }
 [hidden] { display:none!important; }
 
-@media (min-width:1901px) {
+@media (min-width:1905px) {
   .case-shell {
     width:1900px;
     max-width:1900px;
@@ -6558,6 +6558,19 @@ function createHorizontalScrollbar(scroller,scrollbar,track,thumb){
 const compactCaseLayout=matchMedia('(max-width:900px)');
 const caseIndexScrollbarController=createCustomScrollbar(caseIndexScroll,caseIndexScrollbar,caseIndexScrollbarTrack,caseIndexScrollbarThumb,updateIndexLayout,profileCopy,compactCaseLayout);
 const caseCopyScrollbarController=createCustomScrollbar(profileCopy,caseCopyScrollbar,caseCopyScrollbarTrack,caseCopyScrollbarThumb);
+document.addEventListener('wheel',event=>{
+  if(event.defaultPrevented||event.ctrlKey||innerWidth<1905||caseCopyScrollbar.hidden)return;
+  const copyRect=profileCopy.getBoundingClientRect();
+  const scrollbarRect=caseCopyScrollbar.getBoundingClientRect();
+  const insideWideGap=event.clientX>=copyRect.right
+    &&event.clientX<=scrollbarRect.left
+    &&event.clientY>=copyRect.top
+    &&event.clientY<=copyRect.bottom;
+  if(!insideWideGap)return;
+  if(applyWheelToScroller(profileCopy,event))return;
+  if(event.cancelable)event.preventDefault();
+  event.stopPropagation();
+},{passive:false});
 const bpmnScrollbarController=createHorizontalScrollbar(bpmnViewport,bpmnScrollbar,bpmnScrollbarTrack,bpmnScrollbarThumb);
 const sequenceActivityScrollbarController=createCustomScrollbar(
   sequenceActivityViewport,

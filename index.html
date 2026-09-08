@@ -3104,6 +3104,9 @@ html.case-modal-open #productCaseSection .product-observatory-cta:active::before
   .ai-case-dialog .ai-case-close { top:29px; }
   .ai-chat-toolbar { margin-right:52px; }
 }
+@media (max-width:418px) {
+  .ai-case-dialog .ai-case-close { top:12px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .modal,
   .modal-close,
@@ -30105,12 +30108,17 @@ function modalCaseMediaRuntime(){
   },'*');
 }
 
-function prepareModalCaseHtml(html,pageUrl,generation){
+function prepareModalCaseHtml(html,pageUrl,generation,isAiCase=false){
   const parsed=new DOMParser().parseFromString(html,'text/html');
   parsed.documentElement.dataset.modalCaseGeneration=String(generation);
   let base=parsed.querySelector('base');
   if(!base){base=parsed.createElement('base');parsed.head.prepend(base);}
   base.href=new URL(pageUrl,location.href).href;
+  if(isAiCase){
+    const layoutStyle=parsed.createElement('style');
+    layoutStyle.textContent='@media (max-width:400px){.case-shell{grid-template-rows:42px minmax(0,1fr);gap:12px;padding-top:12px}.case-toolbar{margin-left:-6px;padding-left:0}.case-brand{transform:none}.case-logo-slot{width:42px;height:42px;flex-basis:42px}}';
+    parsed.head.append(layoutStyle);
+  }
   /* Two legacy case pages contain a standalone unary `+` immediately before
      the named comparison synchronizer. In a classic script that turns the
      declaration into a scoped function expression, so the following setup
@@ -30316,7 +30324,7 @@ function createCaseFrameLoader(initialFrame,status,{onReplace,onLoad}={}){
       if(!response.ok)throw new Error(`HTTP ${response.status}`);
       const html=await response.text();
       if(token!==generation)return false;
-      const preparedHtml=prepareModalCaseHtml(html,pageUrl,token);
+      const preparedHtml=prepareModalCaseHtml(html,pageUrl,token,frame.id==='aiCaseFrame');
       if(token!==generation)return false;
       state='structure';
       frame.srcdoc=preparedHtml;

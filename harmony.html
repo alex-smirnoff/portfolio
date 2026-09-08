@@ -1541,14 +1541,14 @@ html.modal-runtime-paused body > :not(#caseModal) *::after,
 .ai-chat-case-visual > img,
 .ai-chat-case-visual > video { transition:opacity .18s ease; }
 .ai-case-dialog .ai-case-close {
-  top:18px;
+  top:28px;
   right:18px;
   left:auto;
 }
 @media (max-width:620px) {
   .ai-case-overlay { padding:64px 8px 8px; }
   .ai-case-dialog { border-radius:24px; }
-  .ai-case-dialog .ai-case-close { top:12px;right:12px; }
+  .ai-case-dialog .ai-case-close { top:28px;right:12px; }
 }
 .ai-chat-shell {
   width:100%;
@@ -3101,6 +3101,7 @@ html.case-modal-open #productCaseSection .product-observatory-cta:active::before
     width: 42px;
     height: 42px;
   }
+  .ai-case-dialog .ai-case-close { top:29px; }
   .ai-chat-toolbar { margin-right:52px; }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en-US">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Web-генератор · Case Study</title>
-<meta name="description" content="End-to-end кейс web-генератора брендованої продукції: бізнес-аналіз, BPMN, UX/UI, frontend-розробка й автоматизація процесу.">
+<title>CRM AlumniMiP · Case Study</title>
+<meta name="description" content="A UX and product design case study for CRM AlumniMiP: user research, information architecture, filters, profiles, analytics dashboard, and responsive design.">
 <meta name="color-scheme" content="dark">
 <link rel="stylesheet" href="../fonts/fonts.css">
 <style>
@@ -678,12 +678,6 @@ a { color:inherit;text-decoration:none; }
   background:none;
   -webkit-text-fill-color:#fff;
 }
-.profile-heading--wide {
-  width:max-content;
-  max-width:100%;
-  overflow-wrap:normal;
-  word-break:normal;
-}
 .profile-lead { margin:18px 0 0;color:var(--muted);font-size:var(--type-body);line-height:1.65; }
 .pain-heading {
   margin:32px 0 0;
@@ -730,18 +724,6 @@ a { color:inherit;text-decoration:none; }
 .pain-card.glass::before,
 .pain-card.glass::after { display:none; }
 .pain-copy { min-width:0; }
-.pain-card-body {
-  min-width:0;
-  display:grid;
-  gap:14px;
-}
-.pain-card-title {
-  color:#fff;
-  font-family:var(--display);
-  font-size:var(--type-lead);
-  font-weight:600;
-  line-height:1.4;
-}
 .pain-number {
   width:max-content;
   display:block;
@@ -792,10 +774,6 @@ a { color:inherit;text-decoration:none; }
 .insight-card.glass::before,
 .insight-card.glass::after { display:none; }
 .insight-copy { min-width:0; }
-.initiative-insight-list .insight-card {
-  height:auto;
-  min-height:292px;
-}
 .insight-icon-tile {
   order:-1;
   width:52px;
@@ -815,725 +793,6 @@ a { color:inherit;text-decoration:none; }
   height:26px;
   display:block;
   fill:currentColor;
-}
-.generator-bpmn-diagram {
-  width:100%;
-  min-width:0;
-  display:grid;
-  grid-template-rows:auto 18px;
-  gap:10px;
-  margin:8px 0 6px;
-  padding:clamp(10px,1.8vw,20px);
-  overflow:hidden;
-  border-radius:26px;
-  background:
-    radial-gradient(circle at 72% 34%,rgba(255,195,104,.07),transparent 35%),
-    rgba(255,255,255,.055);
-  box-shadow:inset 0 1px 1px rgba(0,0,0,.38),inset 0 0 0 1px rgba(255,255,255,.085),0 1px 0 rgba(255,255,255,.04);
-}
-.generator-bpmn-viewport {
-  width:100%;
-  height:clamp(430px,46vw,570px);
-  min-width:0;
-  overflow-x:auto;
-  overflow-y:hidden;
-  overscroll-behavior-x:contain;
-  overscroll-behavior-y:auto;
-  touch-action:pan-x pan-y;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-  -webkit-overflow-scrolling:touch;
-}
-.generator-bpmn-viewport::-webkit-scrollbar { display:none;width:0;height:0; }
-.generator-bpmn-viewport:focus { outline:0; }
-.generator-bpmn-diagram--two-lane .generator-bpmn-viewport {
-  height:clamp(360px,34vw,450px);
-}
-.generator-bpmn-svg {
-  width:auto;
-  max-width:none;
-  height:100%;
-  display:block;
-  margin:0;
-  overflow:visible;
-}
-.generator-bpmn-svg text {
-  font-family:var(--display);
-  text-rendering:geometricPrecision;
-}
-.generator-bpmn-pool {
-  fill:rgba(7,9,18,.28);
-  stroke:none;
-}
-.generator-bpmn-pool-outline {
-  fill:none;
-  stroke:rgba(255,255,255,.11);
-  stroke-width:1.5;
-}
-.generator-bpmn-lane-head {
-  fill:rgba(255,255,255,.045);
-  stroke:none;
-}
-.generator-bpmn-lane-divider {
-  fill:none;
-  stroke:rgba(255,255,255,.08);
-  stroke-width:1;
-}
-.generator-bpmn-actor {
-  fill:rgba(255,255,255,.72);
-  font-size:13px;
-  font-weight:650;
-  text-anchor:middle;
-}
-.generator-bpmn-task {
-  fill:url(#generatorBpmnTaskFill);
-  stroke:rgba(255,214,145,.58);
-  stroke-width:1.6;
-}
-.generator-bpmn-task--quiet { stroke:rgba(255,255,255,.18); }
-.generator-bpmn-task-label {
-  fill:#fff;
-  font-size:13px;
-  font-weight:600;
-  text-anchor:middle;
-  dominant-baseline:middle;
-}
-.generator-bpmn-event-ring {
-  fill:rgba(10,10,18,.92);
-  stroke:url(#generatorBpmnGold);
-  stroke-width:2;
-}
-.generator-bpmn-event-ring--end { stroke-width:4; }
-.generator-bpmn-event-inner {
-  fill:none;
-  stroke:rgba(255,228,180,.78);
-  stroke-width:1.35;
-}
-.generator-bpmn-event-glyph {
-  fill:none;
-  stroke:#f1c987;
-  stroke-width:1.7;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-.generator-bpmn-gateway {
-  fill:url(#generatorBpmnGold);
-  stroke:rgba(255,244,216,.78);
-  stroke-width:1.25;
-}
-.generator-bpmn-gateway-mark {
-  fill:none;
-  stroke:#33271b;
-  stroke-width:2.5;
-  stroke-linecap:round;
-}
-.generator-bpmn-event-label,
-.generator-bpmn-gateway-label {
-  fill:rgba(255,255,255,.72);
-  font-size:11.5px;
-  font-weight:550;
-  text-anchor:middle;
-}
-.generator-bpmn-gateway-label { fill:#fff; }
-.generator-bpmn-sequence,
-.generator-bpmn-message,
-.generator-bpmn-association {
-  fill:none;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-.generator-bpmn-sequence {
-  stroke:#e8bd78;
-  stroke-width:2;
-  marker-end:url(#generatorBpmnArrow);
-}
-.generator-bpmn-message {
-  stroke:rgba(255,255,255,.5);
-  stroke-width:1.5;
-  stroke-dasharray:6 7;
-  marker-start:url(#generatorBpmnMessageStart);
-  marker-end:url(#generatorBpmnMessageArrow);
-}
-.generator-bpmn-association {
-  stroke:rgba(255,255,255,.36);
-  stroke-width:1.3;
-  stroke-dasharray:3 6;
-}
-.generator-bpmn-branch-pill {
-  fill:rgba(10,10,18,.94);
-  stroke:rgba(255,205,128,.34);
-  stroke-width:1;
-}
-.generator-bpmn-branch-label {
-  fill:#ffe2a8;
-  font-size:10px;
-  font-weight:700;
-  text-anchor:middle;
-}
-.generator-bpmn-data-object {
-  fill:rgba(255,255,255,.045);
-  stroke:rgba(255,255,255,.38);
-  stroke-width:1.2;
-}
-.generator-bpmn-data-label {
-  fill:rgba(255,255,255,.6);
-  font-size:11px;
-  font-weight:550;
-  text-anchor:middle;
-}
-.generator-bpmn-scrollbar {
-  position:relative;
-  width:100%;
-  height:18px;
-  display:flex;
-  align-items:center;
-  padding:0 2px;
-  background:transparent;
-  touch-action:none;
-  user-select:none;
-  -webkit-user-select:none;
-}
-.generator-bpmn-scrollbar[hidden] { display:none; }
-.generator-bpmn-scrollbar:focus-visible { outline:0; }
-.generator-bpmn-scrollbar-track {
-  position:relative;
-  width:100%;
-  height:4px;
-  overflow:hidden;
-  border-radius:999px;
-  background:rgba(7,7,22,.52);
-  box-shadow:0 0 0 1px rgba(255,224,164,.045),0 0 8px rgba(3,4,13,.34),inset 0 0 3px rgba(0,0,0,.58);
-  opacity:.78;
-}
-.generator-bpmn-scrollbar-track::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:linear-gradient(90deg,rgba(255,241,202,.14),rgba(255,210,122,.2) 48%,rgba(255,174,88,.12));
-}
-.generator-bpmn-scrollbar-thumb {
-  position:absolute;
-  top:0;
-  left:0;
-  height:100%;
-  min-width:42px;
-  border-radius:999px;
-  background:linear-gradient(90deg,#fff1ca 0%,#ffd27a 48%,#ffae58 100%);
-  box-shadow:0 0 5px rgba(255,232,183,.32),0 0 13px rgba(255,202,112,.27),0 0 24px rgba(255,174,88,.12),inset 0 0 3px rgba(255,255,255,.3);
-  cursor:grab;
-  transform:translate3d(0,0,0);
-  will-change:width,transform;
-}
-.generator-bpmn-scrollbar.is-dragging .generator-bpmn-scrollbar-thumb { cursor:grabbing; }
-.process-stage-grid {
-  width:100%;
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:8px;
-  margin:14px 0 20px;
-}
-.process-stage-cell {
-  min-width:0;
-  min-height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:16px 18px;
-  border-radius:16px;
-  color:#fff;
-  background:rgba(255,255,255,.045);
-  box-shadow:inset 0 1px 1px rgba(0,0,0,.34),inset 0 0 0 1px rgba(255,255,255,.065),0 1px 0 rgba(255,255,255,.04);
-  font-size:var(--type-lead);
-  font-weight:500;
-  line-height:1.45;
-  text-align:center;
-  overflow-wrap:anywhere;
-}
-.process-stage-grid--three { grid-template-columns:repeat(3,minmax(0,1fr)); }
-@media (max-width:900px) {
-  .process-stage-grid,
-  .process-stage-grid--three { grid-template-columns:repeat(2,minmax(0,1fr)); }
-}
-@media (max-width:480px) {
-  .process-stage-grid { grid-template-columns:minmax(0,1fr); }
-}
-.brand-rule-engine {
-  container-type:inline-size;
-  width:100%;
-  min-width:0;
-  overflow:hidden;
-  margin:20px 0 24px;
-  padding:22px 20px 20px;
-  border-radius:22px;
-  background:linear-gradient(122deg,rgba(255,255,255,.075),rgba(255,255,255,.035) 42%,rgba(76,111,197,.14));
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.09),inset 0 0 0 1px rgba(255,255,255,.075),0 16px 42px rgba(1,2,10,.13);
-}
-.brand-rule-engine figcaption {
-  margin:0 0 20px;
-  padding:0 2px;
-}
-.brand-rule-intro {
-  display:block;
-  max-width:92ch;
-  color:var(--muted);
-  font-size:var(--type-lead);
-  line-height:1.55;
-}
-.brand-rule-flow {
-  min-width:0;
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  align-items:stretch;
-  gap:10px;
-}
-.brand-rule-stage {
-  position:relative;
-  min-width:0;
-  min-height:174px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  gap:16px;
-  padding:17px;
-  overflow:hidden;
-  border-radius:18px;
-  background:rgba(5,7,18,.43);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.065),inset 0 0 0 1px rgba(255,255,255,.055);
-}
-.brand-rule-stage::after {
-  content:attr(data-step);
-  position:absolute;
-  top:13px;
-  right:14px;
-  color:rgba(255,255,255,.2);
-  font-family:var(--mono);
-  font-size:10px;
-  font-weight:650;
-  letter-spacing:.08em;
-}
-.brand-rule-label {
-  display:block;
-  padding-right:28px;
-  color:rgba(255,255,255,.62);
-  font-family:var(--mono);
-  font-size:var(--type-caption);
-  font-weight:600;
-  line-height:1.35;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-}
-.brand-rule-value {
-  display:block;
-  width:max-content;
-  max-width:100%;
-  color:#fff1ca;
-  background:linear-gradient(90deg,#fff3cf 0%,#ffd47f 54%,#ffad58 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  font-family:var(--display);
-  font-size:clamp(30px,4cqi,52px);
-  font-weight:750;
-  line-height:.95;
-  letter-spacing:-.045em;
-}
-.brand-rule-detail {
-  display:block;
-  color:var(--muted);
-  font-size:var(--type-small);
-  line-height:1.45;
-}
-.brand-rule-formula {
-  display:grid;
-  gap:7px;
-}
-.brand-rule-formula-line {
-  display:flex;
-  align-items:baseline;
-  gap:7px;
-  color:#fff;
-  font-family:var(--display);
-  font-size:clamp(18px,2.1cqi,28px);
-  font-weight:700;
-  line-height:1.1;
-  white-space:nowrap;
-}
-.brand-rule-formula-line span { color:rgba(255,255,255,.42);font-size:.72em; }
-.brand-rule-code {
-  min-width:0;
-  display:grid;
-  gap:5px;
-  padding:13px 14px;
-  overflow:hidden;
-  border-radius:13px;
-  color:rgba(255,255,255,.78);
-  background:rgba(1,2,9,.5);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.045);
-  font-family:var(--mono);
-  font-size:clamp(10px,1.15cqi,13px);
-  line-height:1.45;
-}
-.brand-rule-code-line {
-  min-width:0;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.brand-rule-code-key { color:#ffd27a; }
-.brand-rule-preview {
-  min-width:0;
-  width:100%;
-  height:112px;
-  display:grid;
-  grid-template-columns:34px minmax(0,1fr);
-  align-items:center;
-  gap:11px;
-  padding:15px;
-  border-radius:14px;
-  background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.045));
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.09),0 10px 24px rgba(0,0,0,.14);
-}
-.brand-rule-preview-logo {
-  width:34px;
-  aspect-ratio:1;
-  border-radius:9px;
-  background:linear-gradient(135deg,#fff3cf,#ffc66a);
-  box-shadow:0 0 18px rgba(255,198,106,.13);
-}
-.brand-rule-preview-copy { display:grid;gap:6px; }
-.brand-rule-preview-line {
-  height:5px;
-  border-radius:99px;
-  background:rgba(255,255,255,.72);
-}
-.brand-rule-preview-line:nth-child(2) { width:72%;background:rgba(255,255,255,.32); }
-.brand-rule-preview-line:nth-child(3) { width:48%;background:rgba(255,255,255,.2); }
-.brand-rule-summary {
-  margin:20px 2px 0!important;
-  color:var(--muted);
-  font-size:var(--type-lead);
-  line-height:1.55;
-}
-.brand-rule-benefits {
-  min-width:0;
-  display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  grid-auto-rows:1fr;
-  gap:10px;
-  margin:12px 0 0;
-  padding:0;
-  list-style:none;
-}
-.brand-rule-benefit {
-  min-width:0;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  min-height:58px;
-  padding:13px 14px;
-  border-radius:14px;
-  color:#fff;
-  background:rgba(255,255,255,.05);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 0 1px rgba(255,255,255,.045);
-  font-size:var(--type-small);
-  font-weight:550;
-  line-height:1.35;
-}
-.brand-rule-benefit::before {
-  content:"";
-  flex:0 0 auto;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#fff3cf,#ffae58);
-  box-shadow:0 0 10px rgba(255,205,113,.2);
-}
-@container (max-width:900px) {
-  .brand-rule-flow { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  .brand-rule-stage { min-height:156px; }
-  .brand-rule-benefits { grid-template-columns:repeat(3,minmax(0,1fr)); }
-}
-@container (max-width:560px) {
-  .brand-rule-flow { grid-template-columns:minmax(0,1fr); }
-  .brand-rule-stage { min-height:140px; }
-  .brand-rule-benefits { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  .brand-rule-code { font-size:11px; }
-}
-@container (max-width:340px) {
-  .brand-rule-benefits { grid-template-columns:minmax(0,1fr); }
-}
-@media (max-width:620px) {
-  .brand-rule-engine { padding:14px;border-radius:18px; }
-}
-.ux-decision-list {
-  width:100%;
-  min-width:0;
-  container-type:inline-size;
-  display:grid;
-  gap:14px;
-  margin:20px 0 24px;
-}
-.ux-decision-card {
-  min-width:0;
-  display:grid;
-  grid-template-columns:minmax(180px,28%) minmax(0,1fr);
-  align-items:center;
-  gap:20px;
-  padding:14px 20px 14px 14px;
-  overflow:hidden;
-  border-radius:22px;
-  background:rgba(255,255,255,.075);
-  box-shadow:inset 0 1px 1px rgba(0,0,0,.38),inset 0 0 0 1px rgba(255,255,255,.1),0 1px 0 rgba(255,255,255,.05);
-}
-.ux-decision-media {
-  position:relative;
-  min-width:0;
-  width:100%;
-  aspect-ratio:4/3;
-  display:grid;
-  place-items:center;
-  align-self:start;
-  overflow:hidden;
-  border-radius:16px;
-  background:rgba(2,4,10,.48);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.055),inset 0 -24px 48px rgba(0,0,0,.2);
-}
-.ux-decision-media > img {
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  max-width:100%;
-  max-height:100%;
-  display:block;
-  box-sizing:border-box;
-  object-fit:contain;
-}
-.ux-decision-media > img[src] + .media-placeholder { display:none; }
-.ux-decision-media .media-placeholder {
-  min-width:0;
-  justify-content:center;
-  padding:14px;
-  text-align:center;
-}
-.ux-decision-copy {
-  min-width:0;
-  display:grid;
-  align-content:center;
-  gap:16px;
-  padding:6px 0;
-}
-.ux-decision-title {
-  margin:0;
-  color:#fff;
-  font-family:var(--display);
-  font-size:var(--type-lead);
-  font-weight:600;
-  line-height:1.35;
-}
-.ux-decision-text {
-  margin:0!important;
-  color:var(--muted);
-  font-size:var(--type-lead);
-  line-height:1.58;
-}
-@container (max-width:680px) {
-  .ux-decision-card {
-    grid-template-columns:minmax(0,1fr);
-    gap:16px;
-    padding:14px 14px 22px;
-  }
-  .ux-decision-media {
-    height:clamp(150px,42cqi,220px);
-    aspect-ratio:auto;
-  }
-  .ux-decision-copy { padding:0 3px; }
-}
-.impact-time-board {
-  width:100%;
-  min-width:0;
-  container:impact-time / inline-size;
-  display:block;
-  margin:20px 0 24px;
-  padding:14px;
-  overflow:hidden;
-  border-radius:22px;
-  background:linear-gradient(122deg,rgba(255,255,255,.075),rgba(255,255,255,.035) 43%,rgba(76,111,197,.14));
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.09),inset 0 0 0 1px rgba(255,255,255,.075),0 16px 42px rgba(1,2,10,.13);
-}
-.impact-time-cards {
-  width:100%;
-  min-width:0;
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  grid-auto-rows:1fr;
-  align-items:stretch;
-  gap:12px;
-}
-.impact-time-primary,
-.impact-time-comparison,
-.impact-time-saving,
-.impact-time-explanation {
-  min-width:0;
-  border-radius:18px;
-  background:rgba(5,7,18,.43);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.065),inset 0 0 0 1px rgba(255,255,255,.055);
-}
-.impact-time-primary {
-  container-type:inline-size;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  gap:clamp(12px,8cqi,20px);
-  padding:clamp(12px,7cqi,20px);
-}
-.impact-time-eyebrow {
-  color:rgba(255,255,255,.58);
-  font-family:var(--mono);
-  font-size:clamp(11px,5.5cqi,var(--type-caption));
-  font-weight:650;
-  line-height:1.35;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-}
-.impact-time-percentage {
-  display:block;
-  width:max-content;
-  max-width:100%;
-  color:#fff1ca;
-  background:linear-gradient(100deg,#fff4d4 0%,#ffd37c 58%,#ffad58 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  font-family:var(--display);
-  font-size:clamp(28px,18cqi,66px);
-  font-weight:750;
-  line-height:.88;
-  letter-spacing:-.065em;
-}
-.impact-time-primary-copy {
-  max-width:24ch;
-  color:#fff;
-  font-family:var(--display);
-  font-size:clamp(12px,6.5cqi,var(--type-lead));
-  font-weight:600;
-  line-height:1.4;
-}
-.impact-time-comparison {
-  container-type:inline-size;
-  display:grid;
-  align-content:center;
-  gap:clamp(14px,9cqi,22px);
-  padding:clamp(12px,7cqi,20px);
-}
-.impact-time-row {
-  min-width:0;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;
-  gap:9px 12px;
-}
-.impact-time-label {
-  color:var(--muted);
-  font-size:clamp(11px,5.5cqi,var(--type-small));
-  font-weight:550;
-  line-height:1.4;
-}
-.impact-time-track {
-  position:relative;
-  min-width:0;
-  height:clamp(8px,5cqi,12px);
-  overflow:hidden;
-  border-radius:999px;
-  background:rgba(255,255,255,.065);
-  box-shadow:inset 0 1px 2px rgba(0,0,0,.38);
-  grid-column:1/-1;
-  grid-row:2;
-}
-.impact-time-fill {
-  display:block;
-  height:100%;
-  min-width:12px;
-  border-radius:inherit;
-}
-.impact-time-fill--before {
-  width:100%;
-  background:rgba(255,255,255,.28);
-}
-.impact-time-fill--after {
-  width:7.5%;
-  background:linear-gradient(90deg,#fff1ca,#ffd27a 55%,#ffae58);
-  box-shadow:0 0 12px rgba(255,199,104,.24);
-}
-.impact-time-value {
-  min-width:70px;
-  color:#fff;
-  font-family:var(--display);
-  font-size:clamp(20px,11cqi,30px);
-  font-weight:700;
-  line-height:1;
-  text-align:right;
-  white-space:nowrap;
-}
-.impact-time-value small {
-  color:rgba(255,255,255,.52);
-  font-family:var(--mono);
-  font-size:.48em;
-  font-weight:600;
-  letter-spacing:.04em;
-}
-.impact-time-saving {
-  container-type:inline-size;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:clamp(12px,8cqi,20px);
-  padding:clamp(12px,7cqi,20px);
-}
-.impact-time-saving strong {
-  flex:0 0 auto;
-  color:#fff;
-  font-family:var(--display);
-  font-size:clamp(24px,15cqi,44px);
-  font-weight:700;
-  line-height:1;
-  letter-spacing:-.04em;
-}
-.impact-time-saving span {
-  color:var(--muted);
-  font-size:clamp(11px,5.5cqi,var(--type-small));
-  line-height:1.4;
-}
-.impact-time-explanation {
-  margin:18px 4px 2px!important;
-  padding:0;
-  border-radius:0;
-  color:var(--muted);
-  background:none;
-  box-shadow:none;
-  font-size:var(--type-lead);
-  line-height:1.55;
-}
-.impact-time-explanation strong { color:#fff;font-weight:600; }
-@container impact-time (max-width:520px) {
-  .impact-time-cards { grid-template-columns:minmax(0,1fr); }
-  .impact-time-primary,
-  .impact-time-comparison,
-  .impact-time-saving { min-height:180px; }
-  .impact-time-primary-copy { max-width:34ch; }
-  .impact-time-percentage { font-size:clamp(48px,18cqi,72px); }
-}
-@container impact-time (max-width:430px) {
-  .impact-time-board { padding:10px;border-radius:18px; }
-  .impact-time-primary,
-  .impact-time-comparison,
-  .impact-time-saving,
-  .impact-time-explanation { border-radius:15px; }
-  .impact-time-cards { gap:10px; }
-  .impact-time-comparison { gap:20px;padding:20px 16px; }
-  .impact-time-value { min-width:0; }
 }
 @container (max-width:760px) {
   .insight-card { flex-basis:calc((100% - 14px)/2); }
@@ -2289,6 +1548,8 @@ a { color:inherit;text-decoration:none; }
   font-weight:600;
   line-height:1.35;
 }
+.layout-reference-list .analogue-media > img { object-fit:contain; }
+.layout-reference-list .analogue-title { text-align:center; }
 .data-spec-table th:first-child { border-radius:13px 0 0 13px; }
 .data-spec-table th:last-child { border-radius:0 13px 13px 0; }
 .data-spec-table td {
@@ -2821,8 +2082,9 @@ a { color:inherit;text-decoration:none; }
   background:rgba(2,4,10,.46);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.055),inset 0 -24px 48px rgba(0,0,0,.2);
 }
-.product-media-stage--adaptive-layout { aspect-ratio:1680/1046; }
-.product-media-stage--case-intro { aspect-ratio:16/9; }
+.product-media-stage--responsive-component { aspect-ratio:1680/938; }
+.product-media-stage--responsive-main { aspect-ratio:1402/1000; }
+.product-media-stage--responsive-dashboard { aspect-ratio:1420/1028; }
 .product-media-video {
   position:absolute;
   inset:0;
@@ -2987,14 +2249,12 @@ a { color:inherit;text-decoration:none; }
   line-height:1;
 }
 .figma-make-icon { width:13px;height:20px;display:block;flex:0 0 auto; }
-.vscode-icon { width:19px;height:19px;display:block;flex:0 0 auto; }
-.blender-icon { width:19px;height:19px;display:block;flex:0 0 auto; }
 .concept-comparison-stage {
   --comparison-position:50%;
   position:relative;
   min-width:0;
   width:100%;
-  aspect-ratio:16/9;
+  aspect-ratio:21/9;
   min-height:0;
   overflow:hidden;
   border-radius:16px;
@@ -3023,7 +2283,7 @@ a { color:inherit;text-decoration:none; }
   width:100%;
   height:100%;
   display:block;
-  object-fit:contain;
+  object-fit:cover;
   pointer-events:none;
 }
 .concept-comparison-image:not([src]) { display:none; }
@@ -3261,52 +2521,52 @@ a { color:inherit;text-decoration:none; }
 </head>
 <body>
 <main class="case-shell">
-  <header class="case-toolbar" aria-label="Панель кейсу">
+  <header class="case-toolbar" aria-label="Case toolbar">
     <div class="case-brand">
       <div class="case-logo-slot" data-media-slot="case-logo" aria-hidden="true"><img class="case-logo-image--metinvest" src="../previews/logoMetinvest.svg" alt=""></div>
-      <h1 class="case-title">Web-генератор</h1>
+      <h1 class="case-title">CRM AlumniMiP</h1>
     </div>
     <div class="section-menu" id="sectionMenu">
       <button class="section-menu-button" id="sectionMenuButton" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="sectionDropdown">
-        <span>Цей кейс</span>
+        <span>This case</span>
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
       </button>
-      <div class="section-dropdown" id="sectionDropdown" role="menu" aria-label="Перемикання кейсів">
+      <div class="section-dropdown" id="sectionDropdown" role="menu" aria-label="Switch case studies">
         <section class="dropdown-group">
-          <h2 class="dropdown-group-title">UX/UI Case Study</h2>
-          <button class="dropdown-link" type="button" data-case-switch="crm" role="menuitem">CRM AlumniMiP</button>
+          <h2 class="dropdown-group-title">UX/UI Case Studies</h2>
+          <button class="dropdown-link" type="button" data-case-switch="crm" role="menuitem" aria-current="page">CRM AlumniMiP</button>
           <button class="dropdown-link" type="button" data-case-switch="mi-study" role="menuitem">MI Study App</button>
-          <button class="dropdown-link" type="button" data-case-switch="automation" role="menuitem" aria-current="page">Web-генератор</button>
+          <button class="dropdown-link" type="button" data-case-switch="automation" role="menuitem">Web Generator</button>
           <button class="dropdown-link" type="button" data-case-switch="redesign" role="menuitem">Product Redesign</button>
           <button class="dropdown-link" type="button" data-case-switch="legal" role="menuitem">UI Redesign</button>
         </section>
         <section class="dropdown-group">
-          <h2 class="dropdown-group-title">My Product Case</h2>
-          <button class="dropdown-link" type="button" data-case-switch="portfolio" role="menuitem">Запуск портфоліо</button>
+          <h2 class="dropdown-group-title">Product Case Study</h2>
+          <button class="dropdown-link" type="button" data-case-switch="portfolio" role="menuitem">Portfolio Launch</button>
         </section>
         <section class="dropdown-group">
           <h2 class="dropdown-group-title">Graphic Design</h2>
-          <button class="dropdown-link" type="button" data-case-switch="mascot" role="menuitem">Візуали з маскотом</button>
-          <button class="dropdown-link" type="button" data-case-switch="merch" role="menuitem">Мерч для студії</button>
+          <button class="dropdown-link" type="button" data-case-switch="mascot" role="menuitem">Mascot Visual System</button>
+          <button class="dropdown-link" type="button" data-case-switch="merch" role="menuitem">Studio Merchandise</button>
         </section>
       </div>
     </div>
     <div class="search-wrap">
       <svg class="search-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
-      <input class="case-search" id="caseSearch" type="search" autocomplete="off" spellcheck="false" aria-label="Пошук у кейсі" placeholder="Пошук у кейсі">
-      <button class="search-clear" id="caseSearchClear" type="button" aria-label="Очистити пошук" hidden>
+      <input class="case-search" id="caseSearch" type="search" autocomplete="off" spellcheck="false" aria-label="Search this case" placeholder="Search this case">
+      <button class="search-clear" id="caseSearchClear" type="button" aria-label="Clear search" hidden>
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4 4 12"/></svg>
       </button>
       <div class="search-results" id="searchResults" aria-hidden="true">
         <div class="search-results-meta" aria-live="polite">
-          <span id="searchResultsLabel">Знайдено</span>
-          <output id="searchResultsCount" for="caseSearch">0 з 0</output>
+          <span id="searchResultsLabel">Matches</span>
+          <output id="searchResultsCount" for="caseSearch">0 of 0</output>
         </div>
         <div class="search-results-controls">
-          <button class="search-result-control" id="searchResultPrevious" type="button" aria-label="Попередній результат" title="Попередній результат" disabled>
+          <button class="search-result-control" id="searchResultPrevious" type="button" aria-label="Previous result" title="Previous result" disabled>
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 10 4-4 4 4"/></svg>
           </button>
-          <button class="search-result-control" id="searchResultNext" type="button" aria-label="Наступний результат" title="Наступний результат" disabled>
+          <button class="search-result-control" id="searchResultNext" type="button" aria-label="Next result" title="Next result" disabled>
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
           </button>
         </div>
@@ -3318,40 +2578,44 @@ a { color:inherit;text-decoration:none; }
     <article class="case-profile" aria-labelledby="profileHeading">
       <div class="profile-aside-tools" id="profileAsideTools"></div>
       <div class="profile-aside glass">
-        <nav class="case-index" aria-label="Навігація кейсу web-генератор">
+        <nav class="case-index" aria-label="AlumniMiP CRM navigation">
           <div class="case-index-scroll" id="caseIndexScroll" tabindex="0">
-            <details class="index-group" data-index-group="Analysis" open>
-              <summary><strong>Analysis</strong><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></summary>
-              <div class="index-links">
-                <button class="is-active" id="section-1-1" type="button" data-section-name="Analysis">1.1. Ініціатива</button>
-                <button id="section-1-2" type="button" data-section-name="Analysis">1.2. Business Analysis</button>
-                <button id="section-1-3" type="button" data-section-name="Analysis">1.3. Pain Points</button>
-                <button id="section-1-4" type="button" data-section-name="Analysis">1.4. Трансформація бізнес-логіки</button>
-              </div>
-            </details>
-            <details class="index-group" data-index-group="Design" open>
-              <summary><strong>Design</strong><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></summary>
-              <div class="index-links">
-                <button id="section-2-1" type="button" data-section-name="Design">2.1. Product Design</button>
-                <button id="section-2-2" type="button" data-section-name="Design">2.2. Візуальна система</button>
-                <button id="section-2-3" type="button" data-section-name="Design">2.3. Adaptive layout</button>
-              </div>
-            </details>
-            <details class="index-group" data-index-group="Development" open>
-              <summary><strong>Development</strong><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></summary>
-              <div class="index-links">
-                <button id="section-3-1" type="button" data-section-name="Development">3.1. Development</button>
-              </div>
-            </details>
-            <details class="index-group" data-index-group="Impact" open>
-              <summary><strong>Impact</strong><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></summary>
-              <div class="index-links">
-                <button id="section-4-1" type="button" data-section-name="Impact">4.1. Результат</button>
-                <button id="section-4-2" type="button" data-section-name="Impact">4.2. Масштабування</button>
-              </div>
-            </details>
+          <details class="index-group" data-index-group="UX Research" open>
+            <summary><strong>UX Research</strong><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></summary>
+            <div class="index-links">
+              <button class="is-active" id="section-1-1" type="button" data-section-name="UX Research">1.1. Project Context</button>
+              <button id="section-1-2" type="button" data-section-name="UX Research">1.2. Personas and Access Levels</button>
+              <button id="section-1-3" type="button" data-section-name="UX Research">1.3. User Stories</button>
+              <button id="section-1-4" type="button" data-section-name="UX Research">1.4. Problem Statement</button>
+              <button id="section-1-5" type="button" data-section-name="UX Research">1.5. Insights</button>
+              <button id="section-1-6" type="button" data-section-name="UX Research">1.6. Constraints</button>
+              <button id="section-1-7" type="button" data-section-name="UX Research">1.7. Benchmark Review</button>
+            </div>
+          </details>
+          <details class="index-group" data-index-group="UX / Product Design" open>
+            <summary><strong>UX / Product Design</strong><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></summary>
+            <div class="index-links">
+              <button id="section-2-1" type="button" data-section-name="UX / Product Design">2.1. Product Goal</button>
+              <button id="section-2-2" type="button" data-section-name="UX / Product Design">2.2. Concept Exploration</button>
+              <button id="section-2-3" type="button" data-section-name="UX / Product Design">2.3. From Data to UX</button>
+              <button id="section-2-4" type="button" data-section-name="UX / Product Design">2.4. Page Layout</button>
+              <button id="section-2-5" type="button" data-section-name="UX / Product Design">2.5. Core User Flow</button>
+              <button id="section-2-6" type="button" data-section-name="UX / Product Design">2.6. Edit State</button>
+              <button id="section-2-7" type="button" data-section-name="UX / Product Design">2.7. Dashboard</button>
+            </div>
+          </details>
+          <details class="index-group" data-index-group="UI Design" open>
+            <summary><strong>UI Design</strong><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></summary>
+            <div class="index-links">
+              <button id="section-3-1" type="button" data-section-name="UI Design">3.1. Visual System</button>
+              <button id="section-3-2" type="button" data-section-name="UI Design">3.2. Components</button>
+              <button id="section-3-3" type="button" data-section-name="UI Design">3.3. Responsive Design</button>
+              <button id="section-3-4" type="button" data-section-name="UI Design">3.4. Dark Theme</button>
+              <button id="section-3-5" type="button" data-section-name="UI Design">3.5. UI Decisions</button>
+            </div>
+          </details>
           </div>
-          <div class="case-index-scrollbar" id="caseIndexScrollbar" role="scrollbar" aria-label="Прокрутка навігації кейсу" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+          <div class="case-index-scrollbar" id="caseIndexScrollbar" role="scrollbar" aria-label="Case navigation scroll" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
             <div class="case-index-scrollbar-track" id="caseIndexScrollbarTrack">
               <div class="case-index-scrollbar-thumb" id="caseIndexScrollbarThumb"></div>
             </div>
@@ -3361,431 +2625,1030 @@ a { color:inherit;text-decoration:none; }
 
       <div class="profile-copy-shell">
         <section class="profile-copy" id="profileCopy">
-          <section class="case-text-section" id="content-section-1-1" data-content-section="section-1-1" data-section-name="Analysis">
-            <figure class="product-media-block case-opening-media" aria-label="Вступне 3D-відео кейсу у Blender">
+          <section class="case-text-section" id="content-section-1-1" data-content-section="section-1-1" data-section-name="UX Research">
+            <figure class="product-media-block case-opening-media" aria-label="Case opening video in Figma">
               <div class="concept-comparison-toolbar">
                 <span class="figma-make-badge">
-                  <svg class="blender-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill="#E87D0D" d="M12.51 13.214c.046-.8.438-1.506 1.03-2.006a3.424 3.424 0 0 1 2.212-.79c.85 0 1.631.3 2.211.79.592.5.983 1.206 1.028 2.005.045.823-.285 1.586-.865 2.153a3.389 3.389 0 0 1-2.374.938 3.393 3.393 0 0 1-2.376-.938c-.58-.567-.91-1.33-.865-2.152M7.35 14.831c.006.314.106.922.256 1.398a7.372 7.372 0 0 0 1.593 2.757 8.227 8.227 0 0 0 2.787 2.001 8.947 8.947 0 0 0 3.66.76 8.964 8.964 0 0 0 3.657-.772 8.285 8.285 0 0 0 2.785-2.01 7.428 7.428 0 0 0 1.592-2.762 6.964 6.964 0 0 0 .25-3.074 7.123 7.123 0 0 0-1.016-2.779 7.764 7.764 0 0 0-1.852-2.043h.002L13.566 2.55l-.02-.015c-.492-.378-1.319-.376-1.86.002-.547.382-.609 1.015-.123 1.415l-.001.001 3.126 2.543-9.53.01h-.013c-.788.001-1.545.518-1.695 1.172-.154.665.38 1.217 1.2 1.22V8.9l4.83-.01-8.62 6.617-.034.025c-.813.622-1.075 1.658-.563 2.313.52.667 1.625.668 2.447.004L7.414 14s-.069.52-.063.831zm12.09 1.741c-.97.988-2.326 1.548-3.795 1.55-1.47.004-2.827-.552-3.797-1.538a4.51 4.51 0 0 1-1.036-1.622 4.282 4.282 0 0 1 .282-3.519 4.702 4.702 0 0 1 1.153-1.371c.942-.768 2.141-1.183 3.396-1.185 1.256-.002 2.455.41 3.398 1.175.48.391.87.854 1.152 1.367a4.28 4.28 0 0 1 .522 1.706 4.236 4.236 0 0 1-.239 1.811 4.54 4.54 0 0 1-1.035 1.626"/>
+                  <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                    <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                    <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                    <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                    <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                    <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
                   </svg>
-                  <span>Blender</span>
+                  <span>Figma</span>
                 </span>
               </div>
-              <div class="product-media-stage product-media-stage--case-intro">
-                <video src="./blenderRecording.mp4" class="product-media-video" data-media-slot="case-intro-video" data-playback-rate="0.5" autoplay muted playsinline loop preload="metadata"></video>
+              <div class="product-media-stage">
+                <video src="./mainVid.mp4" class="product-media-video" data-media-slot="case-intro-video" autoplay muted playsinline loop preload="metadata"></video>
               </div>
             </figure>
-            <p class="profile-overline">Analysis</p>
-            <h2 class="profile-heading" id="profileHeading">Ініціатива</h2>
-            <ol class="insight-list initiative-insight-list">
-              <li class="insight-card glass">
-                <span class="insight-copy">Цей проєкт я ініціював сам – від аналізу наявного процесу та пошуку можливостей для його оптимізації до UX/UI, верстки та frontend-розробки готового сервісу.</span>
-                <span class="insight-icon-tile" aria-hidden="true"><svg class="insight-icon" viewBox="0 0 24 24"><path d="m12 2 2.15 6.02L20 10.2l-5.85 2.15L12 18.4l-2.15-6.05L4 10.2l5.85-2.18L12 2Zm7 13 .9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z"/></svg></span>
-              </li>
-              <li class="insight-card glass">
-                <span class="insight-copy">Метою було зменшити кількість ручної роботи під час створення стандартизованої продукції з корпоративною айдентикою: візиток, бейджів, грамот, сертифікатів, офісних табличок, вказівників та інших шаблонних матеріалів.</span>
-                <span class="insight-icon-tile" aria-hidden="true"><svg class="insight-icon" viewBox="0 0 24 24"><path d="M13.1 2 5 13h6l-.1 9L19 11h-6l.1-9Z"/></svg></span>
-              </li>
-              <li class="insight-card glass">
-                <span class="insight-copy">У межах роботи дизайн-напрямку компанія регулярно готує брендовану продукцію. Вся вона створюється за корпоративними шаблонами. Значна частина запитів має однакову природу: користувач надає персональні або організаційні дані, а профільний спеціаліст переносить їх у вже визначений макет.</span>
-                <span class="insight-icon-tile" aria-hidden="true"><svg class="insight-icon" viewBox="0 0 24 24"><path d="M4 3h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm10 0h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1ZM4 13h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1Zm10 0h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1Z"/></svg></span>
-              </li>
-              <li class="insight-card glass">
-                <span class="insight-copy">Таким чином, значна частина часу профільних фахівців витрачається не на створення нових дизайнерських рішень, а на обробку повторюваних запитів.</span>
-                <span class="insight-icon-tile" aria-hidden="true"><svg class="insight-icon" viewBox="0 0 24 24"><path d="M5 2h14v3H5V2Zm2 4h10c0 2.4-1.6 4.4-4 6 2.4 1.6 4 3.6 4 6H7c0-2.4 1.6-4.4 4-6-2.4-1.6-4-3.6-4-6Zm-2 13h14v3H5v-3Z"/></svg></span>
-              </li>
-            </ol>
-          </section>
-
-          <section class="case-text-section" id="content-section-1-2" data-content-section="section-1-2" data-section-name="Analysis">
-            <h2 class="profile-heading">Business Analysis</h2>
-            <div class="research-copy research-paragraphs">
-              <p>Щоб оптимізувати цей бізнес-процес, я спочатку провів інтерв’ю із фахівцями, які були залучені до створення брендованої продукції, та зафіксував їхню взаємодію в діаграмі BPMN.</p>
-              <figure class="generator-bpmn-diagram" aria-label="BPMN-схема створення візитної картки">
-                <div class="generator-bpmn-viewport" id="generatorBpmnViewport" tabindex="0" aria-label="Горизонтальний перегляд BPMN-схеми">
-                  <svg class="generator-bpmn-svg" viewBox="0 0 3760 1000" preserveAspectRatio="xMinYMid meet" role="img" aria-labelledby="generatorBpmnDescription">
-                    <desc id="generatorBpmnDescription">Взаємодія співробітника, внутрішніх комунікацій, маркетингу та дизайнера під час створення візитної картки.</desc>
-                    <defs>
-                      <linearGradient id="generatorBpmnGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4ce"/><stop offset=".58" stop-color="#ffd486"/><stop offset="1" stop-color="#efa953"/></linearGradient>
-                      <linearGradient id="generatorBpmnTaskFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#252631" stop-opacity=".98"/><stop offset="1" stop-color="#12131c" stop-opacity=".98"/></linearGradient>
-                      <clipPath id="generatorBpmnPoolClip"><rect x="20" y="20" width="3720" height="960" rx="24"/></clipPath>
-                      <marker id="generatorBpmnArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#e9bc76" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker>
-                      <marker id="generatorBpmnMessageArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="rgba(255,255,255,.62)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
-                      <marker id="generatorBpmnMessageStart" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto"><circle cx="5" cy="5" r="3.2" fill="#171925" stroke="rgba(255,255,255,.62)" stroke-width="1.3"/></marker>
-                      <g id="generatorBpmnGateway"><path class="generator-bpmn-gateway" d="M0-31Q4-31 8-27L27-8Q31-4 31 0T27 8L8 27Q4 31 0 31T-8 27L-27 8Q-31 4-31 0T-27-8L-8-27Q-4-31 0-31Z"/><path class="generator-bpmn-gateway-mark" d="m-8-8 16 16m0-16-16 16"/></g>
-                      <g id="generatorBpmnMessageEvent"><circle class="generator-bpmn-event-ring" r="27"/><circle class="generator-bpmn-event-inner" r="22"/><path class="generator-bpmn-event-glyph" d="M-12-8h24v16h-24Zm0 0L0 2 12-8"/></g>
-                      <g id="generatorBpmnTimerEvent"><circle class="generator-bpmn-event-ring" r="27"/><circle class="generator-bpmn-event-inner" r="22"/><circle class="generator-bpmn-event-glyph" r="13"/><path class="generator-bpmn-event-glyph" d="M0-8V0L6 5M0-13v3M13 0h-3M0 13v-3M-13 0h3"/></g>
-                      <g id="generatorBpmnEndEvent"><circle class="generator-bpmn-event-ring generator-bpmn-event-ring--end" r="27"/></g>
-                    </defs>
-
-                    <rect class="generator-bpmn-pool" x="20" y="20" width="3720" height="960" rx="24"/>
-                    <rect class="generator-bpmn-lane-head" x="20" y="20" width="62" height="960" clip-path="url(#generatorBpmnPoolClip)"/>
-                    <path class="generator-bpmn-lane-divider" d="M82 20V980M20 265H3740M20 485H3740M20 760H3740" clip-path="url(#generatorBpmnPoolClip)"/>
-                    <rect class="generator-bpmn-pool-outline" x="20" y="20" width="3720" height="960" rx="24"/>
-                    <text class="generator-bpmn-actor" transform="translate(53 142.5) rotate(-90)">Співробітник МІ</text>
-                    <text class="generator-bpmn-actor" transform="translate(53 375) rotate(-90)">Внутр. ком. МІ</text>
-                    <text class="generator-bpmn-actor" transform="translate(53 622.5) rotate(-90)">Маркетинг МІ</text>
-                    <text class="generator-bpmn-actor" transform="translate(53 870) rotate(-90)">Дизайнер МІ</text>
-
-                    <g class="generator-bpmn-content" transform="translate(50 25)">
-
-                    <g aria-label="Дії співробітника">
-                      <circle class="generator-bpmn-event-ring" cx="150" cy="125" r="23"/><text class="generator-bpmn-event-label" x="150" y="168"><tspan x="150">Виникла робоча</tspan><tspan x="150" dy="14">потреба у візитці</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M173 125H290"/>
-                      <rect class="generator-bpmn-task" x="290" y="83" width="300" height="84" rx="16"/><text class="generator-bpmn-task-label" x="440" y="109"><tspan x="440">Надіслати запит менеджеру</tspan><tspan x="440" dy="16">з внутрішніх комунікацій</tspan><tspan x="440" dy="16">на створення візитки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M590 125H715"/><use href="#generatorBpmnTimerEvent" transform="translate(750 125)"/><text class="generator-bpmn-event-label" x="750" y="168"><tspan x="750">Очікувати відповідь</tspan><tspan x="750" dy="14">менеджера</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M777 125H895"/><use href="#generatorBpmnMessageEvent" transform="translate(930 125)"/><text class="generator-bpmn-event-label" x="930" y="168"><tspan x="930">Отримати відповідь</tspan><tspan x="930" dy="14">менеджера</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M957 125H1075"/><use href="#generatorBpmnGateway" transform="translate(1110 125)"/><text class="generator-bpmn-gateway-label" x="1110" y="178"><tspan x="1110">Запит взято</tspan><tspan x="1110" dy="14">до виконання?</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1110 94V55Q1110 45 1120 45H1223"/><rect class="generator-bpmn-branch-pill" x="1148" y="35" width="32" height="20" rx="10"/><text class="generator-bpmn-branch-label" x="1164" y="49">Ні</text><use href="#generatorBpmnEndEvent" transform="translate(1250 45)"/><text class="generator-bpmn-event-label" x="1350" y="39"><tspan x="1350">Не створювати</tspan><tspan x="1350" dy="14">візитну картку</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1141 125H1325"/><rect class="generator-bpmn-branch-pill" x="1208" y="112" width="36" height="20" rx="10"/><text class="generator-bpmn-branch-label" x="1226" y="126">Так</text>
-                      <use href="#generatorBpmnTimerEvent" transform="translate(1360 125)"/><text class="generator-bpmn-event-label" x="1360" y="168"><tspan x="1360">Очікувати відповідь</tspan><tspan x="1360" dy="14">маркетингу</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1387 125H1505"/><use href="#generatorBpmnMessageEvent" transform="translate(1540 125)"/><text class="generator-bpmn-event-label" x="1540" y="168"><tspan x="1540">Отримати запит</tspan><tspan x="1540" dy="14">на уточнення</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1567 125H1695"/><use href="#generatorBpmnGateway" transform="translate(1730 125)"/><text class="generator-bpmn-gateway-label" x="1730" y="178"><tspan x="1730">Потрібне</tspan><tspan x="1730" dy="14">уточнення?</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1761 125H1950"/><rect class="generator-bpmn-branch-pill" x="1830" y="112" width="36" height="20" rx="10"/><text class="generator-bpmn-branch-label" x="1848" y="126">Так</text>
-                      <rect class="generator-bpmn-task" x="1950" y="83" width="300" height="84" rx="16"/><text class="generator-bpmn-task-label" x="2100" y="117"><tspan x="2100">Уточнити необхідну</tspan><tspan x="2100" dy="16">інформацію</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2250 125H2445"/><use href="#generatorBpmnTimerEvent" transform="translate(2480 125)"/><text class="generator-bpmn-event-label" x="2480" y="168"><tspan x="2480">Очікувати завершення</tspan><tspan x="2480" dy="14">роботи</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1730 94V54Q1730 42 1742 42H2468Q2480 42 2480 54V98"/><rect class="generator-bpmn-branch-pill" x="1810" y="32" width="32" height="20" rx="10"/><text class="generator-bpmn-branch-label" x="1826" y="46">Ні</text>
-                      <path class="generator-bpmn-sequence" d="M2507 125H2665"/><use href="#generatorBpmnMessageEvent" transform="translate(2700 125)"/><text class="generator-bpmn-event-label" x="2700" y="168"><tspan x="2700">Отримати сповіщення</tspan><tspan x="2700" dy="14">про виконання</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2727 125H2885"/><use href="#generatorBpmnEndEvent" transform="translate(2920 125)"/><text class="generator-bpmn-event-label" x="2920" y="168">Отримати візитку</text>
-                    </g>
-
-                    <g aria-label="Дії внутрішніх комунікацій">
-                      <use href="#generatorBpmnMessageEvent" transform="translate(360 355)"/><text class="generator-bpmn-event-label" x="360" y="399"><tspan x="360">Отримати запит</tspan><tspan x="360" dy="14">на створення візитки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M387 355H535"/><use href="#generatorBpmnGateway" transform="translate(570 355)"/><text class="generator-bpmn-gateway-label" x="570" y="408"><tspan x="570">Запит</tspan><tspan x="570" dy="14">обґрунтований?</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M570 324V287Q570 275 582 275H780"/><rect class="generator-bpmn-branch-pill" x="596" y="265" width="32" height="20" rx="10"/><text class="generator-bpmn-branch-label" x="612" y="279">Ні</text>
-                      <rect class="generator-bpmn-task generator-bpmn-task--quiet" x="780" y="258" width="400" height="82" rx="16"/><text class="generator-bpmn-task-label" x="980" y="283"><tspan x="980">Пояснити працівнику: візитка коштом</tspan><tspan x="980" dy="16">компанії створюється лише для</tspan><tspan x="980" dy="16">виконання робочих завдань</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1180 299H1295"/><use href="#generatorBpmnEndEvent" transform="translate(1330 299)"/><text class="generator-bpmn-event-label" x="1330" y="337">Завершити опрацювання</text>
-                      <path class="generator-bpmn-sequence" d="M601 355H780"/><rect class="generator-bpmn-branch-pill" x="664" y="342" width="36" height="20" rx="10"/><text class="generator-bpmn-branch-label" x="682" y="356">Так</text>
-                      <rect class="generator-bpmn-task" x="780" y="355" width="270" height="78" rx="16"/><text class="generator-bpmn-task-label" x="915" y="386"><tspan x="915">Передати запит</tspan><tspan x="915" dy="16">до маркетингу</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1050 394H1220"/><rect class="generator-bpmn-task generator-bpmn-task--quiet" x="1220" y="355" width="300" height="78" rx="16"/><text class="generator-bpmn-task-label" x="1370" y="378"><tspan x="1370">Сповістити працівника,</tspan><tspan x="1370" dy="16">що запит передано</tspan><tspan x="1370" dy="16">на виконання</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1520 394H1695"/><use href="#generatorBpmnTimerEvent" transform="translate(1730 394)"/><text class="generator-bpmn-event-label" x="1730" y="434">Очікувати виконання</text>
-                      <path class="generator-bpmn-sequence" d="M1757 394H1895"/><use href="#generatorBpmnMessageEvent" transform="translate(1930 394)"/><text class="generator-bpmn-event-label" x="1930" y="434">Отримати сповіщення</text>
-                      <path class="generator-bpmn-sequence" d="M1957 394H2095"/><use href="#generatorBpmnEndEvent" transform="translate(2130 394)"/><text class="generator-bpmn-event-label" x="2130" y="434">Зафіксувати виконання</text>
-                    </g>
-
-                    <g aria-label="Дії маркетингу">
-                      <use href="#generatorBpmnMessageEvent" transform="translate(900 610)"/><text class="generator-bpmn-event-label" x="900" y="653"><tspan x="900">Отримати запит</tspan><tspan x="900" dy="14">на створення візитки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M927 610H1115"/><use href="#generatorBpmnGateway" transform="translate(1150 610)"/><text class="generator-bpmn-gateway-label" x="1150" y="704"><tspan x="1150">Надано всю необхідну</tspan><tspan x="1150" dy="14">інформацію?</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1150 579V522Q1150 510 1162 510H1380"/><rect class="generator-bpmn-branch-pill" x="1174" y="500" width="32" height="20" rx="10"/><text class="generator-bpmn-branch-label" x="1190" y="514">Ні</text>
-                      <rect class="generator-bpmn-task generator-bpmn-task--quiet" x="1380" y="482" width="280" height="78" rx="16"/><text class="generator-bpmn-task-label" x="1520" y="513"><tspan x="1520">Уточнити інформацію</tspan><tspan x="1520" dy="16">у співробітника</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1660 521H1815"/><use href="#generatorBpmnTimerEvent" transform="translate(1850 521)"/><text class="generator-bpmn-event-label" x="1850" y="562"><tspan x="1850">Очікувати листа</tspan><tspan x="1850" dy="14">з уточненням</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1877 521H2015"/><use href="#generatorBpmnMessageEvent" transform="translate(2050 521)"/><text class="generator-bpmn-event-label" x="2050" y="562"><tspan x="2050">Отримати уточнену</tspan><tspan x="2050" dy="14">інформацію</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2050 548V590Q2050 610 2030 610H1181"/>
-                      <path class="generator-bpmn-sequence" d="M1150 641V646Q1150 666 1170 666H1380"/><rect class="generator-bpmn-branch-pill" x="1228" y="653" width="36" height="20" rx="10"/><text class="generator-bpmn-branch-label" x="1246" y="667">Так</text>
-                      <rect class="generator-bpmn-task" x="1380" y="625" width="350" height="82" rx="16"/><text class="generator-bpmn-task-label" x="1555" y="650"><tspan x="1555">Передати запит дизайнеру</tspan><tspan x="1555" dy="16">та повідомити співробітника</tspan><tspan x="1555" dy="16">про подальше виконання</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1730 666H1915"/><use href="#generatorBpmnTimerEvent" transform="translate(1950 666)"/><text class="generator-bpmn-event-label" x="1950" y="707">Очікувати візитку</text>
-                      <path class="generator-bpmn-sequence" d="M1977 666H2545"/><use href="#generatorBpmnMessageEvent" transform="translate(2580 666)"/><text class="generator-bpmn-event-label" x="2580" y="707">Отримати готову візитку</text>
-                      <path class="generator-bpmn-sequence" d="M2607 666H2780"/><rect class="generator-bpmn-task" x="2780" y="622" width="400" height="88" rx="16"/><text class="generator-bpmn-task-label" x="2980" y="650"><tspan x="2980">Надіслати співробітнику та менеджеру</tspan><tspan x="2980" dy="16">з внутрішніх комунікацій сповіщення</tspan><tspan x="2980" dy="16">про виконання запиту</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M3180 666H3335"/><use href="#generatorBpmnEndEvent" transform="translate(3370 666)"/><text class="generator-bpmn-event-label" x="3370" y="707">Зафіксувати виконання</text>
-                    </g>
-
-                    <g aria-label="Дії дизайнера">
-                      <use href="#generatorBpmnMessageEvent" transform="translate(1700 850)"/><text class="generator-bpmn-event-label" x="1700" y="893"><tspan x="1700">Отримати запит</tspan><tspan x="1700" dy="14">на створення візитки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1727 850H1900"/><rect class="generator-bpmn-task" x="1900" y="809" width="280" height="82" rx="16"/><text class="generator-bpmn-task-label" x="2040" y="850">Створити візитку</text>
-                      <path class="generator-bpmn-sequence" d="M2180 850H2400"/><rect class="generator-bpmn-task" x="2400" y="806" width="350" height="88" rx="16"/><text class="generator-bpmn-task-label" x="2575" y="842"><tspan x="2575">Надіслати підготовлену візитку</tspan><tspan x="2575" dy="16">спеціалісту з маркетингу</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2750 850H2885"/><use href="#generatorBpmnEndEvent" transform="translate(2920 850)"/><text class="generator-bpmn-event-label" x="2920" y="893">Зафіксувати виконання</text>
-                    </g>
-
-                    <g aria-label="Обмін повідомленнями">
-                      <path class="generator-bpmn-message" d="M360 167V328"/>
-                      <path class="generator-bpmn-message" d="M930 258V152"/>
-                      <path class="generator-bpmn-message" d="M1370 355V242Q1370 230 1358 230H956Q944 230 944 218V148"/>
-                      <path class="generator-bpmn-message" d="M900 433V583"/>
-                      <path class="generator-bpmn-message" d="M1540 482V152"/>
-                      <path class="generator-bpmn-message" d="M2200 167V509Q2200 521 2188 521H2077"/>
-                      <path class="generator-bpmn-message" d="M1555 707V731Q1555 745 1569 745H1686Q1700 745 1700 759V823"/>
-                      <path class="generator-bpmn-message" d="M2580 806V693"/>
-                      <path class="generator-bpmn-message" d="M2980 622V347Q2980 335 2968 335H1942Q1930 335 1930 347V367"/>
-                      <path class="generator-bpmn-message" d="M3040 622V239Q3040 225 3026 225H2714Q2700 225 2700 211V152"/>
-                    </g>
-
-                    <g aria-label="Інформаційний об’єкт">
-                      <path class="generator-bpmn-data-object" d="M3532 800h44l16 16v66h-60V800Zm44 0v16h16"/><text class="generator-bpmn-data-label" x="3562" y="904"><tspan x="3562">Дані співробітника</tspan><tspan x="3562" dy="14">для візитки</tspan></text><path class="generator-bpmn-association" d="M3532 838H3190Q3175 838 3175 823V710"/>
-                    </g>
-                    </g>
-                  </svg>
-                </div>
-                <div class="generator-bpmn-scrollbar" id="generatorBpmnScrollbar" role="scrollbar" aria-label="Горизонтальна прокрутка BPMN-схеми" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><div class="generator-bpmn-scrollbar-track" id="generatorBpmnScrollbarTrack"><div class="generator-bpmn-scrollbar-thumb" id="generatorBpmnScrollbarThumb"></div></div></div>
-              </figure>
-              <p>Схема показала, що навіть типовий запит на створення візитки проходить через кілька учасників:</p>
-              <div class="process-stage-grid" role="list" aria-label="Етапи створення візитки">
-                <div class="process-stage-cell" role="listitem">Перевірка необхідності</div>
-                <div class="process-stage-cell" role="listitem">Передача даних</div>
-                <div class="process-stage-cell" role="listitem">Підготовка макета</div>
-                <div class="process-stage-cell" role="listitem">Коригування за потреби</div>
-              </div>
-              <p>При цьому значна частина роботи не потребує дизайнерської експертизи. Вже визначені:</p>
-              <div class="process-stage-grid process-stage-grid--three" role="list" aria-label="Визначені складові макета">
-                <div class="process-stage-cell" role="listitem">Корпоративний стиль</div>
-                <div class="process-stage-cell" role="listitem">Структура макета</div>
-                <div class="process-stage-cell" role="listitem">Правила заповнення</div>
-              </div>
-              <p>Це створювало очевидну можливість для оптимізації: перенести повторювані операції з фахівців на систему.</p>
-            </div>
-          </section>
-
-          <section class="case-text-section" id="content-section-1-3" data-content-section="section-1-3" data-section-name="Analysis">
-            <h2 class="profile-heading">Pain Points</h2>
+            <p class="profile-overline">UX Research</p>
+              <h2 class="profile-heading" id="profileHeading">Project Context</h2>
+              <p class="profile-lead">Metinvest initially managed its alumni records in Excel. The spreadsheet worked well at first, but as the dataset grew, it could no longer support users' day-to-day needs.</p>
+            <h3 class="pain-heading">Pain Points</h3>
             <ol class="pain-list">
-              <li class="pain-card glass"><span class="pain-card-body"><span class="pain-card-title">Повторювані операції</span><span class="pain-copy">Однотипні продукти потребують виконання схожих дій незалежно від кількості попередніх аналогічних запитів.</span></span><span class="pain-number" aria-hidden="true">01</span></li>
-              <li class="pain-card glass"><span class="pain-card-body"><span class="pain-card-title">Залучення кількох спеціалістів</span><span class="pain-copy">Створення одного продукту потребує взаємодії співробітника, внутрішніх комунікацій, маркетингу та дизайнера, що збільшує час виконання запиту.</span></span><span class="pain-number" aria-hidden="true">02</span></li>
-              <li class="pain-card glass"><span class="pain-card-body"><span class="pain-card-title">Залежність від доступності фахівця</span><span class="pain-copy">Оскільки підготовка продукції проходить через чергу запитів, можливості системи обмежені кількістю фахівців, які можуть їх опрацьовувати.</span></span><span class="pain-number" aria-hidden="true">03</span></li>
-              <li class="pain-card glass"><span class="pain-card-body"><span class="pain-card-title">Децентралізація неможлива без змін</span><span class="pain-copy">Децентралізація потребує дизайнерських навичок, ліцензій і навчання для всіх співробітників, що створює невиправдані витрати на допоміжний процес.</span></span><span class="pain-number" aria-hidden="true">04</span></li>
+              <li class="pain-card glass">
+                <span class="pain-copy">Dense rows are hard to scan and easy to mix up</span>
+                <span class="pain-number" aria-hidden="true">01</span>
+              </li>
+              <li class="pain-card glass">
+                <span class="pain-copy">Few visual cues make finding the right data time-consuming</span>
+                <span class="pain-number" aria-hidden="true">02</span>
+              </li>
+              <li class="pain-card glass">
+                <span class="pain-copy">Trends are difficult to identify</span>
+                <span class="pain-number" aria-hidden="true">03</span>
+              </li>
+              <li class="pain-card glass">
+                <span class="pain-copy">The data is not presentation-ready, so reports for leadership and other teams have to be prepared separately</span>
+                <span class="pain-number" aria-hidden="true">04</span>
+              </li>
             </ol>
           </section>
 
-          <section class="case-text-section" id="content-section-1-4" data-content-section="section-1-4" data-section-name="Analysis">
-            <h2 class="profile-heading profile-heading--wide">Трансформація бізнес-логіки в алгоритми</h2>
-            <div class="research-copy research-paragraphs">
-              <p>На основі аналізу я перебудував процес і повторно змоделював його в BPMN.</p>
-              <figure class="generator-bpmn-diagram generator-bpmn-diagram--two-lane" aria-label="Оптимізована BPMN-схема створення візитної картки">
-                <div class="generator-bpmn-viewport" id="generatorOptimizedBpmnViewport" tabindex="0" aria-label="Горизонтальний перегляд оптимізованої BPMN-схеми">
-                  <svg class="generator-bpmn-svg" viewBox="0 0 3540 720" preserveAspectRatio="xMinYMid meet" role="img" aria-labelledby="generatorOptimizedBpmnDescription">
-                    <desc id="generatorOptimizedBpmnDescription">Оптимізована взаємодія співробітника та сервісу під час створення електронної візитної картки.</desc>
-                    <defs>
-                      <clipPath id="generatorOptimizedBpmnPoolClip"><rect x="20" y="20" width="3500" height="680" rx="24"/></clipPath>
-                    </defs>
+          <section class="case-text-section" id="content-section-1-2" data-content-section="section-1-2" data-section-name="UX Research">
+              <h2 class="profile-heading">Personas and Access Levels</h2>
+            <div class="case-text-copy">
+              <section class="usage-table-section" aria-label="Usage types and access levels">
+                <p class="usage-statement">Alumni MiP supports two levels of access:</p>
+                <table class="usage-table">
+                  <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col">Employee</th>
+                      <th scope="col">Activities</th>
+                      <th scope="col">Access level</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                    <td class="usage-employee">Company employees—HR managers, department heads, and senior leaders—who need to</td>
+                      <td>
+                        <ul class="usage-activity-list">
+                        <li>view and evaluate information.</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul class="usage-access-list">
+                          <li>View</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                    <td class="usage-employee">Learning managers who need to</td>
+                      <td>
+                        <ul class="usage-activity-list">
+                          <li>view and evaluate information</li>
+                        <li>maintain the database.</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul class="usage-access-list">
+                          <li>View</li>
+                          <li>Edit</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <div class="persona-grid">
+                <article class="persona-card glass">
+                  <span class="persona-age">Age 32</span>
+                  <figure class="persona-portrait persona-portrait--diana">
+                    <img src="./persona-diana.webp" alt="Diana" width="640" height="640" loading="lazy" decoding="async">
+                  </figure>
+                  <h3 class="persona-name">Diana</h3>
+                  <p class="persona-role">HR Manager, MI BS</p>
+                  <p class="persona-use">Uses the product as a trusted talent pool of corporate university graduates who already understand the company's processes.</p>
+                  <footer class="persona-footer">
+                  <p class="persona-comment">"Find the right talent for the business"</p>
+                    <div class="persona-access"><span class="persona-access-label">Role</span><span class="persona-access-values"><span class="persona-access-value">View</span></span></div>
+                  </footer>
+                </article>
 
-                    <rect class="generator-bpmn-pool" x="20" y="20" width="3500" height="680" rx="24"/>
-                    <rect class="generator-bpmn-lane-head" x="20" y="20" width="62" height="680" clip-path="url(#generatorOptimizedBpmnPoolClip)"/>
-                    <path class="generator-bpmn-lane-divider" d="M82 20V700M20 350H3520" clip-path="url(#generatorOptimizedBpmnPoolClip)"/>
-                    <rect class="generator-bpmn-pool-outline" x="20" y="20" width="3500" height="680" rx="24"/>
-                    <text class="generator-bpmn-actor" transform="translate(53 185) rotate(-90)">Співробітник МІ</text>
-                    <text class="generator-bpmn-actor" transform="translate(53 525) rotate(-90)">Сервіс</text>
+                <article class="persona-card glass">
+                  <span class="persona-age">Age 40</span>
+                  <figure class="persona-portrait persona-portrait--mykita">
+                    <img src="./persona-mykita.webp" alt="Mykyta" width="640" height="640" loading="lazy" decoding="async">
+                  </figure>
+                  <h3 class="persona-name">Mykyta</h3>
+                  <p class="persona-role">Head of Corporate Training, MI Holding</p>
+                  <p class="persona-use">Uses the product to analyze graduate outcomes, improve corporate learning, and build a leadership pipeline.</p>
+                  <footer class="persona-footer">
+                  <p class="persona-comment">"Make decisions with confidence"</p>
+                    <div class="persona-access"><span class="persona-access-label">Role</span><span class="persona-access-values"><span class="persona-access-value">View</span></span></div>
+                  </footer>
+                </article>
 
-                    <g aria-label="Дії співробітника">
-                      <circle class="generator-bpmn-event-ring" cx="180" cy="160" r="23"/>
-                      <text class="generator-bpmn-event-label" x="180" y="207"><tspan x="180">Потреба у візитній</tspan><tspan x="180" dy="14">картці для виконання</tspan><tspan x="180" dy="14">робочих обов’язків</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M203 160H270"/>
-                      <rect class="generator-bpmn-task" x="270" y="118" width="260" height="84" rx="16"/>
-                      <text class="generator-bpmn-task-label" x="400" y="144"><tspan x="400">Відкрити сервіс</tspan><tspan x="400" dy="16">для створення брендованої</tspan><tspan x="400" dy="16">продукції</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M530 160H585"/>
-                      <use href="#generatorBpmnTimerEvent" transform="translate(620 160)"/>
-                      <text class="generator-bpmn-event-label" x="620" y="207"><tspan x="620">Почекати завантаження</tspan><tspan x="620" dy="14">сторінки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M647 160H785"/>
-                      <use href="#generatorBpmnMessageEvent" transform="translate(820 160)"/>
-                      <text class="generator-bpmn-event-label" x="820" y="207"><tspan x="820">Побачити контент</tspan><tspan x="820" dy="14">сторінки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M847 160H890"/>
-                      <rect class="generator-bpmn-task" x="890" y="118" width="260" height="84" rx="16"/>
-                      <text class="generator-bpmn-task-label" x="1020" y="152"><tspan x="1020">Обрати опцію створення</tspan><tspan x="1020" dy="16">візитної картки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1150 160H1205"/>
-                      <use href="#generatorBpmnTimerEvent" transform="translate(1240 160)"/>
-                      <text class="generator-bpmn-event-label" x="1240" y="207"><tspan x="1240">Почекати завантаження</tspan><tspan x="1240" dy="14">сторінки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1267 160H1415"/>
-                      <use href="#generatorBpmnMessageEvent" transform="translate(1450 160)"/>
-                      <text class="generator-bpmn-event-label" x="1450" y="207"><tspan x="1450">Побачити контент</tspan><tspan x="1450" dy="14">сторінки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1477 160H1510"/>
-                      <rect class="generator-bpmn-task" x="1510" y="118" width="260" height="84" rx="16"/>
-                      <text class="generator-bpmn-task-label" x="1640" y="144"><tspan x="1640">Внести дані у форму</tspan><tspan x="1640" dy="16">для вводу контактної</tspan><tspan x="1640" dy="16">інформації</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1770 160H1849"/>
-                      <use href="#generatorBpmnGateway" transform="translate(1880 160)"/>
-                      <text class="generator-bpmn-gateway-label" x="1880" y="213"><tspan x="1880">Кнопка «Створити»</tspan><tspan x="1880" dy="14">активна?</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1880 129V87Q1880 75 1868 75H1652Q1640 75 1640 87V118"/>
-                      <rect class="generator-bpmn-branch-pill" x="1786" y="63" width="32" height="20" rx="10"/>
-                      <text class="generator-bpmn-branch-label" x="1802" y="77">Ні</text>
-                      <path class="generator-bpmn-sequence" d="M1911 160H1990"/>
-                      <rect class="generator-bpmn-branch-pill" x="1930" y="147" width="36" height="20" rx="10"/>
-                      <text class="generator-bpmn-branch-label" x="1948" y="161">Так</text>
-                      <rect class="generator-bpmn-task" x="1990" y="118" width="240" height="84" rx="16"/>
-                      <text class="generator-bpmn-task-label" x="2110" y="152"><tspan x="2110">Натиснути</tspan><tspan x="2110" dy="16">«Створити»</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2230 160H2315"/>
-                      <use href="#generatorBpmnTimerEvent" transform="translate(2350 160)"/>
-                      <text class="generator-bpmn-event-label" x="2350" y="207"><tspan x="2350">Почекати виконання</tspan><tspan x="2350" dy="14">запиту</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2377 160H3025"/>
-                      <use href="#generatorBpmnMessageEvent" transform="translate(3060 160)"/>
-                      <text class="generator-bpmn-event-label" x="3060" y="207"><tspan x="3060">Побачити повідомлення про</tspan><tspan x="3060" dy="14">успішне створення візитки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M3087 160H3353"/>
-                      <use href="#generatorBpmnEndEvent" transform="translate(3380 160)"/>
-                      <text class="generator-bpmn-event-label" x="3380" y="207"><tspan x="3380">Завантажити електронну</tspan><tspan x="3380" dy="14">візитку</tspan></text>
-                    </g>
+                <article class="persona-card glass">
+                  <span class="persona-age">Age 27</span>
+                  <figure class="persona-portrait persona-portrait--anna">
+                    <img src="./persona-anna.webp" alt="Anna" width="640" height="640" loading="lazy" decoding="async">
+                  </figure>
+                  <h3 class="persona-name">Anna</h3>
+                  <p class="persona-role">Training Manager, MI Holding</p>
+                  <p class="persona-use">Uses the product to maintain the alumni registry, prepare reports, and recommend improvements to corporate learning.</p>
+                  <footer class="persona-footer">
+                  <p class="persona-comment">"Make learning useful and accessible"</p>
+                    <div class="persona-access"><span class="persona-access-label">Role</span><span class="persona-access-values"><span class="persona-access-value">View</span><span class="persona-access-value">Edit</span></span></div>
+                  </footer>
+                </article>
+              </div>
+            </div>
+          </section>
 
-                    <g aria-label="Дії сервісу">
-                      <use href="#generatorBpmnMessageEvent" transform="translate(360 510)"/>
-                      <text class="generator-bpmn-event-label" x="360" y="557"><tspan x="360">Отримати тригер</tspan><tspan x="360" dy="14">«Вхід»</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M387 510H450"/>
-                      <rect class="generator-bpmn-task" x="450" y="468" width="260" height="84" rx="16"/>
-                      <text class="generator-bpmn-task-label" x="580" y="502"><tspan x="580">Завантажити стартову</tspan><tspan x="580" dy="16">сторінку сервісу</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M710 510H795"/>
-                      <use href="#generatorBpmnTimerEvent" transform="translate(830 510)"/>
-                      <text class="generator-bpmn-event-label" x="830" y="557"><tspan x="830">Очікувати дії</tspan><tspan x="830" dy="14">користувача</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M857 510H985"/>
-                      <use href="#generatorBpmnMessageEvent" transform="translate(1020 510)"/>
-                      <text class="generator-bpmn-event-label" x="1020" y="557"><tspan x="1020">Отримати тригер</tspan><tspan x="1020" dy="14">Опція «Візитка»</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1047 510H1110"/>
-                      <rect class="generator-bpmn-task" x="1110" y="468" width="280" height="84" rx="16"/>
-                      <text class="generator-bpmn-task-label" x="1250" y="494"><tspan x="1250">Завантажити стартову</tspan><tspan x="1250" dy="16">сторінку для створення</tspan><tspan x="1250" dy="16">візитки</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1390 510H1410"/>
-                      <use href="#generatorBpmnTimerEvent" transform="translate(1445 510)"/>
-                      <text class="generator-bpmn-event-label" x="1445" y="557"><tspan x="1445">Очікувати дії</tspan><tspan x="1445" dy="14">користувача</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1472 510H1645"/>
-                      <use href="#generatorBpmnMessageEvent" transform="translate(1680 510)"/>
-                      <text class="generator-bpmn-event-label" x="1680" y="557"><tspan x="1680">Отримати тригер</tspan><tspan x="1680" dy="14">«Ввід даних у форму»</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1707 510H1849"/>
-                      <use href="#generatorBpmnGateway" transform="translate(1880 510)"/>
-                      <text class="generator-bpmn-gateway-label" x="1880" y="563"><tspan x="1880">Введено всі</tspan><tspan x="1880" dy="14">необхідні дані?</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M1880 541V628Q1880 640 1868 640H1482Q1470 640 1470 628V537"/>
-                      <rect class="generator-bpmn-branch-pill" x="1758" y="628" width="32" height="20" rx="10"/>
-                      <text class="generator-bpmn-branch-label" x="1774" y="642">Ні</text>
-                      <path class="generator-bpmn-sequence" d="M1911 510H1990"/>
-                      <rect class="generator-bpmn-branch-pill" x="1930" y="497" width="36" height="20" rx="10"/>
-                      <text class="generator-bpmn-branch-label" x="1948" y="511">Так</text>
-                      <rect class="generator-bpmn-task" x="1990" y="468" width="240" height="84" rx="16"/>
-                      <text class="generator-bpmn-task-label" x="2110" y="494"><tspan x="2110">Змінити стан кнопки</tspan><tspan x="2110" dy="16">«Створити» на</tspan><tspan x="2110" dy="16">«Активний»</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2230 510H2315"/>
-                      <use href="#generatorBpmnTimerEvent" transform="translate(2350 510)"/>
-                      <text class="generator-bpmn-event-label" x="2350" y="557"><tspan x="2350">Очікувати дії</tspan><tspan x="2350" dy="14">користувача</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2377 510H2485"/>
-                      <use href="#generatorBpmnMessageEvent" transform="translate(2520 510)"/>
-                      <text class="generator-bpmn-event-label" x="2520" y="557"><tspan x="2520">Отримати тригер</tspan><tspan x="2520" dy="14">Натиснути «Створити»</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2547 510H2610"/>
-                      <rect class="generator-bpmn-task" x="2610" y="468" width="250" height="84" rx="16"/>
-                      <text class="generator-bpmn-task-label" x="2735" y="502"><tspan x="2735">Створити PDF-макет</tspan><tspan x="2735" dy="16">на основі введених даних</tspan></text>
-                      <path class="generator-bpmn-sequence" d="M2860 510H2920"/>
-                      <rect class="generator-bpmn-task" x="2920" y="468" width="280" height="84" rx="16"/>
-                      <text class="generator-bpmn-task-label" x="3060" y="502"><tspan x="3060">Вивести повідомлення про</tspan><tspan x="3060" dy="16">успішне створення візитки</tspan></text>
-                    </g>
+          <section class="case-text-section" id="content-section-1-3" data-content-section="section-1-3" data-section-name="UX Research">
+            <h2 class="profile-heading">User Stories</h2>
+            <div class="story-grid">
+              <article class="story-card glass">
+                <header class="story-person">
+                  <figure class="story-avatar story-avatar--diana">
+                    <img src="./persona-diana.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+                  </figure>
+                  <div class="story-identity"><h3 class="story-name">Diana</h3></div>
+                </header>
+                <div class="story-clauses">
+                  <div class="story-clause"><span class="story-key">As</span><p>an HR manager,</p></div>
+                  <div class="story-clause story-clause--intent"><span class="story-key">I want</span><p>to find qualified candidates in the alumni database,</p></div>
+                  <div class="story-clause"><span class="story-key">so that</span><p>I can speed up hiring and onboarding.</p></div>
+                </div>
+              </article>
 
-                    <g aria-label="Обмін повідомленнями">
-                      <path class="generator-bpmn-message" d="M360 202V483"/>
-                      <path class="generator-bpmn-message" d="M580 468V300Q580 288 592 288H808Q820 288 820 276V187"/>
-                      <path class="generator-bpmn-message" d="M1020 202V483"/>
-                      <path class="generator-bpmn-message" d="M1250 468V300Q1250 288 1262 288H1438Q1450 288 1450 276V187"/>
-                      <path class="generator-bpmn-message" d="M1680 202V483"/>
-                      <path class="generator-bpmn-message" d="M2110 468V202"/>
-                      <path class="generator-bpmn-message" d="M2200 202V292Q2200 304 2212 304H2508Q2520 304 2520 316V483"/>
-                      <path class="generator-bpmn-message" d="M3060 468V187"/>
-                    </g>
+              <article class="story-card glass">
+                <header class="story-person">
+                  <figure class="story-avatar story-avatar--mykita">
+                    <img src="./persona-mykita.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+                  </figure>
+                <div class="story-identity"><h3 class="story-name">Mykyta</h3></div>
+                </header>
+                <div class="story-clauses">
+                  <div class="story-clause"><span class="story-key">As</span><p>head of corporate training,</p></div>
+                  <div class="story-clause story-clause--intent"><span class="story-key">I want</span><p>to understand graduates' career paths and their interest in staying connected with the Group through the alumni community,</p></div>
+                  <div class="story-clause"><span class="story-key">so that</span><p>I can improve curricula and internships and develop relevant alumni initiatives.</p></div>
+                </div>
+              </article>
+
+              <article class="story-card glass">
+                <header class="story-person">
+                  <figure class="story-avatar story-avatar--anna">
+                    <img src="./persona-anna.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+                  </figure>
+                  <div class="story-identity"><h3 class="story-name">Anna</h3></div>
+                </header>
+                <div class="story-clauses">
+                  <div class="story-clause"><span class="story-key">As</span><p>training manager,</p></div>
+                  <div class="story-clause story-clause--intent"><span class="story-key">I want</span><p>a single place to organize and manage alumni information,</p></div>
+                  <div class="story-clause"><span class="story-key">so that</span><p>I can maintain the registry, analyze data, prepare reports, and share access more efficiently.</p></div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="case-text-section" id="content-section-1-4" data-content-section="section-1-4" data-section-name="UX Research">
+            <h2 class="profile-heading">Problem Statement</h2>
+            <table class="problem-table problem-statement-table" aria-label="User problem statements">
+              <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">User</th>
+                  <th scope="col">Position</th>
+                  <th scope="col">Need</th>
+                  <th scope="col">Problem</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="problem-user">
+                      <figure class="problem-avatar problem-avatar--diana"><img src="./persona-diana.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></figure>
+                      <span>Diana</span>
+                    </div>
+                  </td>
+                  <td class="problem-position">HR manager</td>
+                  <td>A convenient way to find graduates for open roles within the company</td>
+                  <td>
+                    <ul class="problem-list">
+                      <li>Finding and narrowing information in the Excel registry is difficult</li>
+                      <li>Some combinations of criteria are unavailable without advanced Excel knowledge</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="problem-user">
+                      <figure class="problem-avatar problem-avatar--mykita"><img src="./persona-mykita.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></figure>
+                      <span>Mykyta</span>
+                    </div>
+                  </td>
+                  <td class="problem-position">Head of corporate training</td>
+                  <td>Timely comprehensive analytics of the alumni community</td>
+                  <td>
+                    <ul class="problem-list">
+                      <li>As the Excel registry grows, identifying trends becomes increasingly difficult. Dynamic data has to be aggregated and checked by Mykyta's team before every update</li>
+                      <li>Excel charts are not presentation-ready, so a designer has to refine the reports before they can be shared with senior leadership</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="problem-user">
+                      <figure class="problem-avatar problem-avatar--anna"><img src="./persona-anna.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></figure>
+                      <span>Anna</span>
+                    </div>
+                  </td>
+                  <td class="problem-position">Learning Manager</td>
+                    <td>An efficient tool for managing the alumni registry</td>
+                  <td>
+                    <ul class="problem-list">
+                      <li>The Excel registry continues to grow</li>
+                      <li>Data normalization becomes harder—for example, program names are not standardized even though users need to filter by program</li>
+                      <li>Preparation of analytics and reports takes time</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="case-text-section" id="content-section-1-5" data-content-section="section-1-5" data-section-name="UX Research">
+            <h2 class="profile-heading">Insights</h2>
+            <ol class="insight-list">
+              <li class="insight-card glass">
+                <span class="insight-copy">Users need more than a structured table: they need a purpose-built data tool with search and filters that can combine multiple criteria.</span>
+                <span class="insight-icon-tile" aria-hidden="true">
+                  <svg class="insight-icon" viewBox="0 0 24 24">
+                    <path d="M4.25 4A1.25 1.25 0 0 0 3.3 6.06L9.5 13v5.1c0 .48.27.92.7 1.14l2 1A1.25 1.25 0 0 0 14 19.12V13l6.2-6.94A1.25 1.25 0 0 0 19.25 4h-15Z"/>
                   </svg>
-                </div>
-                <div class="generator-bpmn-scrollbar" id="generatorOptimizedBpmnScrollbar" role="scrollbar" aria-label="Горизонтальна прокрутка оптимізованої BPMN-схеми" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><div class="generator-bpmn-scrollbar-track" id="generatorOptimizedBpmnScrollbarTrack"><div class="generator-bpmn-scrollbar-thumb" id="generatorOptimizedBpmnScrollbarThumb"></div></div></div>
-              </figure>
-              <p>Головним рішенням стала заміна ролей дизайнера та адміністративного чи маркетингового спеціаліста експертною системою. По суті, виконання шаблонного запиту – це набір інтеракцій для отримання даних, алгоритмів – для їх обробки, і станів та інтеракцій – для їх виводу.</p>
-              <p>Комунікаційну частину процесу я замінив заповненням форми з валідацією.</p>
-              <figure class="brand-rule-engine" aria-label="Перетворення правил брендбука у web-шаблон">
-                <figcaption>
-                  <span class="brand-rule-intro">Звід правил для перетворення даних із форми у брендовану продукцію визначений брендбуком. Система переводить параметри брендбука у web-значення та одразу застосовує їх до шаблону продукції.</span>
-                </figcaption>
-                <div class="brand-rule-flow">
-                  <div class="brand-rule-stage" data-step="01">
-                    <span class="brand-rule-label">Правило брендбука</span>
-                    <strong class="brand-rule-value">5 мм</strong>
-                    <span class="brand-rule-detail">Вільне поле навколо контенту візитки.</span>
+                </span>
+              </li>
+              <li class="insight-card glass">
+                <span class="insight-copy">Users need decision-ready information. The dashboard should surface key metrics, trends, and charts without requiring manual processing.</span>
+                <span class="insight-icon-tile" aria-hidden="true">
+                  <svg class="insight-icon" viewBox="0 0 24 24">
+                    <rect x="3" y="12" width="5" height="8" rx="1.5"/>
+                    <rect x="9.5" y="7" width="5" height="13" rx="1.5"/>
+                    <rect x="16" y="3" width="5" height="17" rx="1.5"/>
+                  </svg>
+                </span>
+              </li>
+              <li class="insight-card glass">
+                <span class="insight-copy">The interface must scale with the data. As records and categories grow, the system should remain clear and manageable.</span>
+                <span class="insight-icon-tile" aria-hidden="true">
+                  <svg class="insight-icon" viewBox="0 0 24 24">
+                    <path d="M4 3a1 1 0 0 0-1 1v5h3V6h3V3H4Zm11 0v3h3v3h3V4a1 1 0 0 0-1-1h-5ZM3 15v5a1 1 0 0 0 1 1h5v-3H6v-3H3Zm15 0v3h-3v3h5a1 1 0 0 0 1-1v-5h-3Z"/>
+                  </svg>
+                </span>
+              </li>
+              <li class="insight-card glass">
+                <span class="insight-copy">The interface must support two access levels. Edit permissions should extend the same experience rather than introduce a separate, complex workflow.</span>
+                <span class="insight-icon-tile" aria-hidden="true">
+                  <svg class="insight-icon" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M14.75 3a6.25 6.25 0 0 0-5.9 8.3L3.4 16.75a1.35 1.35 0 0 0-.4.96V20a1 1 0 0 0 1 1h2.3a1.35 1.35 0 0 0 .95-.4L8.6 19.25H11v-2.4h2.4l1.35-1.35A6.25 6.25 0 1 0 14.75 3Zm2.5 6.25a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" clip-rule="evenodd"/>
+                  </svg>
+                </span>
+              </li>
+              <li class="insight-card glass">
+                <span class="insight-copy">The interface should not require advanced analytics skills. Filters, metrics, and visualizations must be clear to employees without specialized training.</span>
+                <span class="insight-icon-tile" aria-hidden="true">
+                  <svg class="insight-icon" viewBox="0 0 24 24">
+                    <path d="M12 2a7 7 0 0 0-4.38 12.46c.64.51 1.13 1.16 1.35 1.89l.05.15h5.96l.05-.15c.22-.73.71-1.38 1.35-1.89A7 7 0 0 0 12 2Zm-2.75 16v1.25c0 .41.34.75.75.75h4a.75.75 0 0 0 .75-.75V18h-5.5Zm1.5 3.25a1.25 1.25 0 0 0 2.5 0h-2.5Z"/>
+                  </svg>
+                </span>
+              </li>
+            </ol>
+          </section>
+
+          <section class="case-text-section" id="content-section-1-6" data-content-section="section-1-6" data-section-name="UX Research">
+            <h2 class="profile-heading">Constraints</h2>
+            <div class="research-copy research-paragraphs">
+              <p>Because nearly all users access the product from corporate laptops, the web was the right primary platform. Mobile access is an occasional exception.</p>
+              <p>The system uses Azure Active Directory, so no separate authentication flow is required.</p>
+            </div>
+          </section>
+
+          <section class="case-text-section" id="content-section-1-7" data-content-section="section-1-7" data-section-name="UX Research">
+            <h2 class="profile-heading">Benchmark Review</h2>
+            <div class="research-copy analogue-audit-copy">
+              <div class="analogue-list">
+                <article class="analogue-card glass">
+                  <figure class="analogue-media" aria-label="Zavtra.UA Scholarship Community Directory">
+                    <img src="./analogue1.png" alt="Zavtra.UA Scholarship Community Directory" />
+                  </figure>
+                  <div class="analogue-content">
+                <h3 class="analogue-title">Zavtra.UA Scholarship Community Directory</h3>
+                    <div class="analogue-evaluation">
+                      <section class="analogue-aspect">
+                        <span class="analogue-aspect-title">Pros</span>
+                        <ul class="analogue-points">
+                    <li>Clear alumni cards</li>
+                    <li>Search.</li>
+                        </ul>
+                      </section>
+                      <section class="analogue-aspect">
+                        <span class="analogue-aspect-title">Cons</span>
+                  <ul class="analogue-points"><li>Cumbersome filtering.</li></ul>
+                      </section>
+                    </div>
                   </div>
-                  <div class="brand-rule-stage" data-step="02">
-                    <span class="brand-rule-label">Перерахунок для web</span>
-                    <span class="brand-rule-formula">
-                      <strong class="brand-rule-formula-line">96 <span>DPI</span></strong>
-                      <strong class="brand-rule-value">19 px</strong>
-                    </span>
-                    <span class="brand-rule-detail">Фізичний розмір стає точним цифровим відступом.</span>
+                </article>
+                <article class="analogue-card glass">
+                  <figure class="analogue-media" aria-label="CRM (HRIS) Onboardly">
+                    <img src="./analogue2.png" alt="CRM (HRIS) Onboardly" />
+                  </figure>
+                  <div class="analogue-content">
+                    <h3 class="analogue-title">CRM (HRIS) Onboardly</h3>
+                    <div class="analogue-evaluation">
+                      <section class="analogue-aspect">
+                        <span class="analogue-aspect-title">Pros</span>
+                        <ul class="analogue-points">
+                          <li>Combination of filters</li>
+                          <li>Search</li>
+                    <li>A dedicated dashboard tab.</li>
+                        </ul>
+                      </section>
+                      <section class="analogue-aspect">
+                        <span class="analogue-aspect-title">Cons</span>
+                  <ul class="analogue-points"><li>Applying filters takes several steps.</li></ul>
+                      </section>
+                    </div>
                   </div>
-                  <div class="brand-rule-stage" data-step="03">
-                    <span class="brand-rule-label">CSS-шаблон</span>
-                    <code class="brand-rule-code" aria-label="CSS-структура шаблону">
-                      <span class="brand-rule-code-line">&lt;div style="</span>
-                      <span class="brand-rule-code-line"><span class="brand-rule-code-key">box-sizing</span>: border-box;</span>
-                      <span class="brand-rule-code-line"><span class="brand-rule-code-key">padding</span>: 19px;"&gt;</span>
-                      <span class="brand-rule-code-line">&nbsp;&nbsp;лого + текст</span>
-                      <span class="brand-rule-code-line">&lt;/div&gt;</span>
-                    </code>
-                    <span class="brand-rule-detail">Шаблон легко транслюється, прописується та швидко змінюється.</span>
+                </article>
+                <article class="analogue-card glass">
+                  <figure class="analogue-media" aria-label="CRM HRO">
+                    <img src="./analogue3.png" alt="CRM HRO" />
+                  </figure>
+                  <div class="analogue-content">
+                    <h3 class="analogue-title">CRM HRO</h3>
+                    <div class="analogue-evaluation">
+                      <section class="analogue-aspect">
+                        <span class="analogue-aspect-title">Pros</span>
+                        <ul class="analogue-points">
+                          <li>Detailed employee profile</li>
+                    <li>A dedicated dashboard tab.</li>
+                        </ul>
+                      </section>
+                      <section class="analogue-aspect">
+                        <span class="analogue-aspect-title">Cons</span>
+                  <ul class="analogue-points"><li>Profiles open on separate pages, slowing down work across large datasets.</li></ul>
+                      </section>
+                    </div>
                   </div>
-                  <div class="brand-rule-stage" data-step="04">
-                    <span class="brand-rule-label">Брендований макет</span>
-                    <span class="brand-rule-preview" aria-hidden="true">
-                      <span class="brand-rule-preview-logo"></span>
-                      <span class="brand-rule-preview-copy">
-                        <span class="brand-rule-preview-line"></span>
-                        <span class="brand-rule-preview-line"></span>
-                        <span class="brand-rule-preview-line"></span>
-                      </span>
-                    </span>
-                    <span class="brand-rule-detail">Лого й текст автоматично займають визначене безпечне поле.</span>
-                  </div>
-                </div>
-                <p class="brand-rule-summary">Правила працюють на frontend майже без затримок.</p>
-                <ul class="brand-rule-benefits" aria-label="Результати автоматизації">
-                  <li class="brand-rule-benefit">Оновлення разом із шаблоном</li>
-                  <li class="brand-rule-benefit">Без дизайнера</li>
-                  <li class="brand-rule-benefit">Без черги</li>
-                  <li class="brand-rule-benefit">Без backend</li>
-                  <li class="brand-rule-benefit">Децентралізовано</li>
+                </article>
+              </div>
+              <section class="research-subsection">
+                <h3 class="research-subheading">Key takeaways</h3>
+                <p>The benchmark review supported four design decisions:</p>
+                <ul class="takeaway-list">
+                  <li>card-based records instead of a wide table;</li>
+                  <li>combined filters and search;</li>
+                  <li>a dedicated analytics dashboard;</li>
+                  <li>an expanded alumni profile for detailed information.</li>
                 </ul>
+              </section>
+            </div>
+          </section>
+
+          <section class="case-text-section product-section" id="content-section-2-1" data-content-section="section-2-1" data-section-name="UX / Product Design">
+            <p class="profile-overline">UX / Product Design</p>
+            <h2 class="profile-heading">Product Goal</h2>
+            <div class="product-copy">
+              <p>Create a single web platform for managing the alumni community—one that helps employees work with data faster, make informed decisions, and unlock the value of the graduate network.</p>
+              <p class="product-label">The product should:</p>
+              <ul class="takeaway-list product-goal-list">
+                <li>provide a single up-to-date register of graduates;</li>
+                <li>make it easy to find relevant graduates using specific criteria;</li>
+                <li>speed up data processing, analysis, and reporting;</li>
+                <li>provide up-to-date visual analytics;</li>
+                <li>help identify trends and evaluate the results of corporate training.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="case-text-section product-section" id="content-section-2-2" data-content-section="section-2-2" data-section-name="UX / Product Design">
+            <h2 class="profile-heading">Concept Exploration</h2>
+            <div class="product-copy">
+              <p>The benchmark review suggested that cards would work better than rows for this dataset. To validate the direction, I built a basic low-fidelity prototype in Figma Make that let users switch between card and table views.</p>
+              <div class="concept-comparison product-feature-block">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                      <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                      <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                      <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
+                    </svg>
+                    <span>Figma Make</span>
+                  </span>
+                </div>
+                <div class="concept-comparison-stage" id="conceptComparison" role="slider" tabindex="0" aria-label="Comparison of Row view and Card view" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="Row view 50%, Card view 50%">
+                  <div class="concept-comparison-layer concept-comparison-layer--card">
+                    <img src="./compare2.png" class="concept-comparison-image" data-media-slot="concept-card-view" alt="Card view" draggable="false">
+                  </div>
+                  <div class="concept-comparison-layer concept-comparison-layer--row">
+                    <img src="./compare1.png" class="concept-comparison-image" data-media-slot="concept-row-view" alt="Row view" draggable="false">
+                  </div>
+                  <span class="concept-view-label-clip concept-view-label-clip--row"><span class="concept-view-label concept-view-label--row">Row view</span></span>
+                  <span class="concept-view-label-clip concept-view-label-clip--card"><span class="concept-view-label concept-view-label--card">Card view</span></span>
+                  <span class="concept-comparison-divider" aria-hidden="true">
+                    <span class="concept-comparison-handle">
+                      <svg viewBox="0 0 24 24"><path d="m9 7-5 5 5 5M15 7l5 5-5 5"/></svg>
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <p>The card view aligned more closely with the business requirements. A table could fit more information on screen, but compactness was not the priority. Users needed better scannability, search, and filtering—not a more polished version of Excel.</p>
+            </div>
+          </section>
+
+          <section class="case-text-section product-section" id="content-section-2-3" data-content-section="section-2-3" data-section-name="UX / Product Design">
+            <h2 class="profile-heading">From Data to UX</h2>
+            <div class="product-copy">
+              <p>With the core UX direction established, I analyzed the project's existing database.</p>
+              <p>The system's primary entity is an alumnus. Whether the backend represents it as a collection entry, dictionary item, or JSON object, every alumnus has the same stable set of attributes:</p>
+              <div class="data-spec-wrap product-feature-block">
+                <table class="data-spec-table" aria-label="Graduate data structure">
+                  <colgroup><col><col><col></colgroup>
+                  <thead>
+                    <tr><th scope="col">Feature</th><th scope="col">Data Type</th><th scope="col">Example</th></tr>
+                  </thead>
+                  <tbody>
+                  <tr><td>Full name</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Serhii Serhiiev</td></tr>
+                    <tr><td>Photo</td><td><span class="data-type"><span class="data-type-mark data-type-mark--blob" aria-hidden="true">▧</span>Blob</span></td><td>&lt;Photo&gt;</td></tr>
+                    <tr><td>Country</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Ukraine</td></tr>
+                    <tr><td>City</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Poltava</td></tr>
+                    <tr><td>Phone</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>+38 099 999 99 99</td></tr>
+                    <tr><td>Email</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>segriiev@metinvestholding.com</td></tr>
+                  <tr><td>Enrollment year</td><td><span class="data-type"><span class="data-type-mark data-type-mark--number" aria-hidden="true">#</span>Number</span></td><td>2022</td></tr>
+                  <tr><td>Graduation year</td><td><span class="data-type"><span class="data-type-mark data-type-mark--number" aria-hidden="true">#</span>Number</span></td><td>2024</td></tr>
+                  <tr><td>Degree level</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Master's</td></tr>
+                    <tr><td>Diploma with Honors</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">01</span>Boolean</span></td><td>True</td></tr>
+                    <tr><td>Specialty</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>136 Metallurgy</td></tr>
+                    <tr><td>Educational program</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Automation of metallurgical production</td></tr>
+                    <tr><td>Employed</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">01</span>Boolean</span></td><td>True</td></tr>
+                  <tr><td>Metinvest Group</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">01</span>Boolean</span></td><td>True</td></tr>
+                  <tr><td>Company</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Kamet Steel LLC</td></tr>
+                    <tr><td>Position</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Production site foreman</td></tr>
+                    <tr><td>Alumni Association</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">01</span>Boolean</span></td><td>True</td></tr>
+                    <tr><td>Status</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Member</td></tr>
+                    <tr><td>Membership card</td><td><span class="data-type"><span class="data-type-mark data-type-mark--number" aria-hidden="true">#</span>Number</span></td><td>2</td></tr>
+                  <tr><td>Admission record</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Protocol No. 2 dated Dec 4, 2024</td></tr>
+                  <tr><td>Membership application</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>No. 1 dated Dec 1, 2024</td></tr>
+                    <tr><td>Additional information</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Additional information will be entered here</td></tr>
+                    <tr><td>Status and achievements</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Status and achievements will be entered here</td></tr>
+                    <tr><td>Gender</td><td><span class="data-type"><span class="data-type-mark" aria-hidden="true">Aa</span>String</span></td><td>Male</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>The dataset contains both primary and secondary information. An association admission protocol or membership application number, for example, matters only in specific edge cases.</p>
+              <p>This led to the first key UX decision: show primary data on the alumni card and reserve secondary details for the expanded profile.</p>
+              <p>The benchmark review also showed that opening every profile on a separate page would slow down data-heavy workflows. Instead, the profile appears in an overlay when a user selects a card.</p>
+              <p>I used the personas' needs to determine which information belonged on the card, in the full profile, or in both.</p>
+              <table class="problem-table persona-priority-table product-feature-block" aria-label="Mapping information to user needs">
+                <colgroup><col><col><col><col></colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Key</th>
+                    <th scope="col">Secondary</th>
+                    <th scope="col">Reason for division</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="problem-user">
+                        <figure class="problem-avatar problem-avatar--diana"><img src="./persona-diana.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></figure>
+                        <span>Diana</span>
+                      </div>
+                    </td>
+                  <td>For recruiting, Diana needs to see each graduate's name, city, field of study, employer, and degree level at a glance. These details belong on the card.</td>
+                  <td>If she wants to get in touch, she can open the card and find contact details in the profile.</td>
+                  <td>This keeps the card focused on the information needed for initial candidate screening.</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="problem-user">
+                        <figure class="problem-avatar problem-avatar--mykita"><img src="./persona-mykita.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></figure>
+                      <span>Mykyta</span>
+                      </div>
+                    </td>
+                  <td>As head of corporate learning, Mykyta needs a high-level view of each graduate: field of study, employer, degree level, graduation years, and membership in the Group or alumni association.</td>
+                  <td>Any additional details remain available in the profile.</td>
+                  <td>His work is primarily analytical, so summary information carries the most value.</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="problem-user">
+                        <figure class="problem-avatar problem-avatar--anna"><img src="./persona-anna.webp" alt="" width="640" height="640" loading="lazy" decoding="async"></figure>
+                        <span>Anna</span>
+                      </div>
+                    </td>
+                  <td>Because Anna works in the same department and prepares reports, she initially needs the same summary information as Mykyta.</td>
+                  <td>She rarely needs immediate access to membership card or application numbers.</td>
+                  <td>Those details support occasional, targeted requests, so they remain searchable within the profile overlay.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>This resulted in the alumni card below, shown as an interactive component.</p>
+              <p>Selecting it opens the full profile with detailed information.</p>
+              <figure class="product-media-block product-feature-block" aria-label="Graduate profile video">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                      <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                      <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                      <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
+                    </svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage">
+                  <video src="./overlayVid.mp4" class="product-media-video" data-media-slot="graduate-profile-video" autoplay muted playsinline loop preload="metadata"></video>
+                </div>
               </figure>
-              <p>Файл у потрібному форматі отримується через конвертацію HTML/CSS у PDF, PNG, JPEG та ін. за допомогою JS-бібліотек.</p>
+              <p>The profile could have been a longer list, but its structure offered an opportunity to make the data easier to scan.</p>
+              <p>The attributes naturally fall into five groups: Education, Career, Alumni Association, Additional Comments, and Contact Details. Organizing the profile around these sections makes it easier to understand at a glance.</p>
+              <p>This became the foundation for the alumni profile and its variants.</p>
+              <figure class="product-media-block product-feature-block" aria-label="Graduate profile variants in Figma">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                      <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                      <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                      <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
+                    </svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage">
+                  <img src="./profile.png" class="product-media-video" data-media-slot="graduate-profile-variants-image" alt="Graduate Profile Variants" loading="lazy" decoding="async">
+                </div>
+              </figure>
+              <p>Next, I designed the filtering model.</p>
+              <p>Filters are based on the primary information shown on each card. Most profile-only fields are poor filtering criteria: application numbers and phone numbers are not categorical, for example, and users look up a phone number by a person's name—not the other way around.</p>
+              <table class="problem-table filter-pattern-table product-feature-block" aria-label="Mapping card data to appropriate filter controls">
+                <colgroup><col><col><col><col></colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">Field Type</th>
+                    <th scope="col">Number of fields</th>
+                    <th scope="col">Card data</th>
+                    <th scope="col">UX filtering pattern</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span class="filter-type">
+                        <span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="5"/><circle class="is-filled" cx="16" cy="12" r="3"/></svg></span>
+                        <span class="filter-type-label">Binary value</span>
+                      </span>
+                    </td>
+                    <td><span class="filter-count">2</span></td>
+                    <td>Group and Association Membership</td>
+                    <td>Segmented switch</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="filter-type">
+                        <span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="3"/><path d="M9 7v10M15 7v10"/></svg></span>
+                        <span class="filter-type-label">Fixed set of categorical values</span>
+                      </span>
+                    </td>
+                    <td><span class="filter-count">1</span></td>
+                    <td>Education level</td>
+                    <td>Segmented switch</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="filter-type">
+                        <span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></span>
+                        <span class="filter-type-label">A potentially unlimited set of categorical values</span>
+                      </span>
+                    </td>
+                    <td><span class="filter-count">2</span></td>
+                    <td>City and specialty</td>
+                    <td>Multiple selection list</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="filter-type">
+                        <span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14M12 6v12M8 18h8"/></svg></span>
+                        <span class="filter-type-label">Free text values</span>
+                      </span>
+                    </td>
+                    <td><span class="filter-count">2</span></td>
+                    <td>Name and place of work</td>
+                    <td>Search</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="filter-type">
+                        <span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h7M15 8h5M4 16h3M11 16h9"/><circle cx="13" cy="8" r="2"/><circle cx="9" cy="16" r="2"/></svg></span>
+                        <span class="filter-type-label">Numeric values</span>
+                      </span>
+                    </td>
+                    <td><span class="filter-count">2</span></td>
+                    <td>Year of enrollment and graduation</td>
+                  <td>Range slider</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>The filters are shown below as interactive components.</p>
+              <figure class="product-media-block product-feature-block" aria-label="Video of interactive filtering components">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                      <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                      <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                      <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
+                    </svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage">
+                  <img src="./filters.png" class="product-media-video" data-media-slot="filter-components-image" alt="CRM filter components" loading="lazy" decoding="async">
+                </div>
+              </figure>
+              <p>This creates a clear information model:</p>
+              <table class="logic-chain-table product-feature-block" aria-label="Logical distribution of information between card and profile">
+                <colgroup><col><col><col></colgroup>
+                <tbody>
+                  <tr>
+                    <td>Card</td>
+                    <td>Basic Information</td>
+                    <td>Search and Filters</td>
+                  </tr>
+                  <tr>
+                    <td>Profile</td>
+                    <td>All information</td>
+                  <td>Information is grouped into clear categories with visual cues.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>Instead of confronting users with 23 columns, the interface stays light and easy to scan—the experience missing from the original registry.</p>
             </div>
           </section>
 
-          <section class="case-text-section" id="content-section-2-1" data-content-section="section-2-1" data-section-name="Design">
-            <p class="profile-overline">Design</p>
-            <h2 class="profile-heading profile-heading--wide">Product Design: від алгоритмів – до UX Decisions</h2>
-            <div class="ux-decision-list">
-              <article class="ux-decision-card">
-                <div class="ux-decision-media" aria-label="Поля форми з валідацією">
-                  <img src="./fields.png" alt="Поля форми Web-генератора з валідацією" loading="lazy" decoding="async">
-                  <span class="media-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m5.8 17 4.2-4.2 2.8 2.8 2.1-2.1 3.3 3.5"/></svg>Місце для зображення</span>
+          <section class="case-text-section product-section" id="content-section-2-4" data-content-section="section-2-4" data-section-name="UX / Product Design">
+            <h2 class="profile-heading">Page Layout</h2>
+            <div class="product-copy">
+              <p>Once the core structures were defined, the next question was how to arrange them into an efficient interface.</p>
+              <p>Many dashboards place dropdown filters across the top. That pattern added unnecessary steps to a workflow where speed was already a pain point. I used segmented controls and visible multi-select lists instead, reducing common selections from two clicks to one.</p>
+              <p>A large record collection paired with multiple filters suggested a familiar e-commerce pattern: a persistent filter panel on the left and a card grid on the right.</p>
+              <div class="analogue-list product-feature-block layout-reference-list" aria-label="Home page layout references">
+                <article class="analogue-card glass">
+                  <figure class="analogue-media" aria-label="Comfy Reference">
+                    <img src="./layout1.png" alt="Comfy layout example" loading="lazy" decoding="async">
+                  </figure>
+                  <div class="analogue-content">
+                    <h3 class="analogue-title">Comfy</h3>
+                  </div>
+                </article>
+                <article class="analogue-card glass">
+                  <figure class="analogue-media" aria-label="Nike reference">
+                    <img src="./layout2.png" alt="Nike layout example" loading="lazy" decoding="async">
+                  </figure>
+                  <div class="analogue-content">
+                    <h3 class="analogue-title">Nike</h3>
+                  </div>
+                </article>
+                <article class="analogue-card glass">
+                  <figure class="analogue-media" aria-label="Amazon Reference">
+                    <img src="./layout3.png" alt="Amazon layout example" loading="lazy" decoding="async">
+                  </figure>
+                  <div class="analogue-content">
+                    <h3 class="analogue-title">Amazon</h3>
+                  </div>
+                </article>
+              </div>
+              <p>This pattern directly supported the primary UX goal: helping users narrow a large dataset to the right records quickly.</p>
+              <p>It became the foundation of the CRM home page.</p>
+              <figure class="product-media-block product-feature-block" aria-label="Video of the main page of the CRM system">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                      <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                      <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                      <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
+                    </svg>
+                    <span>Figma</span>
+                  </span>
                 </div>
-                <div class="ux-decision-copy">
-                  <p class="ux-decision-text">Функції форми з валідацією виконують текстові поля й випадні меню: користувач обирає відділ, зазначає посаду, поверх або номінацію. Це замінює листування в пошті та прибирає очікування й ручне передавання даних.</p>
+                <div class="product-media-stage">
+                  <video src="./pageLayout.mp4" class="product-media-video" data-media-slot="crm-homepage-video" autoplay muted playsinline loop preload="metadata"></video>
                 </div>
-              </article>
-              <article class="ux-decision-card">
-                <div class="ux-decision-media" aria-label="Взаємозалежні випадні меню">
-                  <img src="./connectedDropdowns.png" alt="Взаємозалежні випадні меню Web-генератора" loading="lazy" decoding="async">
-                  <span class="media-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m5.8 17 4.2-4.2 2.8 2.8 2.1-2.1 3.3 3.5"/></svg>Місце для зображення</span>
+              </figure>
+              <p>The core flow is simple, but it needs a clear zero-results state. When no records match the selected filters, the collection is replaced with a “No results” message and a “Reset filters” action. Users can recover in one step instead of clearing every filter or reloading the page.</p>
+              <figure class="product-media-block product-feature-block" aria-label="No-results state and filter reset in Figma">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                      <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                      <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                      <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
+                    </svg>
+                    <span>Figma</span>
+                  </span>
                 </div>
-                <div class="ux-decision-copy">
-                  <h3 class="ux-decision-title">Взаємозалежні випадні меню</h3>
-                  <p class="ux-decision-text">Списки адрес і підприємств містять понад 40 позицій, тому мають пошук. Меню синхронізовані: адресу можна вказати лише після вибору підприємства, а його скидання очищує адресу. Контрольоване введення уніфікує назви юридичних осіб і адреси, запобігає помилкам у «ПрАТ», пунктуації та інших правилах, які раніше перевіряли адміністративні й маркетингові спеціалісти. Це знижує репутаційний ризик брендованої продукції.</p>
+                <div class="product-media-stage">
+                  <img src="./emptyState.png" class="product-media-video" data-media-slot="filter-not-found-image" alt="No-results state and filter reset button" loading="lazy" decoding="async">
                 </div>
-              </article>
-              <article class="ux-decision-card">
-                <div class="ux-decision-media" aria-label="Лічильник символів">
-                  <img src="./symbolCounter.png" alt="Лічильник символів у полях Web-генератора" loading="lazy" decoding="async">
-                  <span class="media-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m5.8 17 4.2-4.2 2.8 2.8 2.1-2.1 3.3 3.5"/></svg>Місце для зображення</span>
-                </div>
-                <div class="ux-decision-copy">
-                  <h3 class="ux-decision-title">Лічильник символів</h3>
-                  <p class="ux-decision-text">Кожне поле має ліміт і видимий лічильник, щоб довгі значення не ламали макет продукції. Ліміт встановлено із запасом: за максимальної зафіксованої довжини посади 83 символи поле дозволяє 130. Користувач бачить поріг заздалегідь і розуміє, чому введення зупиняється.</p>
-                </div>
-              </article>
-              <article class="ux-decision-card">
-                <div class="ux-decision-media" aria-label="Live-мініатюра продукту">
-                  <img src="./livePreview.png" alt="Live preview продукту у Web-генераторі" loading="lazy" decoding="async">
-                  <span class="media-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m5.8 17 4.2-4.2 2.8 2.8 2.1-2.1 3.3 3.5"/></svg>Місце для зображення</span>
-                </div>
-                <div class="ux-decision-copy">
-                  <h3 class="ux-decision-title">Live-мініатюра продукту</h3>
-                  <p class="ux-decision-text">Перевірка лише після завантаження змусила б користувача багаторазово редагувати, скачувати й відкривати файл, особливо для кількох продуктів. Тому кожна одиниця продукції має live-мініатюру, що оновлюється під час введення й одразу показує композицію та переповнення. Реалізація не дублює логіку: той самий HTML/CSS-шаблон брендбука масштабується поруч із формою, а поля зв’язуються з ним через input-event JS.</p>
-                </div>
-              </article>
-              <article class="ux-decision-card">
-                <div class="ux-decision-media" aria-label="Системні pop-ups">
-                  <img src="./popUp.png" alt="Системні pop-up повідомлення Web-генератора" loading="lazy" decoding="async">
-                  <span class="media-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m5.8 17 4.2-4.2 2.8 2.8 2.1-2.1 3.3 3.5"/></svg>Місце для зображення</span>
-                </div>
-                <div class="ux-decision-copy">
-                  <h3 class="ux-decision-title">Системні pop-ups</h3>
-                  <p class="ux-decision-text">Валідація блокує створення, якщо email не містить @ або не заповнені обов’язкові поля, а pop-up пояснює причину й наступну дію. Так само система підтверджує завантаження та копіювання. На desktop і tablet повідомлення з’являються біля продукту; у мобільному вертикальному layout закріплюються зверху viewport, щоб завжди залишатися видимими.</p>
-                </div>
-              </article>
-              <article class="ux-decision-card">
-                <div class="ux-decision-media" aria-label="Завантаження супутніх продуктів">
-                  <img src="./byproducts.png" alt="Супутні продукти для завантаження у Web-генераторі" loading="lazy" decoding="async">
-                  <span class="media-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m5.8 17 4.2-4.2 2.8 2.8 2.1-2.1 3.3 3.5"/></svg>Місце для зображення</span>
-                </div>
-                <div class="ux-decision-copy">
-                  <h3 class="ux-decision-title">Завантаження супутніх продуктів</h3>
-                  <p class="ux-decision-text">Супутні асети можна завантажувати окремо. Наприклад, динамічний QR-код зі звороту візитки створює VCF і після сканування автоматично додає контакти в телефон. Користувач може зберегти лише QR і показувати його для сканування замість диктування номера.</p>
-                </div>
-              </article>
+              </figure>
             </div>
           </section>
 
-          <section class="case-text-section" id="content-section-2-2" data-content-section="section-2-2" data-section-name="Design">
-            <h2 class="profile-heading">Візуальна система</h2>
+          <section class="case-text-section product-section" id="content-section-2-5" data-content-section="section-2-5" data-section-name="UX / Product Design">
+            <h2 class="profile-heading">Main User Flow</h2>
+            <div class="product-copy">
+              <figure class="user-flow-diagram product-feature-block" aria-label="Diagram of the main user scenario of the CRM system">
+                <svg class="user-flow-svg" viewBox="0 29.5 1220 800" preserveAspectRatio="xMidYMid meet" role="img" aria-label="The main user flow of the CRM system: from login and applying filters to viewing the graduate profile">
+                  <defs>
+                    <linearGradient id="userFlowGold" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#fff4ce"/>
+                      <stop offset=".58" stop-color="#ffd486"/>
+                      <stop offset="1" stop-color="#efa953"/>
+                    </linearGradient>
+                    <linearGradient id="userFlowScreen" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#262733" stop-opacity=".96"/>
+                      <stop offset="1" stop-color="#151620" stop-opacity=".98"/>
+                    </linearGradient>
+                    <marker id="userFlowArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#e9bc76" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </marker>
+                    <clipPath id="userFlowAvatarClip" clipPathUnits="objectBoundingBox"><circle cx=".5" cy=".5" r=".5"/></clipPath>
+                  </defs>
+
+                  <g aria-hidden="true">
+                    <path class="user-flow-connector" d="M130 328H170"/>
+                    <path class="user-flow-connector" d="M390 328H502"/>
+                    <path class="user-flow-connector" d="M558 328H655"/>
+                    <path class="user-flow-connector" d="M835 328H940"/>
+                    <path class="user-flow-connector" d="M745 248V222Q745 210 757 210H1043Q1055 210 1055 198V171"/>
+                    <path class="user-flow-connector" d="M940 113H773"/>
+                    <path class="user-flow-connector" d="M717 113H292Q280 113 280 125V270"/>
+                    <path class="user-flow-connector" d="M990 386V418Q990 430 978 430H547Q535 430 535 442V448"/>
+                    <path class="user-flow-connector" d="M507 476H292Q280 476 280 464V386"/>
+                    <path class="user-flow-connector" d="M1055 386V448"/>
+                    <path class="user-flow-connector" d="M1055 560V620"/>
+                    <path class="user-flow-connector" d="M940 670H718"/>
+                    <path class="user-flow-connector" d="M690 752V768Q690 780 702 780H1178Q1190 780 1190 768V340Q1190 328 1178 328H1170"/>
+                  </g>
+
+                  <g>
+                    <rect class="user-flow-start" x="30" y="300" width="100" height="56" rx="28"/>
+                    <text class="user-flow-start-label" x="80" y="334">Login</text>
+                  </g>
+
+                  <g>
+                    <rect class="user-flow-screen" x="170" y="270" width="220" height="116" rx="22"/>
+                    <circle cx="192" cy="294" r="4" fill="url(#userFlowGold)"/>
+                    <text class="user-flow-node-kicker" x="206" y="298">SCREEN</text>
+                    <text class="user-flow-node-title" x="190" y="326">Home screen</text>
+                    <text class="user-flow-node-title" x="190" y="347">CRM</text>
+                    <text class="user-flow-node-detail" x="190" y="372">no filters</text>
+                  </g>
+
+                  <g>
+                    <circle class="user-flow-action" cx="530" cy="328" r="28"/>
+                    <text class="user-flow-action-label" x="530" y="378">Apply</text>
+                    <text class="user-flow-action-label" x="530" y="399">filters</text>
+                  </g>
+
+                  <g>
+                    <path class="user-flow-decision" d="M756 258 824 318Q835 328 824 338L756 398Q745 408 734 398L666 338Q655 328 666 318L734 258Q745 248 756 258Z"/>
+                    <text class="user-flow-decision-label" x="745" y="307">Does at least one</text>
+                    <text class="user-flow-decision-label" x="745" y="324">profile match</text>
+                    <text class="user-flow-decision-label" x="745" y="341">the query?</text>
+                    <text class="user-flow-decision-label" x="745" y="358"></text>
+                  </g>
+
+                  <g class="user-flow-branch">
+                    <rect x="864" y="311" width="42" height="26" rx="13"/>
+                    <text x="885" y="329">Yes</text>
+                  </g>
+                  <g class="user-flow-branch">
+                    <rect x="724" y="218" width="42" height="26" rx="13"/>
+                    <text x="745" y="236">No</text>
+                  </g>
+
+                  <g>
+                    <rect class="user-flow-screen" x="940" y="55" width="230" height="116" rx="22"/>
+                    <circle cx="962" cy="79" r="4" fill="url(#userFlowGold)"/>
+                    <text class="user-flow-node-kicker" x="976" y="83">SCREEN</text>
+                    <text class="user-flow-node-title" x="960" y="111">Home screen</text>
+                    <text class="user-flow-node-title" x="960" y="132">CRM</text>
+                    <text class="user-flow-node-detail" x="960" y="156">“No results”</text>
+                  </g>
+
+                  <g>
+                    <circle class="user-flow-action" cx="745" cy="113" r="28"/>
+                    <text class="user-flow-action-label" x="745" y="161">Clear</text>
+                    <text class="user-flow-action-label" x="745" y="182">filters</text>
+                  </g>
+
+                  <g>
+                    <rect class="user-flow-screen" x="940" y="270" width="230" height="116" rx="22"/>
+                    <circle cx="962" cy="294" r="4" fill="url(#userFlowGold)"/>
+                    <text class="user-flow-node-kicker" x="976" y="298">SCREEN</text>
+                    <text class="user-flow-node-title" x="960" y="326">Home screen</text>
+                    <text class="user-flow-node-title" x="960" y="347">CRM</text>
+                    <text class="user-flow-node-detail" x="960" y="372">with filters</text>
+                  </g>
+
+                  <g>
+                    <circle class="user-flow-action" cx="535" cy="476" r="28"/>
+                    <text class="user-flow-action-label" x="535" y="526">Reset</text>
+                    <text class="user-flow-action-label" x="535" y="547">filters</text>
+                  </g>
+
+                  <g>
+                    <circle class="user-flow-action" cx="1055" cy="476" r="28"/>
+                    <text class="user-flow-action-label" x="1055" y="526">Click</text>
+                    <text class="user-flow-action-label" x="1055" y="547">on card</text>
+                  </g>
+
+                  <g>
+                    <rect class="user-flow-screen" x="940" y="620" width="230" height="100" rx="22"/>
+                    <circle cx="962" cy="644" r="4" fill="url(#userFlowGold)"/>
+                    <text class="user-flow-node-kicker" x="976" y="648">OVERLAY</text>
+                    <text class="user-flow-node-title" x="960" y="680">Profile</text>
+                    <text class="user-flow-node-title" x="960" y="701">graduate</text>
+                  </g>
+
+                  <g>
+                    <circle class="user-flow-action" cx="690" cy="670" r="28"/>
+                    <text class="user-flow-action-label" x="690" y="720">Click outside</text>
+                    <text class="user-flow-action-label" x="690" y="741">the side panel</text>
+                  </g>
+
+                  <g aria-label="Access level: View. Users: Diana, Mykyta, and Anna">
+                    <rect class="user-flow-access-pill" x="40" y="665" width="270" height="38" rx="19"/>
+                    <text class="user-flow-access-label" x="175" y="689">
+                      <tspan>Access Level · </tspan><tspan class="user-flow-access-value">View</tspan>
+                    </text>
+
+                    <circle class="user-flow-avatar-frame" cx="80" cy="758" r="27"/>
+                    <image href="./persona-diana.webp" x="55" y="736" width="50" height="50" preserveAspectRatio="xMidYMax meet" clip-path="url(#userFlowAvatarClip)"/>
+                    <text class="user-flow-person-name" x="80" y="804">Diana</text>
+
+                    <circle class="user-flow-avatar-frame" cx="175" cy="758" r="27"/>
+                    <image href="./persona-mykita.webp" x="150" y="735" width="50" height="50" preserveAspectRatio="xMidYMax meet" clip-path="url(#userFlowAvatarClip)"/>
+                    <text class="user-flow-person-name" x="175" y="804">Mykyta</text>
+
+                    <circle class="user-flow-avatar-frame" cx="270" cy="758" r="27"/>
+                    <image href="./persona-anna.webp" x="245" y="737" width="50" height="50" preserveAspectRatio="xMidYMax meet" clip-path="url(#userFlowAvatarClip)"/>
+                    <text class="user-flow-person-name" x="270" y="804">Anna</text>
+                  </g>
+                </svg>
+              </figure>
+            </div>
+          </section>
+
+          <section class="case-text-section product-section" id="content-section-2-6" data-content-section="section-2-6" data-section-name="UX / Product Design">
+            <h2 class="profile-heading">Edit Mode</h2>
+            <div class="product-copy">
+              <p>The edit mode follows the same structure as the alumni profile.</p>
+              <p>Each data type is paired with an appropriate control:</p>
+              <table class="problem-table two-column-product-table product-feature-block" aria-label="Mapping data types to controls">
+                <colgroup><col><col></colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">Data type</th>
+                    <th scope="col">Control</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="filter-type"><span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14M12 6v12M8 18h8"/></svg></span><span class="filter-type-label">Free text and numeric values</span></span></td>
+                    <td>Text fields</td>
+                  </tr>
+                  <tr>
+                    <td><span class="filter-type"><span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></span><span class="filter-type-label">Categorical values with a potentially unlimited set of options</span></span></td>
+                  <td>Searchable select fields</td>
+                  </tr>
+                  <tr>
+                  <td><span class="filter-type"><span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="3"/><path d="M9 7v10M15 7v10"/></svg></span><span class="filter-type-label">Categorical values with a fixed option set</span></span></td>
+                  <td>Dropdown menus</td>
+                  </tr>
+                  <tr>
+                    <td><span class="filter-type"><span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="5"/><circle class="is-filled" cx="16" cy="12" r="3"/></svg></span><span class="filter-type-label">Binary value</span></span></td>
+                    <td>Segmented switches</td>
+                  </tr>
+                  <tr>
+                    <td><span class="filter-type"><span class="filter-type-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m6 17 4-4 3 3 2-2 3 3"/></svg></span><span class="filter-type-label">Photo</span></span></td>
+                    <td>Image upload</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>Edit mode preserves the profile's five sections: Education, Career, Alumni Association, Additional Comments, and Contact Details. Users work with the same information model in both viewing and editing contexts.</p>
+              <figure class="product-media-block product-feature-block" aria-label="Edit Mode Structure Video">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                      <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                      <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                      <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
+                    </svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage">
+                  <video src="./editBasic.mp4" class="product-media-video" data-media-slot="edit-state-structure-video" autoplay muted playsinline loop preload="metadata"></video>
+                </div>
+              </figure>
+              <p>I also accounted for recurring text patterns in the original Excel file. Instead of repeatedly typing “Protocol No. &lt;number&gt; dated &lt;date&gt;,” users enter only the variable values. This reduces manual input, standardizes records, and lowers the risk of errors.</p>
+              <p>Inline messages explain field-level errors, while a form-level message covers unsuccessful submissions.</p>
+              <figure class="product-media-block product-feature-block" aria-label="Edit Mode Error Message Video">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                      <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                      <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                      <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
+                    </svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage">
+                  <img src="./errorStates.png" class="product-media-video" data-media-slot="edit-state-errors-image" alt="Error states in CRM edit form" loading="lazy" decoding="async">
+                </div>
+              </figure>
+            </div>
+          </section>
+
+          <section class="case-text-section product-section" id="content-section-2-7" data-content-section="section-2-7" data-section-name="UX / Product Design">
+            <h2 class="profile-heading">Dashboard</h2>
+            <div class="product-copy">
+              <p>The brief defined which metrics the dashboard needed to show but left the presentation format open. My task was to match each metric with the clearest visualization.</p>
+              <p>I organized the information into four levels of detail.</p>
+              <table class="problem-table two-column-product-table dashboard-info-table product-feature-block" aria-label="Mapping dashboard information to UI components">
+                <colgroup><col><col></colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">Information</th>
+                    <th scope="col">Page element</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Key indicators</td><td>Summary cards</td></tr>
+                  <tr><td>Year-over-year trends</td><td>Charts</td></tr>
+                  <tr><td>Exact values</td><td>Tables</td></tr>
+                  <tr><td>Community composition</td><td>Compact categorical visualizations</td></tr>
+                </tbody>
+              </table>
+              <p>The dashboard moves from overview to detail: users see headline metrics first, then trends and composition, with exact values available in a table when needed.</p>
+              <figure class="product-media-block product-feature-block" aria-label="Dashboard video in Figma">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true">
+                      <path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/>
+                      <path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/>
+                      <circle cx="12" cy="12" r="4" fill="#1ABCFE"/>
+                      <path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/>
+                    </svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage">
+                  <video src="./dashboard.mp4" class="product-media-video" data-media-slot="dashboard-overview-video" autoplay muted playsinline loop preload="metadata"></video>
+                </div>
+              </figure>
+            </div>
+          </section>
+
+          <section class="case-text-section product-section" id="content-section-3-1" data-content-section="section-3-1" data-section-name="UI Design">
+            <p class="profile-overline">UI Design</p>
+            <h2 class="profile-heading">Visual System</h2>
             <div class="product-copy visual-system-copy">
-              <div class="palette-board product-feature-block" aria-label="Кольорова система web-генератора">
+              <div class="palette-board product-feature-block" aria-label="CRM Alumni MiP color system">
                 <section class="palette-family palette-family--single" aria-label="Brand palette">
                   <div class="palette-scales">
                     <div class="palette-scale palette-scale--brand" data-palette-group="Brand">
@@ -3833,19 +3696,19 @@ a { color:inherit;text-decoration:none; }
               </div>
 
               <div class="system-assets-grid product-feature-block">
-                <article class="system-asset-card" aria-label="Шрифт – Inter">
+                <article class="system-asset-card" aria-label="Font – Inter">
                   <div class="system-asset-preview type-preview" aria-hidden="true">
                     <span class="type-preview-mark">Aa</span>
                     <span class="type-preview-name">Inter</span>
                     <span class="type-preview-sample">Aa Bb Cc · 0123456789</span>
                   </div>
                   <div class="system-asset-meta">
-                    <span class="system-asset-label">Шрифт</span>
+                    <span class="system-asset-label">Font</span>
                     <span class="system-asset-pill">Inter</span>
                   </div>
                 </article>
 
-                <article class="system-asset-card" aria-label="Іконки – MI System">
+                <article class="system-asset-card" aria-label="Icons - Material Symbols">
                   <div class="system-asset-preview icons-preview" aria-hidden="true">
                     <span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg></span>
                     <span><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>
@@ -3855,81 +3718,168 @@ a { color:inherit;text-decoration:none; }
                     <span><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg></span>
                   </div>
                   <div class="system-asset-meta">
-                    <span class="system-asset-label">Іконки</span>
-                    <span class="system-asset-pill">MI System</span>
+                    <span class="system-asset-label">Icons</span>
+                    <span class="system-asset-pill">Material Symbols</span>
                   </div>
                 </article>
               </div>
             </div>
           </section>
 
-          <section class="case-text-section" id="content-section-2-3" data-content-section="section-2-3" data-section-name="Design">
-            <h2 class="profile-heading">Adaptive layout</h2>
+          <section class="case-text-section product-section" id="content-section-3-2" data-content-section="section-3-2" data-section-name="UI Design">
+            <h2 class="profile-heading">Components</h2>
             <div class="product-copy">
-              <figure class="product-media-block product-feature-block" aria-label="Відео адаптивного інтерфейсу у Visual Studio Code">
+              <p>The component system follows atomic design principles, with fully defined interactive behavior.</p>
+              <figure class="product-media-block product-feature-block" aria-label="Interactive components in Figma">
                 <div class="concept-comparison-toolbar">
                   <span class="figma-make-badge">
-                    <svg class="vscode-icon" viewBox="0 0 24 24" aria-hidden="true">
-                      <path fill="#23A8F2" d="M17.72 2.08 8.82 10.2 4.7 7.08 2 8.5v7l2.7 1.42 4.12-3.12 8.9 8.12L22 19.78V4.22l-4.28-2.14Zm-.02 5.24v9.36L11.58 12l6.12-4.68Z"/>
-                    </svg>
-                    <span>VS Code</span>
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true"><path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/><path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><circle cx="12" cy="12" r="4" fill="#1ABCFE"/><path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/></svg>
+                    <span>Figma</span>
                   </span>
                 </div>
-                <div class="product-media-stage product-media-stage--adaptive-layout">
-                  <video src="./adaptiveLayout.mp4" class="product-media-video" data-media-slot="adaptive-layout-video" autoplay muted playsinline loop preload="metadata"></video>
+                <div class="product-media-stage product-media-stage--responsive-component">
+                  <video src="./responsiveComponent.mp4" class="product-media-video" data-media-slot="ui-components-video" autoplay muted playsinline loop preload="metadata"></video>
                 </div>
               </figure>
             </div>
           </section>
 
-          <section class="case-text-section" id="content-section-3-1" data-content-section="section-3-1" data-section-name="Development">
-            <p class="profile-overline">Development</p>
-            <h2 class="profile-heading">Розробка</h2>
-            <div class="research-copy research-paragraphs">
-              <p>Архітектура побудована як client-side web-застосунок: основна логіка, обробка введених даних і взаємодія з інтерфейсом виконуються без окремого backend. Це виключило витрати на розробку та підтримку окремої серверної частини.</p>
-              <p>Увесь frontend я писав вручну. Це був 2023 рік, коли генерація повноцінного подібного інтерфейсу за допомогою AI ще не була робочою альтернативою. Тому цей проєкт для мене є не лише UX/UI-кейсом: він демонструє практичне розуміння HTML, CSS та JavaScript – від структури сторінки й стилізації до клієнтської логіки та генерації файлів.</p>
+          <section class="case-text-section product-section" id="content-section-3-3" data-content-section="section-3-3" data-section-name="UI Design">
+            <h2 class="profile-heading">Responsive Design</h2>
+            <div class="product-copy">
+              <figure class="product-media-block product-feature-block" aria-label="Responsive homepage video in Figma">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true"><path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/><path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><circle cx="12" cy="12" r="4" fill="#1ABCFE"/><path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/></svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage product-media-stage--responsive-main">
+                  <video src="./responsiveMain.mp4" class="product-media-video" data-media-slot="responsive-main-video" autoplay muted playsinline loop preload="metadata"></video>
+                </div>
+              </figure>
+              <figure class="product-media-block product-feature-block" aria-label="Responsive profile video in Figma">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true"><path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/><path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><circle cx="12" cy="12" r="4" fill="#1ABCFE"/><path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/></svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage">
+                  <video src="./responsiveProfile.mp4" class="product-media-video" data-media-slot="responsive-profile-video" autoplay muted playsinline loop preload="metadata"></video>
+                </div>
+              </figure>
+              <figure class="product-media-block product-feature-block" aria-label="Responsive edit mode video in Figma">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true"><path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/><path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><circle cx="12" cy="12" r="4" fill="#1ABCFE"/><path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/></svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage">
+                  <video src="./responsiveEdit.mp4" class="product-media-video" data-media-slot="responsive-edit-video" autoplay muted playsinline loop preload="metadata"></video>
+                </div>
+              </figure>
+              <figure class="product-media-block product-feature-block" aria-label="Responsive dashboard video in Figma">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true"><path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/><path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><circle cx="12" cy="12" r="4" fill="#1ABCFE"/><path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/></svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage product-media-stage--responsive-dashboard">
+                  <video src="./responsiveDashboard.mp4" class="product-media-video" data-media-slot="responsive-dashboard-video" autoplay muted playsinline loop preload="metadata"></video>
+                </div>
+              </figure>
+              <figure class="product-media-block product-feature-block" aria-label="Responsive 404 status video in Figma">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true"><path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/><path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><circle cx="12" cy="12" r="4" fill="#1ABCFE"/><path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/></svg>
+                    <span>Figma</span>
+                  </span>
+                </div>
+                <div class="product-media-stage">
+                  <video src="./responsive404.mp4" class="product-media-video" data-media-slot="responsive-404-video" autoplay muted playsinline loop preload="metadata"></video>
+                </div>
+              </figure>
             </div>
           </section>
 
-          <section class="case-text-section" id="content-section-4-1" data-content-section="section-4-1" data-section-name="Impact">
-            <p class="profile-overline">Impact</p>
-            <h2 class="profile-heading">Результат</h2>
-            <figure class="impact-time-board" aria-label="Скорочення часу створення брендованої продукції з 80 до 6 хвилин">
-              <div class="impact-time-cards">
-                <div class="impact-time-primary">
-                  <span class="impact-time-eyebrow">Processing time</span>
-                  <strong class="impact-time-percentage">−92.5%</strong>
-                  <span class="impact-time-primary-copy">reduction in processing time</span>
+          <section class="case-text-section product-section" id="content-section-3-4" data-content-section="section-3-4" data-section-name="UI Design">
+            <h2 class="profile-heading">Dark Theme</h2>
+            <div class="product-copy">
+              <figure class="product-media-block product-feature-block" aria-label="Dark theme in Figma">
+                <div class="concept-comparison-toolbar">
+                  <span class="figma-make-badge">
+                    <svg class="figma-make-icon" viewBox="0 0 16 24" aria-hidden="true"><path fill="#F24E1E" d="M0 4a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><path fill="#FF7262" d="M8 0h4a4 4 0 0 1 0 8H8V0Z"/><path fill="#A259FF" d="M0 12a4 4 0 0 1 4-4h4v8H4a4 4 0 0 1-4-4Z"/><circle cx="12" cy="12" r="4" fill="#1ABCFE"/><path fill="#0ACF83" d="M0 20a4 4 0 0 1 4-4h4v4a4 4 0 0 1-8 0Z"/></svg>
+                    <span>Figma</span>
+                  </span>
                 </div>
-                <div class="impact-time-comparison" aria-label="Порівняння тривалості процесу">
-                  <div class="impact-time-row">
-                    <span class="impact-time-label">Старий процес</span>
-                    <span class="impact-time-track" aria-hidden="true"><span class="impact-time-fill impact-time-fill--before"></span></span>
-                    <strong class="impact-time-value">80 <small>хв.</small></strong>
-                  </div>
-                  <div class="impact-time-row">
-                    <span class="impact-time-label">Після автоматизації</span>
-                    <span class="impact-time-track" aria-hidden="true"><span class="impact-time-fill impact-time-fill--after"></span></span>
-                    <strong class="impact-time-value">6 <small>хв.</small></strong>
-                  </div>
+                <div class="product-media-stage">
+                  <img src="./darkTheme.png" class="product-media-video" data-media-slot="dark-theme-image" alt="Dark Theme CRM AlumniMiP" loading="lazy" decoding="async">
                 </div>
-                <div class="impact-time-saving">
-                  <strong>74 хв.</strong>
-                  <span>економії на одну одиницю продукції</span>
-                </div>
-              </div>
-              <p class="impact-time-explanation">Основна економія виникла<strong>не через швидшу роботу дизайнера</strong>, а завдяки усуненню необхідності залучати кількох фахівців до кожного типового запиту.</p>
-            </figure>
+              </figure>
+            </div>
           </section>
 
-          <section class="case-text-section" id="content-section-4-2" data-content-section="section-4-2" data-section-name="Impact">
-            <h2 class="profile-heading">Масштабування</h2>
-            <div class="research-copy research-paragraphs">
-              <p>У 2025 році аналогічний сервіс у мене замовила компанія, наближена до Групи Метінвесту. Вони хотіли використовувати візитки і QR-коди для постпродажної комунікації. Оскільки Метінвест і зазначена компанія входять до одного холдингу SCM, тобто їхній кінцевий бенефіціар один і той же, то в мене це не викликало конфліктів із точки зору корпоративної етики. Так сервіс для створення брендованої продукції почав імплементуватися й на іншому підприємстві, що доводить життєздатність цієї ідеї, перш за все, за рахунок економної роботи з ресурсами та правильній трансляції бізнес-логіки в дизайн продукту й алгоритми.</p>
+          <section class="case-text-section product-section" id="content-section-3-5" data-content-section="section-3-5" data-section-name="UI Design">
+            <h2 class="profile-heading">UI Decisions</h2>
+            <div class="product-copy">
+              <p>Filter → Entity → Analytics</p>
+              <p>Color does more than decorate the interface: it creates a consistent visual link between related controls, records, and analytics.</p>
+              <table class="problem-table decision-color-table product-feature-block" aria-label="Visual connection between filters, cards and statistics">
+                <colgroup><col><col><col><col></colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">Entity</th>
+                    <th scope="col">Filter</th>
+                    <th scope="col">Card</th>
+                    <th scope="col">Statistics</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="decision-entity"><span class="decision-color-sample decision-color-sample--molten" aria-hidden="true"></span><span>Metinvest Group</span></span></td>
+                  <td>Molten-steel filter accent</td>
+                  <td>Matching card badge</td>
+                  <td>Matching chart highlight</td>
+                  </tr>
+                  <tr>
+                    <td><span class="decision-entity"><span class="decision-color-sample decision-color-sample--info" aria-hidden="true"></span><span>Alumni Association</span></span></td>
+                  <td>Informational blue filter accent</td>
+                  <td>Matching card badge</td>
+                  <td>Matching chart indicator</td>
+                  </tr>
+                  <tr>
+                    <td><span class="decision-entity"><span class="decision-color-sample decision-color-sample--outline" aria-hidden="true"></span><span>Education level</span></span></td>
+                  <td>Red filter outline</td>
+                  <td>Matching card badge outline</td>
+                    <td aria-label="Not applicable">–</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>This lets users connect filters, card data, and statistics at a glance, without relying on extra explanatory copy.</p>
+              <p>Boolean data in the profile has also been visually encoded using color and icons.</p>
+              <table class="problem-table boolean-encoding-table product-feature-block" aria-label="Visual encoding of boolean data in the profile">
+                <colgroup><col><col><col></colgroup>
+                <tbody>
+                  <tr>
+                  <td><span class="boolean-feature">Metinvest Group</span></td>
+                    <td><span class="boolean-badge-state boolean-badge-state--true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8 3 3 7-7"/></svg>Yes</span></td>
+                    <td><span class="boolean-badge-state boolean-badge-state--false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"/></svg>No</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="boolean-feature">Alumni Association</span></td>
+                    <td><span class="boolean-badge-state boolean-badge-state--true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8 3 3 7-7"/></svg>Yes</span></td>
+                    <td><span class="boolean-badge-state boolean-badge-state--false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"/></svg>No</span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>Users can recognize a graduate's affiliations at a glance without repeatedly parsing text labels. These visual cues also make the profile easier to scan.</p>
             </div>
           </section>
         </section>
-        <div class="case-copy-scrollbar" id="caseCopyScrollbar" role="scrollbar" aria-label="Прокрутка тексту кейсу" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+        <div class="case-copy-scrollbar" id="caseCopyScrollbar" role="scrollbar" aria-label="Case text scroll" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
           <div class="case-copy-scrollbar-track" id="caseCopyScrollbarTrack">
             <div class="case-copy-scrollbar-thumb" id="caseCopyScrollbarThumb"></div>
           </div>
@@ -3940,16 +3890,6 @@ a { color:inherit;text-decoration:none; }
 </main>
 
 <script>
-document.querySelectorAll('video[data-playback-rate]').forEach(video=>{
-  const rate=Number(video.dataset.playbackRate);
-  if(!Number.isFinite(rate)||rate<=0)return;
-  const applyPlaybackRate=()=>{
-    video.defaultPlaybackRate=rate;
-    video.playbackRate=rate;
-  };
-  applyPlaybackRate();
-  video.addEventListener('loadedmetadata',applyPlaybackRate);
-});
 const sectionMenu=document.getElementById('sectionMenu');
 const sectionMenuButton=document.getElementById('sectionMenuButton');
 const sectionDropdown=document.getElementById('sectionDropdown');
@@ -3960,7 +3900,7 @@ sectionDropdown.append(sectionDropdownScroll);
 const sectionDropdownScrollbar=document.createElement('div');
 sectionDropdownScrollbar.className='section-dropdown-scrollbar';
 sectionDropdownScrollbar.setAttribute('role','scrollbar');
-sectionDropdownScrollbar.setAttribute('aria-label','Прокрутка списку кейсів');
+sectionDropdownScrollbar.setAttribute('aria-label','Scroll through case list');
 sectionDropdownScrollbar.setAttribute('aria-orientation','vertical');
 sectionDropdownScrollbar.setAttribute('aria-valuemin','0');
 sectionDropdownScrollbar.setAttribute('aria-valuemax','100');
@@ -4076,14 +4016,6 @@ const profileAside=document.querySelector('.profile-aside');
 const profileAsideTools=document.getElementById('profileAsideTools');
 const profileCopyShell=document.querySelector('.profile-copy-shell');
 const searchWrap=document.querySelector('.search-wrap');
-const generatorBpmnViewport=document.getElementById('generatorBpmnViewport');
-const generatorBpmnScrollbar=document.getElementById('generatorBpmnScrollbar');
-const generatorBpmnScrollbarTrack=document.getElementById('generatorBpmnScrollbarTrack');
-const generatorBpmnScrollbarThumb=document.getElementById('generatorBpmnScrollbarThumb');
-const generatorOptimizedBpmnViewport=document.getElementById('generatorOptimizedBpmnViewport');
-const generatorOptimizedBpmnScrollbar=document.getElementById('generatorOptimizedBpmnScrollbar');
-const generatorOptimizedBpmnScrollbarTrack=document.getElementById('generatorOptimizedBpmnScrollbarTrack');
-const generatorOptimizedBpmnScrollbarThumb=document.getElementById('generatorOptimizedBpmnScrollbarThumb');
 
 function setMenu(open){
   sectionMenu.classList.toggle('is-open',open);
@@ -4415,125 +4347,9 @@ function createCustomScrollbar(scroller,scrollbar,track,thumb,beforeMeasure,hand
   return {measure:queueMeasure,sync};
 }
 
-function createHorizontalScrollbar(scroller,scrollbar,track,thumb){
-  if(!scroller||!scrollbar||!track||!thumb)return {measure(){},sync(){}};
-  let trackWidth=0;
-  let thumbWidth=42;
-  let scrollRange=0;
-  let pointerId=null;
-  let pointerOffset=0;
-  let measureQueued=false;
-
-  const sync=()=>{
-    if(!trackWidth)return;
-    const progress=scrollRange?clamp(scroller.scrollLeft/scrollRange,0,1):0;
-    const travel=Math.max(0,trackWidth-thumbWidth);
-    thumb.style.transform=`translate3d(${(progress*travel).toFixed(2)}px,0,0)`;
-    scrollbar.setAttribute('aria-valuenow',String(Math.round(progress*100)));
-  };
-  const measure=()=>{
-    measureQueued=false;
-    scrollbar.hidden=false;
-    trackWidth=track.clientWidth;
-    scrollRange=Math.max(0,scroller.scrollWidth-scroller.clientWidth);
-    scrollbar.hidden=scrollRange<=1||trackWidth<=0;
-    thumbWidth=Math.min(trackWidth,Math.max(42,trackWidth*scroller.clientWidth/Math.max(1,scroller.scrollWidth)));
-    thumb.style.width=`${thumbWidth.toFixed(2)}px`;
-    if(!scrollRange&&scroller.scrollLeft)scroller.scrollLeft=0;
-    sync();
-  };
-  const queueMeasure=()=>{
-    if(measureQueued)return;
-    measureQueued=true;
-    requestAnimationFrame(measure);
-  };
-  const seekFromPointer=clientX=>{
-    const rect=track.getBoundingClientRect();
-    const travel=Math.max(1,trackWidth-thumbWidth);
-    const progress=clamp((clientX-rect.left-pointerOffset)/travel,0,1);
-    scroller.scrollLeft=progress*scrollRange;
-    sync();
-  };
-  const wheelDelta=event=>{
-    const raw=Math.abs(event.deltaX)>Math.abs(event.deltaY)?event.deltaX:event.deltaY;
-    const scale=event.deltaMode===1?16:event.deltaMode===2?Math.max(1,scroller.clientWidth):1;
-    return raw*scale;
-  };
-
-  scroller.addEventListener('scroll',sync,{passive:true});
-  scroller.addEventListener('wheel',event=>{
-    if(event.ctrlKey||(!event.shiftKey&&Math.abs(event.deltaX)<=Math.abs(event.deltaY)))return;
-    const delta=wheelDelta(event);
-    const before=scroller.scrollLeft;
-    scroller.scrollLeft=clamp(before+delta,0,scrollRange);
-    if(Math.abs(scroller.scrollLeft-before)>.5&&event.cancelable)event.preventDefault();
-  },{passive:false});
-  scrollbar.addEventListener('pointerdown',event=>{
-    if(event.pointerType==='mouse'&&event.button!==0)return;
-    event.preventDefault();
-    event.stopPropagation();
-    if(!trackWidth)measure();
-    pointerId=event.pointerId;
-    const thumbRect=thumb.getBoundingClientRect();
-    pointerOffset=thumb.contains(event.target)?event.clientX-thumbRect.left:thumbWidth/2;
-    scrollbar.classList.add('is-dragging');
-    scrollbar.setPointerCapture?.(event.pointerId);
-    seekFromPointer(event.clientX);
-  });
-  scrollbar.addEventListener('pointermove',event=>{
-    if(event.pointerId!==pointerId)return;
-    event.preventDefault();
-    seekFromPointer(event.clientX);
-  });
-  const finishDrag=event=>{
-    if(event.pointerId!==pointerId)return;
-    if(scrollbar.hasPointerCapture?.(event.pointerId))scrollbar.releasePointerCapture(event.pointerId);
-    pointerId=null;
-    scrollbar.classList.remove('is-dragging');
-  };
-  scrollbar.addEventListener('pointerup',finishDrag);
-  scrollbar.addEventListener('pointercancel',finishDrag);
-  scrollbar.addEventListener('keydown',event=>{
-    let next=scroller.scrollLeft;
-    if(event.key==='ArrowRight')next+=72;
-    else if(event.key==='ArrowLeft')next-=72;
-    else if(event.key==='PageDown'||event.key===' ')next+=scroller.clientWidth*.82;
-    else if(event.key==='PageUp')next-=scroller.clientWidth*.82;
-    else if(event.key==='Home')next=0;
-    else if(event.key==='End')next=scrollRange;
-    else return;
-    event.preventDefault();
-    event.stopPropagation();
-    scroller.scrollLeft=clamp(next,0,scrollRange);
-    sync();
-  });
-  scrollbar.addEventListener('wheel',event=>{
-    if(event.ctrlKey)return;
-    const delta=wheelDelta(event);
-    if(Math.abs(delta)<.01)return;
-    const before=scroller.scrollLeft;
-    scroller.scrollLeft=clamp(before+delta,0,scrollRange);
-    if(Math.abs(scroller.scrollLeft-before)>.5){
-      if(event.cancelable)event.preventDefault();
-      event.stopPropagation();
-    }
-  },{passive:false});
-  if('ResizeObserver' in window){
-    const observer=new ResizeObserver(queueMeasure);
-    observer.observe(scroller);
-    [...scroller.children].forEach(child=>observer.observe(child));
-  }else{
-    addEventListener('resize',queueMeasure,{passive:true});
-  }
-  requestAnimationFrame(()=>requestAnimationFrame(measure));
-  return {measure:queueMeasure,sync};
-}
-
 const compactCaseLayout=matchMedia('(max-width:900px)');
 const caseIndexScrollbarController=createCustomScrollbar(caseIndexScroll,caseIndexScrollbar,caseIndexScrollbarTrack,caseIndexScrollbarThumb,updateIndexLayout,profileCopy,compactCaseLayout);
 const caseCopyScrollbarController=createCustomScrollbar(profileCopy,caseCopyScrollbar,caseCopyScrollbarTrack,caseCopyScrollbarThumb);
-const generatorBpmnScrollbarController=createHorizontalScrollbar(generatorBpmnViewport,generatorBpmnScrollbar,generatorBpmnScrollbarTrack,generatorBpmnScrollbarThumb);
-const generatorOptimizedBpmnScrollbarController=createHorizontalScrollbar(generatorOptimizedBpmnViewport,generatorOptimizedBpmnScrollbar,generatorOptimizedBpmnScrollbarTrack,generatorOptimizedBpmnScrollbarThumb);
 caseIndexScroll.addEventListener('wheel',event=>{
   if(!compactCaseLayout.matches)return;
   applyWheelWithHandoff(caseIndexScroll,profileCopy,event);
@@ -4597,8 +4413,6 @@ function syncCaseLayout(){
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     caseIndexScrollbarController.measure();
     caseCopyScrollbarController.measure();
-    generatorBpmnScrollbarController.measure();
-    generatorOptimizedBpmnScrollbarController.measure();
     measureResponsiveTables();
     responsivePaletteController.measure();
   }));
@@ -4635,22 +4449,16 @@ document.querySelectorAll('.index-group').forEach(group=>group.addEventListener(
 addEventListener('resize',()=>{
   caseIndexScrollbarController.measure();
   caseCopyScrollbarController.measure();
-  generatorBpmnScrollbarController.measure();
-  generatorOptimizedBpmnScrollbarController.measure();
 },{passive:true});
 addEventListener('load',()=>{
   caseIndexScrollbarController.measure();
   caseCopyScrollbarController.measure();
-  generatorBpmnScrollbarController.measure();
-  generatorOptimizedBpmnScrollbarController.measure();
   measureResponsiveTables();
   responsivePaletteController.measure();
 },{passive:true});
 document.fonts?.ready.then(()=>{
   caseIndexScrollbarController.measure();
   caseCopyScrollbarController.measure();
-  generatorBpmnScrollbarController.measure();
-  generatorOptimizedBpmnScrollbarController.measure();
   measureResponsiveTables();
   responsivePaletteController.measure();
 });
@@ -4659,8 +4467,6 @@ addEventListener('message',event=>{
   requestAnimationFrame(()=>{
     caseIndexScrollbarController.measure();
     caseCopyScrollbarController.measure();
-    generatorBpmnScrollbarController.measure();
-    generatorOptimizedBpmnScrollbarController.measure();
     measureResponsiveTables();
     responsivePaletteController.measure();
   });
@@ -4717,8 +4523,8 @@ function updateCaseSearchPanel(){
   searchResultPrevious.disabled=!total;
   searchResultNext.disabled=!total;
   if(!hasQuery)return;
-  searchResultsLabel.textContent=total?'Знайдено':'Нічого не знайдено';
-  searchResultsCount.textContent=total?`${caseSearchIndex+1} з ${total}`:'0 з 0';
+  searchResultsLabel.textContent=total?'Matches':'No matches';
+  searchResultsCount.textContent=total?`${caseSearchIndex+1} of ${total}`:'0 of 0';
 }
 
 function performCaseSearch(){

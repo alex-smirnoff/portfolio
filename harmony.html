@@ -14092,7 +14092,7 @@ html.native-profile-morphing #motionNative .motion-profile-contact { pointer-eve
 /* First-load presentation; the existing star canvas and background stay untouched. */
 #heroStartupLoader { display:none; }
 html.hero-boot-pending #heroStartupLoader {
-  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+  position:fixed;left:50%;top:50%;transform:translate(-50%,calc(-50% - 11px));
   z-index:20000;display:grid;place-items:center;
   width:clamp(32px,2.8vw,44px);height:clamp(32px,2.8vw,44px);
   pointer-events:none;

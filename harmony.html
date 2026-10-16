@@ -42,7 +42,8 @@ See /LICENCE.md.
   const root=document.documentElement;
   root.classList.add('hero-boot-pending');
   let pending=true,mounted=false,uiReady=false,worldReady=false,revealing=false;
-  let progress=0,progressTimer=0;
+  let progress=0,progressTimer=0,lateStart=0,lastCaptionPhase=-1;
+  const startupMessages={loading:'Loading',preparing:'Preparing 3D world',waiting:'Just a few moments'};
   const animations=[];
   const blocked=['wheel','touchmove','pointerdown','click','keydown'];
   function guard(event){
@@ -60,10 +61,26 @@ See /LICENCE.md.
     const output=document.getElementById('heroStartupProgress');
     if(output)output.textContent=progress+'%';
   }
+  function updateCaption(now){
+    const phase=lateStart&&!worldReady?Math.floor((now-lateStart)/5000)%3:2;
+    if(phase===lastCaptionPhase)return;
+    lastCaptionPhase=phase;
+    const label=document.getElementById('heroStartupLabel');
+    const output=document.getElementById('heroStartupProgress');
+    if(label)label.textContent=phase===0?startupMessages.preparing:phase===1?startupMessages.waiting:startupMessages.loading;
+    if(output)output.style.display=phase===2?'':'none';
+  }
   function advanceProgress(){
     if(!pending)return;
+    const now=performance.now();
     const ceiling=worldReady?94:uiReady?88:mounted?82:12;
     if(progress<ceiling)setProgress(progress+Math.max(1,Math.ceil((ceiling-progress)*.055)));
+    else if(uiReady&&!worldReady){
+      if(!lateStart)lateStart=now;
+      // Keep the late percentage moving, but reserve 100% for the first rendered 3D frame.
+      setProgress(88+Math.floor(11*(1-Math.exp(-(now-lateStart)/11000))));
+    }
+    updateCaption(now);
     progressTimer=setTimeout(advanceProgress,240);
   }
   function finish(){
@@ -78,6 +95,7 @@ See /LICENCE.md.
   function reveal(){
     if(!pending||revealing||!uiReady||!worldReady)return;
     revealing=true;
+    updateCaption(performance.now());
     setProgress(100);
     const content=[...document.querySelectorAll(contentSelector)];
     root.classList.add('hero-boot-revealing');
@@ -14083,6 +14101,7 @@ html.native-profile-morphing #motionNative .motion-profile-contact { pointer-eve
   background:url("./previews/media-loader.svg?v=2") center/32px 32px no-repeat;
   color:rgba(255,255,255,.7);font:500 9px/1.35 var(--mono);padding-top:40px;opacity:0;
 }
+#works .case-card .case-media[data-preview-state="cold"]::after,
 .case-media[data-preview-state="loading"]::after{opacity:1}
 .case-media[data-preview-state="error"]::after{
   content:"Unable to load";opacity:1;
@@ -14101,7 +14120,7 @@ html.hero-boot-pending #heroStartupLoader {
 #heroStartupLoader .hero-startup-caption {
   position:absolute;left:50%;top:calc(100% + 10px);transform:translateX(-50%);
   color:rgba(255,255,255,.7);font:500 9px/1.35 var(--mono);
-  letter-spacing:.08em;white-space:nowrap;
+  letter-spacing:.08em;white-space:nowrap;min-width:24ch;text-align:center;
 }
 #heroStartupProgress { display:inline-block;min-width:4ch;text-align:right;font-variant-numeric:tabular-nums; }
 /* CSS starts at first paint; an inline SVG SMIL timeline can wait for document load.
@@ -14131,7 +14150,7 @@ html.hero-boot-pending body > :is(.hero-corner,.top-nav,.hero-contact,.journey-s
     stroke-dasharray="1 1"
     stroke-dashoffset=".38">
   </path>
-</svg><span class="hero-startup-caption" aria-hidden="true">Loading <span id="heroStartupProgress">0%</span></span></div>
+</svg><span class="hero-startup-caption" aria-hidden="true"><span id="heroStartupLabel">Loading</span> <span id="heroStartupProgress">0%</span></span></div>
 <svg class="glass-filter-defs" width="0" height="0" aria-hidden="true" focusable="false">
   <filter id="glassRefraction" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
     <feTurbulence type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="2" seed="8" result="noise"/>
@@ -31805,6 +31824,9 @@ addEventListener('keydown', event => {
     if(!state)return;
     caseStatesBySlot.delete(slot);
     try{state.navigation.removeEventListener('click',state.navigationClickHandler);}catch{}
+    state.scrollContainer?.removeEventListener('scroll',state.scrollHandler);
+    clearTimeout(state.clickScrollTimer);
+    state.navigationObserver.disconnect();
     sendAnalytics('case_close',{
       case_id:state.caseId
     });
@@ -31814,7 +31836,8 @@ addEventListener('keydown', event => {
     try{
       if(!active)return;
       const sectionId=analyticsText(active.id||'',160);
-      if(!sectionId)return;
+      if(!sectionId||sectionId===state.lastSectionId)return;
+      state.lastSectionId=sectionId;
       sendAnalytics('case_section_view',{
         case_id:state.caseId,
         section_id:sectionId,
@@ -31836,24 +31859,57 @@ addEventListener('keydown', event => {
       const childDocument=frame.contentDocument;
       const caseId=analyticsText(frame.dataset.caseKey||'',120);
       if(!childWindow||!childDocument||!caseId)return;
-      const navigation=childDocument.querySelector('.index-links');
+      const navigation=childDocument.querySelector('.case-index');
       if(!navigation)return;
+      const scrollContainer=childDocument.getElementById('profileCopy');
       const slot=frame.id||'caseFrame';
       const current=caseStatesBySlot.get(slot);
-      if(current?.window===childWindow&&current.caseId===caseId)return;
+      if(current?.navigation.ownerDocument===childDocument&&current.caseId===caseId)return;
       if(current)closeTrackedCase(slot);
       const state={
         slot,
         window:childWindow,
         caseId,
         navigation,
-        navigationClickHandler:null
+        scrollContainer,
+        navigationClickHandler:null,
+        navigationObserver:null,
+        scrollHandler:null,
+        clickScrollTimer:0,
+        clickScrollPending:false,
+        lastSectionId:''
+      };
+      const finishClickScroll=()=>{
+        state.clickScrollTimer=0;
+        state.clickScrollPending=false;
+        sendCaseMenuItem(state,navigation.querySelector('.index-links button.is-active'));
+      };
+      const scheduleClickScrollEnd=()=>{
+        clearTimeout(state.clickScrollTimer);
+        state.clickScrollTimer=setTimeout(finishClickScroll,250);
       };
       state.navigationClickHandler=event=>{
         const button=event.target?.closest?.('.index-links button');
-        if(button&&navigation.contains(button))sendCaseMenuItem(state,button);
+        if(button&&navigation.contains(button)){
+          sendCaseMenuItem(state,button);
+          /* Ignore intermediate active items during the menu's smooth scroll. */
+          state.clickScrollPending=true;
+          scheduleClickScrollEnd();
+        }
+      };
+      state.scrollHandler=()=>{
+        if(state.clickScrollPending)scheduleClickScrollEnd();
       };
       navigation.addEventListener('click',state.navigationClickHandler);
+      scrollContainer?.addEventListener('scroll',state.scrollHandler,{passive:true});
+      state.navigationObserver=new MutationObserver(()=>{
+        if(!state.clickScrollPending){
+          sendCaseMenuItem(state,navigation.querySelector('.index-links button.is-active'));
+        }
+      });
+      navigation.querySelectorAll('.index-links button').forEach(button=>{
+        state.navigationObserver.observe(button,{attributes:true,attributeFilter:['class']});
+      });
       caseStatesBySlot.set(slot,state);
       sendAnalytics('case_open',{
         case_id:caseId

@@ -4293,6 +4293,19 @@ html[data-scene="launch"] .hero-back-title { opacity:1; }
 .product-observatory-actions .tags span:nth-child(2) { left:var(--pc-tag-inner-inset,20%);top:37px;transform:translate3d(0,var(--pc-tag-y),0) rotate(-2deg) scale(var(--pc-tag-scale)); }
 .product-observatory-actions .tags span:nth-child(3) { right:var(--pc-tag-inner-inset,20%);top:37px;transform:translate3d(0,var(--pc-tag-y),0) rotate(2deg) scale(var(--pc-tag-scale)); }
 .product-observatory-actions .tags span:nth-child(4) { right:var(--pc-tag-outer-inset,0%);top:0;transform:translate3d(0,var(--pc-tag-y),0) rotate(5deg) scale(var(--pc-tag-scale)); }
+@media (width > 500px) and (height > 669.98px) {
+  /* Mirror the edges facing the CTA; the labels have different widths. */
+  .product-observatory-actions .tags span:nth-child(2) {
+    left:auto;
+    right:calc(50% + var(--pc-tag-inner-center-offset,100px));
+    transform-origin:100% 50%;
+  }
+  .product-observatory-actions .tags span:nth-child(3) {
+    right:auto;
+    left:calc(50% + var(--pc-tag-inner-center-offset,100px));
+    transform-origin:0% 50%;
+  }
+}
 #productCaseSection .product-observatory-cta {
   --pc-button-y:0px;
   --pc-button-scale:1;
@@ -11880,7 +11893,7 @@ html.native-scroll-active .motion-native-section {
   font-weight:var(--weight-semibold);
   line-height:1.08;
   transform:scale(var(--hero-front-tall-fit-scale,1));
-  translate:0 var(--hero-front-lift,0px);
+  translate:0 calc(var(--hero-front-lift,0px) + var(--hero-front-narrow-tall-lift,0px));
   transform-origin:50% 0;
 }
 #launch .hero-title span:last-child i { font-weight:var(--weight-medium); }
@@ -14482,7 +14495,7 @@ html.hero-boot-pending body > :is(.hero-corner,.top-nav,.hero-contact,.journey-s
         </div>
         <div class="motion-profile-contact-target">
           <div class="motion-profile-actions">
-            <a class="motion-profile-cv" href="./cvAlexanderSmirnov.pdf" download="cvAlexanderSmirnov.pdf"><span class="motion-profile-file-app-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="12" y="7" width="24" height="34" rx="4.5" fill="#fffdf8"/><rect x="17" y="14" width="14" height="2" rx="1" fill="#d9b66c"/><rect x="17" y="19" width="14" height="2" rx="1" fill="#d9b66c"/><rect x="17" y="24" width="10" height="2" rx="1" fill="#d9b66c"/><rect x="16" y="30.5" width="16" height="7.5" rx="3.75" fill="#d58c1e"/><text x="24" y="35.9" text-anchor="middle" fill="#fffaf0" font-family="Arial, sans-serif" font-size="5.5" font-weight="700">PDF</text></svg></span><strong class="motion-profile-file-name">Резюме.pdf</strong><span class="motion-profile-file-open" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5M5 20h14"/></svg></span></a>
+            <a class="motion-profile-cv" href="./cvSmirnovAlexUKR.pdf" download="cvSmirnovAlexUKR.pdf"><span class="motion-profile-file-app-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="12" y="7" width="24" height="34" rx="4.5" fill="#fffdf8"/><rect x="17" y="14" width="14" height="2" rx="1" fill="#d9b66c"/><rect x="17" y="19" width="14" height="2" rx="1" fill="#d9b66c"/><rect x="17" y="24" width="10" height="2" rx="1" fill="#d9b66c"/><rect x="16" y="30.5" width="16" height="7.5" rx="3.75" fill="#d58c1e"/><text x="24" y="35.9" text-anchor="middle" fill="#fffaf0" font-family="Arial, sans-serif" font-size="5.5" font-weight="700">PDF</text></svg></span><strong class="motion-profile-file-name">Резюме.pdf</strong><span class="motion-profile-file-open" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5M5 20h14"/></svg></span></a>
           </div>
         </div>
       </div>
@@ -15539,9 +15552,49 @@ function syncHeroTitleDepth() {
     ? rect.width / heroUpperLine.offsetWidth
     : 1;
   const visualFontSize=fontSize*visualScale;
+  // Measure the accepted resting positions before applying this isolated adjustment.
+  doc.style.setProperty('--hero-front-narrow-tall-lift','0px');
+  const narrowTallTitles=window.innerWidth<=550&&sceneViewportHeight()>730;
+  let rearLift=0;
+  if(window.innerWidth<=550){
+    const rearCenter=referenceTop+rect.height*.5-12.47;
+    rearLift=narrowTallTitles?rearCenter*.06:0;
+    if(heroFrontLine){
+      const frontRect=heroFrontLine.getBoundingClientRect();
+      const frontStyle=getComputedStyle(heroFrontLine);
+      const paddingTop=Number.parseFloat(frontStyle.paddingTop)||0;
+      const paddingBottom=Number.parseFloat(frontStyle.paddingBottom)||0;
+      const contentCenter=paddingTop+(heroFrontLine.offsetHeight-paddingTop-paddingBottom)*.5;
+      const frontCenter=frontRect.top-nativeHandoffOffsetY()
+        +contentCenter*frontRect.height/heroFrontLine.offsetHeight;
+      const requestedFrontLift=frontCenter*.10;
+      let frontLift=requestedFrontLift;
+      if(!narrowTallTitles){
+        frontLift=0;
+        const viewportHeight=sceneViewportHeight();
+        if(viewportHeight>HERO_SHORT_CROP_HEIGHT){
+          // Reconstruct the existing 420px stop, including this language's width fit.
+          // The requested lift may use spare space, but cannot close that minimum gap.
+          const minimumScale=sceneTypographyWidthScale()*HERO_SHORT_SCALE_MIN;
+          const currentScale=sceneTypographyWidthScale()*heroShortVisualScale();
+          const currentFit=Number.parseFloat(doc.style.getPropertyValue('--hero-front-tall-fit-scale'))||1;
+          const minimumFit=Math.min(1,currentFit*currentScale/minimumScale);
+          const minimumFrontCenter=heroFrontLine.offsetTop+contentCenter*minimumFit;
+          const localRearCenter=heroUpperLine.offsetTop+heroUpperLine.offsetHeight*.5;
+          const minimumDistance=(minimumFrontCenter-localRearCenter)*minimumScale+12.47;
+          const maximumRearDrop=(HERO_SHORT_HEIGHT_START-HERO_SHORT_CROP_HEIGHT)*.5;
+          const minimumGap=minimumDistance-Math.max(0,minimumDistance*.25-maximumRearDrop)-maximumRearDrop;
+          const rearDrop=Math.max(0,HERO_SHORT_HEIGHT_START-viewportHeight)*.5;
+          const availableLift=Math.max(0,frontCenter-rearCenter-rearDrop-minimumGap);
+          frontLift=Math.min(requestedFrontLift,availableLift);
+        }
+      }
+      doc.style.setProperty('--hero-front-narrow-tall-lift',`${(-frontLift/visualScale).toFixed(4)}px`);
+    }
+  }
   Object.assign(heroBackTitle.style,{
     left:`${referenceLeft - visualFontSize * .14}px`,
-    top:`${referenceTop - visualFontSize * .18}px`,
+    top:`${referenceTop - visualFontSize * .18 - rearLift}px`,
     width:`${rect.width}px`,
     height:`${rect.height}px`,
     fontSize:`${visualFontSize}px`,lineHeight:`${lineHeight*visualScale}px`,fontWeight:style.fontWeight,fontFamily:style.fontFamily
@@ -15555,7 +15608,7 @@ function syncHeroTitleDepth() {
     const echoLineHeight=lineHeight*visualScale*echoScale;
     Object.assign(heroBackTitleEcho.style,{
       left:'0px',
-      top:`${referenceTop+(lineHeight*visualScale-echoLineHeight)/2-30}px`,
+      top:`${referenceTop+(lineHeight*visualScale-echoLineHeight)/2-30-rearLift}px`,
       width:`${window.innerWidth}px`,height:`${echoLineHeight}px`,
       fontSize:`${echoFontSize}px`,lineHeight:`${echoLineHeight}px`,
       fontWeight:style.fontWeight,fontFamily:style.fontFamily
@@ -16045,6 +16098,17 @@ function syncProductActionsHorizontalSpacing(){
   productObservatory3d.style.setProperty('--pc-actions-responsive-width',`${actionsWidth.toFixed(2)}px`);
   productObservatory3d.style.setProperty('--pc-tag-outer-inset',`${outerInset.toFixed(3)}%`);
   productObservatory3d.style.setProperty('--pc-tag-inner-inset',`${innerInset.toFixed(3)}%`);
+  if(!matchMedia('(width > 500px) and (height > 669.98px)').matches)return;
+  if(!productActionButton3d||!productActionTags3d[1]||!productActionTags3d[2])return;
+  /* Use resting layout widths so the sequential pulses cannot move the anchors.
+     Keep the original average gap, with room for the CTA at narrower widths. */
+  const layoutWidth=element=>Number.parseFloat(getComputedStyle(element).width)||element.offsetWidth;
+  const innerTagsWidth=(layoutWidth(productActionTags3d[1])+layoutWidth(productActionTags3d[2]))*.5;
+  const innerCenterOffset=Math.max(
+    layoutWidth(productActionButton3d)*.5+14,
+    actionsWidth*(.5-innerInset/100)-innerTagsWidth
+  );
+  productObservatory3d.style.setProperty('--pc-tag-inner-center-offset',`${innerCenterOffset.toFixed(3)}px`);
 }
 function centerProductCompositionVertically(){
   if(!productObservatoryStage3d||!productCometBackTitle3d||!productTitleReveal3d||!productMeta3d||!productActions3d)return;
@@ -16871,9 +16935,11 @@ function renderWorksCaseStudies(routeState){
     const turnIn=studySmoothRange(phase,.08,.34);
     const turnOut=studySmoothRange(phase,.7,.96);
     const rotation=180*(turnIn+turnOut);
-    const edge=Math.max(Math.sin(Math.PI*turnIn),Math.sin(Math.PI*turnOut),0);
+    /* Fade only the outer shadow as either face turns edge-on. */
+    const shadowAngle=Math.abs(((rotation+90)%180)-90);
     const button=studySmoothRange(phase,.35,.44)*(1-studySmoothRange(phase,.61,.69));
     card.style.setProperty('--study-rotate-y',`${rotation.toFixed(3)}deg`);
+    card.style.setProperty('--study-shadow',(.24*(1-studySmoothRange(shadowAngle,25,75))).toFixed(4));
     const cardRect=card.getBoundingClientRect();
     const cardIsVisible=cardRect.right>visibleFrameLeft
       &&cardRect.left<visibleFrameRight
@@ -16894,7 +16960,6 @@ function renderWorksCaseStudies(routeState){
         frost.style.setProperty('--study-frost-rotate-y',`${rotation.toFixed(3)}deg`);
       }
     }
-    card.style.setProperty('--study-shadow',(.24+.18*edge).toFixed(4));
     card.style.setProperty('--study-button-y',`${(-3*button).toFixed(2)}px`);
     card.style.setProperty('--study-button-scale',(1+.055*button).toFixed(4));
     card.style.setProperty('--study-button-brightness',(1+.13*button).toFixed(4));
@@ -20730,6 +20795,10 @@ function renderWorksRoute(now){
   }
   const titleExit=clamp3d(horizontalStage/.78);
   const titleEase=titleExit*titleExit*(3-2*titleExit);
+  if(heroFrontLine){
+    /* The capped scene travel cannot clear a title centred in a wider viewport. */
+    heroFrontLine.style.opacity=window.innerWidth>MAX_HORIZONTAL_SECTION_WIDTH?String(1-titleEase):'';
+  }
   const heroShortTitleDrop=Math.max(0,(HERO_SHORT_HEIGHT_START-Math.max(HERO_SHORT_CROP_HEIGHT,sceneViewportHeight()))*.5)*(1-titleEase);
   if(heroBackTitle){
     heroBackTitle.style.transform=`translate3d(0,${-12.47+heroShortTitleDrop+titleEase*DESIGN_VIEWPORT_HEIGHT*.68}px,0)`;
@@ -21381,8 +21450,11 @@ if (worldCanvas && !reduced3d) {
       anchor.add(plant);
       plantAttachments.push(plant);
     });
+    // The exposed left staircase spans three sprites in each of two banks.
+    // Keep the rest of those banks and the neighbouring left bank unchanged.
+    const outerLeftMistLayout=cloudLayouts.rockLeft.filter((_,index)=>index!==0&&index!==1&&index!==8);
     const mistSpecs=[
-      [0,.1,.3,.12,4.8,.94,cloudLayouts.rockLeft,0x7399a7,.62,0,.24,31],
+      [0,.1,.3,.12,4.8,.94,outerLeftMistLayout,0x7399a7,.62,0,.24,31],
       [2,.16,.26,.1,5.1,.9,cloudLayouts.rockLow,0x667f98,.58,1,.23,33],
       [4,.14,.27,.11,5,.92,cloudLayouts.rockCenter,0x6f718f,.56,0,.23,34],
       [7,-.15,.28,.12,5.1,.94,cloudLayouts.rockRight,0x8b7195,.58,2,.24,35],
@@ -21393,7 +21465,7 @@ if (worldCanvas && !reduced3d) {
       [18,.04,.16,.06,3.2,.58,cloudLayouts.rockLow,0x65758c,.34,1,.18,33],
       [22,.12,.2,.08,4.2,.72,cloudLayouts.rockLeft,0x647f91,.36,1,.2,32],
       [25,-.1,.18,.08,4,.68,cloudLayouts.rockRight,0x756a87,.34,0,.2,34],
-      [27,.12,.18,.08,4.4,.7,cloudLayouts.rockLeft,0x667f90,.4,1,.2,33]
+      [27,.12,.18,.08,4.4,.7,outerLeftMistLayout,0x667f90,.4,1,.2,33]
     ];
     const mists=mistSpecs.map(([rockIndex,offsetX,offsetY,offsetZ,width,height,layout,color,opacity,textureIndex,spriteScale,renderOrder],index)=>{
       const anchor=rocks.children[rockIndex];
@@ -22661,18 +22733,55 @@ if (worldCanvas && !reduced3d) {
   const dustGeo=new THREE.BufferGeometry();dustGeo.setAttribute('position',new THREE.BufferAttribute(dustPos,3));
   const foregroundDust=new THREE.Points(dustGeo,new THREE.PointsMaterial({map:radialTexture('rgba(255,255,255,.8)','rgba(146,200,255,.16)'),size:1.65,sizeAttenuation:false,transparent:true,opacity:.28,depthWrite:false,blending:THREE.AdditiveBlending}));universe.add(foregroundDust);
 
+  const heroRibbonCameraLocal=new THREE.Vector3();
+  function updateHeroRibbonFlyThrough(item,release,targetX,targetY){
+    // Move the ribbon toward and past the viewer along the pearl's sightline.
+    // Its real aperture stays on that line; perspective supplies the zoom.
+    const flightRaw=clamp3d(release/.94);
+    const flight=flightRaw*flightRaw*(2-flightRaw);
+    const swell=flightRaw*flightRaw*(3-2*flightRaw);
+    const ribbonScale=1+swell*.24;
+    item.group.updateWorldMatrix(true,false);
+    heroRibbonCameraLocal.copy(camera.position);
+    item.group.worldToLocal(heroRibbonCameraLocal);
+    const cameraDepth=Math.max(.1,heroRibbonCameraLocal.z);
+    const radius=item.body.geometry.boundingSphere.radius*ribbonScale;
+    // Carry the entire mesh beyond the near plane before hiding it. No shrink
+    // or opacity fade: scrolling back retraces exactly the same flight.
+    const crossing=flight*(cameraDepth+radius+1)/cameraDepth;
+    item.body.position.set(
+      targetX+(heroRibbonCameraLocal.x-targetX)*crossing,
+      targetY+(heroRibbonCameraLocal.y-targetY)*crossing,
+      cameraDepth*crossing
+    );
+    item.body.scale.setScalar(ribbonScale);
+    item.body.visible=flightRaw<1;
+  }
+
+  function updateHeroWhiteRetreat(item,release,targetX,targetY){
+    const openingRaw=clamp3d(release/.25);
+    const opening=openingRaw*openingRaw*(3-2*openingRaw);
+    const travelRaw=clamp3d(release/.94);
+    // Ease across the full retreat, with zero velocity and acceleration at
+    // both ends, instead of pushing the whole depth change into a short burst.
+    const travel=travelRaw*travelRaw*travelRaw*(travelRaw*(travelRaw*6-15)+10);
+    const retreatRaw=clamp3d((release-.6)/.34);
+    const retreat=retreatRaw*retreatRaw*(3-2*retreatRaw);
+    // Face the existing opening toward the pearl before passing it. Rotate
+    // the intact mesh; preserve its idle spin and restore its tilt behind it.
+    const alignment=opening*(1-retreat);
+    item.second.rotation.x=-.28*(1-alignment);
+    item.second.rotation.y=.72*(1-alignment);
+    item.second.position.set(targetX,targetY,-4.55*travel);
+    // Collapse only after clearing the pearl. Keep both original end scales.
+    item.second.scale.setScalar(1.08*(1+opening*.055)*Math.max(.001,1-retreat));
+    item.second.visible=release<.94;
+  }
+
   function updateLaunchTransition(item,stage,time,frameScale,updateStaticScene=true){
     const release=clamp3d(stage/.82);
     const eased=release*release*(3-2*release);
     const electricity=clamp3d((release-.5)/.32);
-    const openingRaw=clamp3d(release/.25);
-    const behindRaw=clamp3d((release-.255)/.09);
-    const retreatRaw=clamp3d((release-.345)/.595);
-    const opening=openingRaw*openingRaw*(3-2*openingRaw);
-    const behind=behindRaw*behindRaw*(3-2*behindRaw);
-    const retreat=retreatRaw*retreatRaw*(3-2*retreatRaw);
-    const spread=opening*(1-behind);
-    const noodleScale=(1+opening*.08)*Math.max(.001,1-retreat);
     /* The orb stays at its original depth; the camera approaches it and it drifts slightly right. */
     const targetX=1.1*eased,targetY=.45*eased,targetZ=0;
     if(updateStaticScene)updateHeroCardConstellation(item.cardConstellation,stage,time);
@@ -22694,17 +22803,9 @@ if (worldCanvas && !reduced3d) {
     );
 
     /* At release === 0 every value below is exactly the original composition. */
-    /* Open around the orb, then converge on its exact path behind it and collapse. */
-    item.body.position.set(targetX-.82*spread,targetY+.38*spread,-4.2*behind);
-    item.body.scale.setScalar(noodleScale);
-    item.occluder.position.set(targetX-.74*spread,targetY+.31*spread,-4.34*behind);
-    item.occluder.scale.setScalar(.91*noodleScale);
-    item.second.position.set(targetX+.46*spread,targetY-.3*spread,-4.55*behind);
-    item.second.scale.setScalar(1.08*(1+opening*.055)*Math.max(.001,1-retreat));
-    const noodlesVisible=retreat<1;
-    item.body.visible=noodlesVisible;
+    updateHeroRibbonFlyThrough(item,release,targetX,targetY);
+    updateHeroWhiteRetreat(item,release,targetX,targetY);
     item.occluder.visible=false;
-    item.second.visible=noodlesVisible;
     const heroHaloOpacity=.68*(1-clamp3d(release/.4));
     item.heroHalo.material.opacity=heroHaloOpacity;
     item.heroHalo.visible=heroHaloOpacity>.0005;

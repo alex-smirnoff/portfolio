@@ -9160,7 +9160,7 @@ html.native-scroll-active #motionNative .motion-social-layout {
 #motionNative .native-print-portal {
   position:relative;
   min-height:224px;
-  margin:34px 0 20px;
+  margin:calc(34px + var(--scene-compact-responsive-size) * var(--leading-compact)) 0 20px;
   padding:0;
   overflow:hidden;
   isolation:isolate;
@@ -9670,6 +9670,7 @@ html.native-scroll-active #motionNative .motion-social-layout {
 #motionNative .motion-feed-post:nth-child(3) { --motion-screen-tilt:-2.8deg;--motion-screen-turn:10.4deg;--motion-screen-return:-1.7deg;--motion-screen-x:1px;--motion-screen-y:0px; }
 #motionNative .motion-feed-post:nth-child(4) { --motion-screen-tilt:3.5deg;--motion-screen-turn:-11.1deg;--motion-screen-return:1.9deg;--motion-screen-x:-1px;--motion-screen-y:0px; }
 #motionNative .motion-feed-post:nth-child(5) { --motion-screen-tilt:-3.1deg;--motion-screen-turn:10.7deg;--motion-screen-return:-1.9deg;--motion-screen-x:1px;--motion-screen-y:0px; }
+#motionNative .motion-feed-post:nth-child(6) { --motion-screen-tilt:3deg;--motion-screen-turn:-10.6deg;--motion-screen-return:1.8deg;--motion-screen-x:1px;--motion-screen-y:0px; }
 @keyframes native-motion-screen-kick {
   0%,100% {
     transform:translate(-50%,-50%) rotate(var(--motion-screen-tilt,0deg));
@@ -11879,6 +11880,7 @@ html.native-scroll-active .motion-native-section {
   font-weight:var(--weight-semibold);
   line-height:1.08;
   transform:scale(var(--hero-front-tall-fit-scale,1));
+  translate:0 var(--hero-front-lift,0px);
   transform-origin:50% 0;
 }
 #launch .hero-title span:last-child i { font-weight:var(--weight-medium); }
@@ -14310,6 +14312,26 @@ html.hero-boot-pending body > :is(.hero-corner,.top-nav,.hero-contact,.journey-s
       </div>
       <div class="cards-zone">
         <div class="case-stack">
+        <article class="case-card glass" data-case="redesign">
+          <div class="case-media"><img data-case-preview="./atlantAI/preview.png" alt="Product Redesign" loading="lazy" decoding="async"></div>
+          <div class="case-body">
+            <div class="case-kicker">Atlant AI</div>
+            <h3 class="case-title">Product Redesign</h3>
+            <p class="case-desc">Перебудував <span class="keyword-highlight">IA</span> в компактну one-page структуру, спроєктував expandable cards, <span class="keyword-highlight">component states</span> і <span class="keyword-highlight">form UX</span>, зв’язав ключові interactions у прототипі та побудував responsive system із <span class="keyword-highlight">5 breakpoints</span>. Окремо деталізував поведінку компонентів для розробки.</p>
+            <div class="tags"><span>UX Audit</span><span>IA</span><span>RWD</span></div>
+            <button class="case-action" type="button">Відкрити</button>
+          </div>
+        </article>
+        <article class="case-card glass low-left" data-case="automation" data-modal-case="automation">
+          <div class="case-media"><img data-case-preview="./businessCards/preview.png" alt="Web-генератор" loading="lazy" decoding="async"></div>
+          <div class="case-body">
+            <div class="case-kicker">Metinvest, TSUM</div>
+            <h3 class="case-title">Web-генератор</h3>
+            <p class="case-desc">Самостійно спроєктував <span class="keyword-highlight">end-to-end</span> сервіс: змоделював бізнес-процес у BPMN, переніс правила брендбуку в алгоритми й <span class="keyword-highlight">executable logic</span>, створив UX із validation та live preview і вручну реалізував усе на <span class="keyword-highlight">HTML/CSS/JS</span>. Автоматизація скоротила обробку запиту <span class="keyword-highlight">80 → 6 хв</span>.</p>
+            <div class="tags"><span>BPMN</span><span>Automation</span><span>JS</span></div>
+            <button class="case-action" type="button">Відкрити</button>
+          </div>
+        </article>
         <article class="case-card glass main" data-case="crm">
           <div class="case-media"><img data-case-preview="./crm/preview.png" alt="CRM AlumniMiP" loading="lazy" decoding="async"></div>
           <div class="case-body">
@@ -14327,26 +14349,6 @@ html.hero-boot-pending body > :is(.hero-corner,.top-nav,.hero-contact,.journey-s
             <h3 class="case-title">MI Study App</h3>
             <p class="case-desc">Спроєктував <span class="keyword-highlight">mobile-first</span> платформу для тренінгів, welcome-навчання та навчальних матеріалів. Бізнес-процеси формалізував у <span class="keyword-highlight">BPMN</span> і транслював у UX: реєстрацію, <span class="keyword-highlight">approval flow</span>, статуси, reminders та notifications. Системну поведінку деталізував через user flows і <span class="keyword-highlight">sequence diagram</span>.</p>
             <div class="tags"><span>UX Research</span><span>BPMN</span><span>User Flows</span></div>
-            <button class="case-action" type="button">Відкрити</button>
-          </div>
-        </article>
-        <article class="case-card glass low-left" data-case="automation" data-modal-case="automation">
-          <div class="case-media"><img data-case-preview="./businessCards/preview.png" alt="Web-генератор" loading="lazy" decoding="async"></div>
-          <div class="case-body">
-            <div class="case-kicker">Metinvest, TSUM</div>
-            <h3 class="case-title">Web-генератор</h3>
-            <p class="case-desc">Самостійно спроєктував <span class="keyword-highlight">end-to-end</span> сервіс: змоделював бізнес-процес у BPMN, переніс правила брендбуку в алгоритми й <span class="keyword-highlight">executable logic</span>, створив UX із validation та live preview і вручну реалізував усе на <span class="keyword-highlight">HTML/CSS/JS</span>. Автоматизація скоротила обробку запиту <span class="keyword-highlight">80 → 6 хв</span>.</p>
-            <div class="tags"><span>BPMN</span><span>Automation</span><span>JS</span></div>
-            <button class="case-action" type="button">Відкрити</button>
-          </div>
-        </article>
-        <article class="case-card glass" data-case="redesign">
-          <div class="case-media"><img data-case-preview="./atlantAI/preview.png" alt="Product Redesign" loading="lazy" decoding="async"></div>
-          <div class="case-body">
-            <div class="case-kicker">Atlant AI</div>
-            <h3 class="case-title">Product Redesign</h3>
-            <p class="case-desc">Перебудував <span class="keyword-highlight">IA</span> в компактну one-page структуру, спроєктував expandable cards, <span class="keyword-highlight">component states</span> і <span class="keyword-highlight">form UX</span>, зв’язав ключові interactions у прототипі та побудував responsive system із <span class="keyword-highlight">5 breakpoints</span>. Окремо деталізував поведінку компонентів для розробки.</p>
-            <div class="tags"><span>UX Audit</span><span>IA</span><span>RWD</span></div>
             <button class="case-action" type="button">Відкрити</button>
           </div>
         </article>
@@ -14570,6 +14572,12 @@ html.hero-boot-pending body > :is(.hero-corner,.top-nav,.hero-contact,.journey-s
         <div class="motion-post-copyblock"><h3>Привітання від JoinUp!</h3></div>
         <div class="motion-post-media"><div class="motion-post-screen"><video muted playsinline loop preload="none" data-src="./previews/CongratsToAlexAlba.mp4" data-shared-poster="./previews/posters/CongratsToAlexAlba.png"></video></div></div>
         <div class="motion-post-foot"><p class="motion-post-copy">AI та ручна анімація в єдиній візуальній системі: від генерації сцен у Wan і Firefly до анімації айдентики. Ключове завдання — зберегти цілісність концепції у відео, друкованій листівці та email.</p><div class="motion-post-tags"><span>Motion</span><span>AI</span><span>Identity</span><span>Art Direction</span></div></div>
+      </article>
+
+      <article class="motion-feed-post" id="motionPost11" data-motion-index="10">
+        <div class="motion-post-copyblock"><h3>UpToDigest</h3></div>
+        <div class="motion-post-media"><div class="motion-post-screen"><video muted playsinline loop preload="none" data-src="./previews/upToDigest.mp4" data-shared-poster="./previews/posters/upToDigest.png"></video></div></div>
+        <div class="motion-post-foot"><p class="motion-post-copy">Motion-шаблон для щомісячних новин компанії. Виконаний у стилі editorial графіки. Містить інтро та b-roll'и. При підготовці використано техніки ротоскопінгу, animation curves, AI-motion (Kling через провайдера Higgsfield). Здійснено кольорокорекцію фінального матеріалу.</p><div class="motion-post-tags"><span>Motion</span><span>Editorial</span><span>AI</span><span>Rotoscoping</span></div></div>
       </article>
 
       <article class="motion-feed-post" id="motionPost06" data-motion-index="5" hidden>
@@ -15490,6 +15498,23 @@ function syncHeroResponsiveCss(stage=0) {
     textRange.detach?.();
     const fitScale=Math.min(1,availableWidth/renderedWidth);
     doc.style.setProperty('--hero-front-tall-fit-scale',fitScale.toFixed(4));
+    if(heroUpperLine){
+      // Galaxy: close one quarter of the line-centre spacing at every existing
+      // width/height scale, including the front line's independent width fit.
+      const frontStyle=getComputedStyle(heroFrontLine);
+      const paddingTop=parseFloat(frontStyle.paddingTop)||0;
+      const paddingBottom=parseFloat(frontStyle.paddingBottom)||0;
+      const frontContentHeight=heroFrontLine.offsetHeight-paddingTop-paddingBottom;
+      const frontCenter=heroFrontLine.offsetTop+(paddingTop+frontContentHeight/2)*fitScale;
+      const rearCenter=heroUpperLine.offsetTop+heroUpperLine.offsetHeight/2;
+      const restingDistance=(frontCenter-rearCenter)*titleCombinedScale+12.47;
+      // The original index lowers Harmony below 550px, capped at 420px.
+      // Spend that existing downward travel against the new lift, rather than
+      // stacking both movements and increasing the original short-screen overlap.
+      const rearShortDrop=Math.max(0,HERO_SHORT_HEIGHT_START-Math.max(HERO_SHORT_CROP_HEIGHT,sceneViewportHeight()))*.5;
+      const lift=Math.max(0,restingDistance*.25-rearShortDrop);
+      doc.style.setProperty('--hero-front-lift',`${(-lift/titleCombinedScale).toFixed(4)}px`);
+    }
   }
   doc.style.setProperty('--hero-light-combined-scale',((0.82+progress*.18)*tallScale).toFixed(4));
   doc.style.setProperty('--hero-short-art-scale',shortScale.toFixed(4));
@@ -22383,8 +22408,31 @@ if (worldCanvas && !reduced3d) {
     });
     const heroHalo=new THREE.Sprite(heroHaloMaterial);
     heroHalo.position.set(-.04,.18,-1.35);heroHalo.scale.set(8.55,6.75,1);heroHalo.renderOrder=0;group.add(heroHalo);
+    // Dark studio reflections for the broad ribbon faces; keep the scene's
+    // original environment on the pearl and the rest of the composition.
+    const ribbonEnvCanvas=document.createElement('canvas');
+    ribbonEnvCanvas.width=1024;ribbonEnvCanvas.height=512;
+    const ribbonEnvCtx=ribbonEnvCanvas.getContext('2d');
+    const ribbonEnvBase=ribbonEnvCtx.createLinearGradient(0,0,1024,512);
+    ribbonEnvBase.addColorStop(0,'#050817');
+    ribbonEnvBase.addColorStop(.28,'#49577f');
+    ribbonEnvBase.addColorStop(.44,'#282a48');
+    ribbonEnvBase.addColorStop(.48,'#8993b5');
+    ribbonEnvBase.addColorStop(.52,'#282a48');
+    ribbonEnvBase.addColorStop(.64,'#624768');
+    ribbonEnvBase.addColorStop(1,'#030511');
+    ribbonEnvCtx.fillStyle=ribbonEnvBase;ribbonEnvCtx.fillRect(0,0,1024,512);
+    const ribbonEnvGlow=ribbonEnvCtx.createRadialGradient(770,126,8,770,126,100);
+    ribbonEnvGlow.addColorStop(0,'rgba(255,226,205,.85)');
+    ribbonEnvGlow.addColorStop(.22,'rgba(188,126,193,.4)');
+    ribbonEnvGlow.addColorStop(1,'rgba(0,0,0,0)');
+    ribbonEnvCtx.fillStyle=ribbonEnvGlow;ribbonEnvCtx.fillRect(0,0,1024,512);
+    const ribbonEnvironment=new THREE.CanvasTexture(ribbonEnvCanvas);
+    ribbonEnvironment.mapping=THREE.EquirectangularReflectionMapping;
+    ribbonEnvironment.colorSpace=THREE.SRGBColorSpace;
     const metalMaterial=new THREE.MeshPhysicalMaterial({
-      color:0x26375f,
+      envMap:ribbonEnvironment,
+      color:0x3b364b,
       roughness:.2,
       metalness:.58,
       transmission:.14,
@@ -22397,17 +22445,104 @@ if (worldCanvas && !reduced3d) {
       iridescence:.12,
       iridescenceIOR:1.38,
       iridescenceThicknessRange:[120,320],
-      attenuationColor:new THREE.Color(0x607ab0),
+      attenuationColor:new THREE.Color(0x777381),
       attenuationDistance:3.8,
-      envMapIntensity:1.72,
+      envMapIntensity:1.48,
       specularIntensity:1.2
     });
-    const knotGeometry=new THREE.TorusKnotGeometry(1.52,.31,280,38,3,5);
+    // Let the petal ends become clear glass without changing their shape or base colour.
+    function applyGalaxyGlassTips(material){
+      material.onBeforeCompile=shader=>{
+        shader.vertexShader=shader.vertexShader
+          .replace('#include <common>','#include <common>\nattribute float galaxyGlass;\nvarying float vGalaxyGlass;')
+          .replace('#include <begin_vertex>','#include <begin_vertex>\nvGalaxyGlass = galaxyGlass;');
+        shader.fragmentShader=shader.fragmentShader
+          .replace('#include <common>','#include <common>\nvarying float vGalaxyGlass;');
+          shader.fragmentShader=shader.fragmentShader
+            .replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.055, vGalaxyGlass);')
+            .replace('#include <metalnessmap_fragment>','#include <metalnessmap_fragment>\nmetalnessFactor = mix(metalnessFactor, 0.0, vGalaxyGlass);')
+            .replace('#include <lights_physical_fragment>',THREE.ShaderChunk.lights_physical_fragment
+              .replace('material.ior = ior;','material.ior = mix(ior, 1.52, vGalaxyGlass);')
+              .replace('material.clearcoat = clearcoat;','material.clearcoat = mix(clearcoat, 0.35, vGalaxyGlass);')
+              .replace('material.diffuseColor = diffuseColor.rgb * ( 1.0 - metalnessFactor );',
+                'material.diffuseColor = mix(diffuseColor.rgb, vec3(0.65, 0.76, 0.91), vGalaxyGlass) * (1.0 - metalnessFactor);')
+              .replace('material.iridescence = iridescence;','material.iridescence = iridescence * (1.0 - vGalaxyGlass);'))
+            .replace('#include <transmission_fragment>',THREE.ShaderChunk.transmission_fragment
+              .replace('material.transmission = transmission;','material.transmission = mix(transmission, 0.985, vGalaxyGlass);')
+              .replace('material.thickness = thickness;','material.thickness = mix(thickness, 0.34, vGalaxyGlass);'))
+            .replace('#include <opaque_fragment>',`
+              // Balance cobalt spill on this surface, preserving luminance and pale highlights.
+              float ribbonLuma = dot(outgoingLight, vec3(0.2126, 0.7152, 0.0722));
+              float ribbonBlueExcess = max(0.0, outgoingLight.b - max(outgoingLight.r, outgoingLight.g)) / max(outgoingLight.b, 0.0001);
+              float ribbonBalance = 0.55 * smoothstep(0.25, 0.75, ribbonBlueExcess) * (1.0 - smoothstep(0.3, 1.0, ribbonLuma));
+              vec3 ribbonNeutral = vec3(1.0, 0.94, 1.18);
+              ribbonNeutral *= ribbonLuma / dot(ribbonNeutral, vec3(0.2126, 0.7152, 0.0722));
+              outgoingLight = mix(outgoingLight, ribbonNeutral, ribbonBalance);
+              #include <opaque_fragment>
+            `);
+      };
+      material.customProgramCacheKey=()=> 'galaxy-glass-surface-v4-blue-balance';
+    }
+    applyGalaxyGlassTips(metalMaterial);
+    // Galaxy preview: one continuous, cupped ribbon winding around the original pearl.
+    const knotGeometry=(()=>{
+      const pose=new THREE.Euler(.72,.08,-.22);
+      const reference=new THREE.TorusKnotGeometry(1.52,.31,280,38,3,5);
+      reference.applyQuaternion(new THREE.Quaternion().setFromEuler(pose));
+      reference.computeBoundingBox();
+      const targetBox=reference.boundingBox.clone();reference.dispose();
+      const positions=[],indices=[],glassWeights=[];
+      const segments=400,sides=24;
+      const inclination=new THREE.Quaternion().setFromEuler(new THREE.Euler(.68,-.10,.55,'ZYX'));
+      const point=new THREE.Vector3();
+      for(let i=0;i<=segments;i++){
+        const t=i/segments;
+        const angle=Math.PI*(.25+4*t);
+        const radius=1.70+.55*Math.cos(Math.PI*t*2);
+        const width=(.36+.06*Math.cos(Math.PI*t*2))*1.18;
+        const thickness=.16;
+        const fold=.35+.25*Math.cos(Math.PI*t*2);
+        const height=.70*Math.sin(Math.PI*t*2);
+        const ca=Math.cos(angle),sa=Math.sin(angle);
+        const glass=.75*Math.pow(Math.abs(Math.sin(Math.PI*t*2)),8);
+        for(let j=0;j<=sides;j++){
+          const section=j/sides*Math.PI*2;
+          const across=Math.cos(section)*width,lift=Math.sin(section)*thickness;
+          const radial=across*Math.cos(fold)-lift*Math.sin(fold);
+          const vertical=across*Math.sin(fold)+lift*Math.cos(fold)+.10*Math.pow(Math.cos(section),2);
+          point.set((radius+radial)*ca,(radius+radial)*sa,height+vertical);
+          point.applyQuaternion(inclination);
+          positions.push(point.x,point.y,point.z);glassWeights.push(glass);
+        }
+      }
+      for(let i=0;i<segments;i++)for(let j=0;j<sides;j++){
+        const a=i*(sides+1)+j,b=a+sides+1;
+        indices.push(a,b,a+1,b,b+1,a+1);
+      }
+      const surface=new THREE.BufferGeometry();
+      surface.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+      surface.setAttribute('galaxyGlass',new THREE.Float32BufferAttribute(glassWeights,1));
+      surface.setIndex(indices);
+      // Weld both closed seams before computing normals: no joins or cut ends.
+      const geometry=mergeVertices(surface,1e-5);surface.dispose();
+      geometry.computeVertexNormals();geometry.computeBoundingBox();
+      const halfWidth=Math.min(-targetBox.min.x,targetBox.max.x);
+      const halfHeight=Math.min(-targetBox.min.y,targetBox.max.y);
+      const scaleX=halfWidth/Math.max(-geometry.boundingBox.min.x,geometry.boundingBox.max.x);
+      const scaleY=halfHeight/Math.max(-geometry.boundingBox.min.y,geometry.boundingBox.max.y);
+      geometry.scale(scaleX,scaleY,Math.min(scaleX,scaleY));
+      geometry.userData.heroLayoutBox=targetBox;
+      geometry.applyQuaternion(new THREE.Quaternion().setFromEuler(pose).invert());
+      geometry.computeBoundingBox();geometry.computeBoundingSphere();
+      return geometry;
+    })();
     const body=new THREE.Mesh(knotGeometry,metalMaterial);body.rotation.set(.72,.08,-.22);
     body.userData.heroYawCenter=body.rotation.y;
     body.userData.heroYawRange=.5;
     body.userData.heroYawSpeed=.085;
     group.add(body);
+    // Keep the journey's occluder handle, but render each petal as one continuous
+    // physical surface. A second dark shell would show as an insert inside the glass.
     const occluder=new THREE.Mesh(
       knotGeometry,
       new THREE.MeshPhysicalMaterial({
@@ -22415,6 +22550,7 @@ if (worldCanvas && !reduced3d) {
         clearcoat:.48,clearcoatRoughness:.2,envMapIntensity:1.18
       })
     );
+    occluder.visible=false;
     occluder.rotation.copy(body.rotation);occluder.scale.setScalar(.91);group.add(occluder);
     const second=new THREE.Mesh(
       new THREE.TorusKnotGeometry(1.56,.075,240,18,2,7),
@@ -22478,13 +22614,15 @@ if (worldCanvas && !reduced3d) {
     for(let i=0;i<count;i++){const k=i*3,a=Math.random()*Math.PI*2,b=Math.acos(2*Math.random()-1),radius=2.1+Math.random()*1.75;pos[k]=Math.sin(b)*Math.cos(a)*radius;pos[k+1]=Math.cos(b)*radius*.6;pos[k+2]=Math.sin(b)*Math.sin(a)*radius;}
     const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
     const particles=new THREE.Points(geo,new THREE.PointsMaterial({map:radialTexture('#fff','rgba(135,215,255,.24)'),size:.075,transparent:true,opacity:.46,depthWrite:false,blending:THREE.AdditiveBlending}));group.add(particles);
-    const keyLight=new THREE.PointLight(0xb8e8ff,28,14);keyLight.position.set(-3.2,2.8,3.5);group.add(keyLight);
+    const keyLight=new THREE.PointLight(0xb8e8ff,28,14);keyLight.position.set(-3.6,3,3.2);group.add(keyLight);
     const rimLight=new THREE.PointLight(0x9a78ff,20,13);rimLight.position.set(3.4,-1.8,2.2);group.add(rimLight);
     const lowerLight=new THREE.PointLight(0x6654ff,11,10);lowerLight.position.set(.8,-3.2,1.5);group.add(lowerLight);
     group.add(glowSprite('rgba(82,125,214,.3)',6.5,.26));
     group.updateMatrixWorld(true);
     const heroTopBox=new THREE.Box3();
-    [body,occluder,second,core].forEach(mesh=>heroTopBox.expandByObject(mesh));
+    [second,core].forEach(mesh=>heroTopBox.expandByObject(mesh));
+    // Keep the existing responsive anchor, so changing the petals cannot move the pearl.
+    heroTopBox.union(knotGeometry.userData.heroLayoutBox.clone().applyMatrix4(group.matrixWorld));
     group.userData.heroVisualTop=Math.max(0,heroTopBox.max.y-group.position.y);
     universe.add(group);return {group,body,occluder,second,core,coreGlow,coreLight,electricGroup,electricArcs,particles,environment,heroHalo,cardConstellation};
   }
@@ -22565,7 +22703,7 @@ if (worldCanvas && !reduced3d) {
     item.second.scale.setScalar(1.08*(1+opening*.055)*Math.max(.001,1-retreat));
     const noodlesVisible=retreat<1;
     item.body.visible=noodlesVisible;
-    item.occluder.visible=noodlesVisible;
+    item.occluder.visible=false;
     item.second.visible=noodlesVisible;
     const heroHaloOpacity=.68*(1-clamp3d(release/.4));
     item.heroHalo.material.opacity=heroHaloOpacity;
@@ -26560,6 +26698,7 @@ const AI_STORY_CATALOG=Object.freeze({
   'motion-kpmg-film':Object.freeze({kind:'post-video',selector:'#motionPost01',company:'KPMG'}),
   'motion-architects-change':Object.freeze({kind:'post-video',selector:'#motionPost03',company:''}),
   'motion-joinup-greeting':Object.freeze({kind:'post-video',selector:'#motionPost05',company:'SkyUp & JoinUp!'}),
+  'motion-uptodigest':Object.freeze({kind:'post-video',selector:'#motionPost11',company:'SkyUp & JoinUp!'}),
   'motion-kpmg-gateway':Object.freeze({kind:'post-video',selector:'#motionPost04',company:'KPMG'}),
   'motion-pwc-ai':Object.freeze({kind:'post-video',selector:'#motionPost02',company:'PwC'}),
   'motion-kpmg-reels-full':Object.freeze({kind:'post-video',selector:'#motionPost07',company:'KPMG'}),
@@ -26596,7 +26735,7 @@ const AI_PREPARED_ANSWERS=Object.freeze({
 <<<P>>>
 Для мене важливі не лише назви компаній, а масштаб відповідальності: у Metinvest я проєктував CRM і навчальний продукт від даних та бізнес-процесів; для SA Consulting працював із visual research, art direction і фізичними носіями; для KPMG, PwC, SkyUp і JoinUp! поєднував сторітелінг, AI та ручну анімацію.
 <<<JSON
-{"recommendations":[{"type":"case","id":"crm"},{"type":"case","id":"mi-study"},{"type":"case","id":"automation"},{"type":"case","id":"legal"},{"type":"case","id":"mascot"},{"type":"case","id":"merch"},{"type":"story","id":"motion-kpmg-film"},{"type":"story","id":"motion-pwc-ai"},{"type":"story","id":"motion-joinup-greeting"},{"type":"story","id":"motion-tsum"}]}
+{"recommendations":[{"type":"case","id":"crm"},{"type":"case","id":"mi-study"},{"type":"case","id":"automation"},{"type":"case","id":"legal"},{"type":"case","id":"mascot"},{"type":"case","id":"merch"},{"type":"story","id":"motion-kpmg-film"},{"type":"story","id":"motion-pwc-ai"},{"type":"story","id":"motion-joinup-greeting"},{"type":"story","id":"motion-uptodigest"},{"type":"story","id":"motion-tsum"}]}
 >>>`,
   'best-case':`Якщо обрати один найбільш комплексний кейс — це запуск цього портфоліо. Я самостійно спроєктував і закодував адаптивний горизонтальний full-page journey із 3D-композиціями, вписаними в текст, element swapping, фіксованими позиціями та morphing між 3D і 2D. Додав Alex AI, tracking backend і алгоритм адаптації продуктивності, а після запуску перевіряв UX поведінковими логами та перебудовував слабкі сценарії.
 <<<P>>>
@@ -26608,7 +26747,7 @@ const AI_PREPARED_ANSWERS=Object.freeze({
 <<<P>>>
 Коли задача цього потребує, прототипую або проєктую прямо у front-end коді, автоматизую процеси, інтегрую AI, створюю motion і візуальні системи, готую презентації, документи та фізичні носії до виробництва. Магістерська підготовка з Computer Science & Digital Intelligence допомагає мені предметно розуміти не лише front-end, а й back-end логіку та зв’язувати бізнес-вимогу, UX і реальну реалізацію.
 <<<JSON
-{"recommendations":[{"type":"case","id":"portfolio"},{"type":"case","id":"automation"},{"type":"case","id":"crm"},{"type":"case","id":"mi-study"},{"type":"case","id":"redesign"},{"type":"case","id":"legal"},{"type":"case","id":"mascot"},{"type":"case","id":"merch"},{"type":"case","id":"brand"},{"type":"case","id":"stickers"},{"type":"case","id":"documents"},{"type":"case","id":"presentations"},{"type":"story","id":"motion-kpmg-film"},{"type":"story","id":"motion-pwc-ai"},{"type":"story","id":"motion-metinvest-css"},{"type":"story","id":"smm-metinvest"},{"type":"story","id":"print-posters"}]}
+{"recommendations":[{"type":"case","id":"portfolio"},{"type":"case","id":"automation"},{"type":"case","id":"crm"},{"type":"case","id":"mi-study"},{"type":"case","id":"redesign"},{"type":"case","id":"legal"},{"type":"case","id":"mascot"},{"type":"case","id":"merch"},{"type":"case","id":"brand"},{"type":"case","id":"stickers"},{"type":"case","id":"documents"},{"type":"case","id":"presentations"},{"type":"story","id":"motion-kpmg-film"},{"type":"story","id":"motion-pwc-ai"},{"type":"story","id":"motion-uptodigest"},{"type":"story","id":"motion-metinvest-css"},{"type":"story","id":"smm-metinvest"},{"type":"story","id":"print-posters"}]}
 >>>`,
   concerns:`У робочому процесі мене не лякають правки, помилки чи складні ітерації — це нормальний шлях до сильного продукту. Неприйнятним для мене є лише агресивне спілкування й перехід на особистості замість конструктивного обговорення задачі.
 <<<P>>>
@@ -26635,13 +26774,13 @@ const AI_PREPARED_ANSWERS=Object.freeze({
 <<<P>>>
 Добірка охоплює 60-секундний storytelling і рекламний ролик для KPMG, повністю ручну векторну інфографіку для PwC, модульний interview-template Architects of Change, анімацію айдентики для JoinUp!, branded screensaver, CSS/SVG motion без зовнішніх бібліотек і короткі соціальні формати.
 <<<JSON
-{"recommendations":[{"type":"case","id":"mascot"},{"type":"case","id":"portfolio"},{"type":"story","id":"motion-kpmg-film"},{"type":"story","id":"motion-kpmg-gateway"},{"type":"story","id":"motion-pwc-ai"},{"type":"story","id":"motion-architects-change"},{"type":"story","id":"motion-joinup-greeting"},{"type":"story","id":"motion-tsum"},{"type":"story","id":"motion-sa-intros"},{"type":"story","id":"motion-metinvest-css"},{"type":"story","id":"motion-kpmg-screensaver"},{"type":"story","id":"motion-kpmg-reels-full"}]}
+{"recommendations":[{"type":"case","id":"mascot"},{"type":"case","id":"portfolio"},{"type":"story","id":"motion-kpmg-film"},{"type":"story","id":"motion-kpmg-gateway"},{"type":"story","id":"motion-pwc-ai"},{"type":"story","id":"motion-architects-change"},{"type":"story","id":"motion-joinup-greeting"},{"type":"story","id":"motion-uptodigest"},{"type":"story","id":"motion-tsum"},{"type":"story","id":"motion-sa-intros"},{"type":"story","id":"motion-metinvest-css"},{"type":"story","id":"motion-kpmg-screensaver"},{"type":"story","id":"motion-kpmg-reels-full"}]}
 >>>`,
   'filter-brand':`Бренд для мене — не окремий знак, а система правил, компонентів і носіїв, яка зберігає характер у цифровому продукті, документах, презентаціях, motion, SMM, друці та фізичних об’єктах. Я працюю через audit, visual research і art direction, а потім переводжу концепцію в модульні шаблони, production-ready файли та зрозумілі обмеження.
 <<<P>>>
 UI Redesign для SA Consulting показує шлях від емоційної семантики до Legal Scrapbook; система маскота Metinvest — масштабування одного асета на UI, рекламу, друк та AI-візуали; мерч — роботу з CMYK, cut lines і вимогами виробництва. Інші добірки розкривають identity, editorial, presentation, SMM і motion-рівень системи.
 <<<JSON
-{"recommendations":[{"type":"case","id":"legal"},{"type":"case","id":"mascot"},{"type":"case","id":"merch"},{"type":"case","id":"automation"},{"type":"case","id":"brand"},{"type":"case","id":"stickers"},{"type":"case","id":"documents"},{"type":"case","id":"presentations"},{"type":"story","id":"motion-joinup-greeting"},{"type":"story","id":"motion-architects-change"},{"type":"story","id":"motion-sa-intros"},{"type":"story","id":"smm-sa-storyteller"},{"type":"story","id":"smm-metinvest"},{"type":"story","id":"print-posters"},{"type":"story","id":"print-skyup-card"}]}
+{"recommendations":[{"type":"case","id":"legal"},{"type":"case","id":"mascot"},{"type":"case","id":"merch"},{"type":"case","id":"automation"},{"type":"case","id":"brand"},{"type":"case","id":"stickers"},{"type":"case","id":"documents"},{"type":"case","id":"presentations"},{"type":"story","id":"motion-joinup-greeting"},{"type":"story","id":"motion-uptodigest"},{"type":"story","id":"motion-architects-change"},{"type":"story","id":"motion-sa-intros"},{"type":"story","id":"smm-sa-storyteller"},{"type":"story","id":"smm-metinvest"},{"type":"story","id":"print-posters"},{"type":"story","id":"print-skyup-card"}]}
 >>>`
 });
 const AI_STORY_IMAGE_DURATION=4200;

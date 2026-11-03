@@ -54,7 +54,7 @@ See /LICENCE.md.
   }
   blocked.forEach(type=>window.addEventListener(type,guard,{capture:true,passive:false}));
   const uiSelector='body > .hero-corner,body > .hero-contact,body > .journey-status,body > #aiGuide';
-  const contentSelector='body > .top-nav,body > main,body > #world3d,body > .hero-back-title,body > .hero-back-title-echo,body > .hero-work-backdrop,body > .hero-aurora,body > .hero-focus-light,body > .product-comet-back-title';
+  const contentSelector='body > .top-nav,body > main,body > #world3d,body > .hero-back-title,body > .hero-back-title-echo,body > .hero-aurora,body > .hero-focus-light,body > .product-comet-back-title';
   let locked=[];
   function setProgress(value){
     progress=Math.max(progress,Math.min(100,Math.round(value)));
@@ -358,73 +358,6 @@ a { color: inherit; }
   pointer-events: none;
   opacity: .96;
   transform: translateY(0);
-}
-
-/* Work archive at the far end of the hero. It deliberately shares the rear
-   stacking plane with the title: the cards are painted first, so the word
-   remains legible in front of them while WebGL keeps the hero object above. */
-.hero-work-backdrop {
-  position:fixed;
-  inset:0;
-  z-index:1;
-  overflow:visible;
-  pointer-events:none;
-  opacity:var(--hero-work-opacity,0);
-  perspective:1300px;
-  transform:translate3d(-50%,var(--hero-work-y,0px),0) scale(var(--hero-work-scale,1)) scale(var(--hero-work-responsive-scale,1)) scale(var(--hero-card-tall-scale,var(--hero-tall-scale,1))) scale(var(--hero-short-art-scale,1));
-  transform-origin:50% 46%;
-  transition:opacity .12s linear;
-  will-change:opacity,transform;
-}
-html[data-scene="launch"] .hero-work-backdrop { --hero-work-opacity:.68; }
-.hero-back-work {
-  position:absolute;
-  left:var(--work-x);
-  top:var(--work-y);
-  width:var(--work-w);
-  aspect-ratio:var(--work-ratio);
-  margin:0;
-  opacity:var(--work-opacity,.38);
-  transform:translate(-50%,-50%) rotateX(var(--work-rx,0deg)) rotateY(var(--work-ry,0deg)) rotateZ(var(--work-rz,0deg));
-  transform-style:preserve-3d;
-}
-.hero-back-work > span {
-  display:block;
-  width:100%;
-  height:100%;
-  box-sizing:border-box;
-  padding:4.608px;
-  overflow:hidden;
-  border:1px solid rgba(223,239,255,.2);
-  border-radius:17.664px;
-  background:linear-gradient(145deg,rgba(225,244,255,.16),rgba(121,137,187,.045));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 18px 55px rgba(0,0,0,.2);
-  backdrop-filter:blur(7px) saturate(1.08);
-  -webkit-backdrop-filter:blur(7px) saturate(1.08);
-  animation:none;
-}
-.hero-back-work img {
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:13.517px;
-  opacity:.8;
-  filter:saturate(.68) brightness(.76) contrast(.9);
-}
-.hero-back-work--a { --work-x:-3%;--work-y:69%;--work-w:230.4px;--work-ratio:.8;--work-rx:4deg;--work-ry:21deg;--work-rz:10deg;--work-opacity:.68;--work-duration:30s; }
-.hero-back-work--b { --work-x:15%;--work-y:51%;--work-w:138.24px;--work-ratio:1;--work-rx:2deg;--work-ry:15deg;--work-rz:4deg;--work-opacity:.43;--work-duration:33s;--work-delay:-11s; }
-.hero-back-work--c { --work-x:31%;--work-y:32%;--work-w:82.944px;--work-ratio:.8;--work-rx:-2deg;--work-ry:8deg;--work-rz:-2deg;--work-opacity:.22;--work-duration:35s;--work-delay:-19s; }
-.hero-back-work--d { --work-x:101%;--work-y:18%;--work-w:184.32px;--work-ratio:1;--work-rx:-3deg;--work-ry:-19deg;--work-rz:22deg;--work-opacity:.57;--work-duration:31s;--work-delay:-8s; }
-.hero-back-work--e { --work-x:calc(50% + clamp(520px,calc(6.522vw + 467.83px),568.32px));--work-y:29%;--work-w:119.808px;--work-ratio:.8;--work-rx:-2deg;--work-ry:-14deg;--work-rz:-18deg;--work-opacity:.32;--work-duration:34s;--work-delay:-15s; }
-.hero-back-work--f { --work-x:93%;--work-y:42%;--work-w:138.24px;--work-ratio:1;--work-rx:2deg;--work-ry:-10deg;--work-rz:8deg;--work-opacity:.25;--work-duration:37s;--work-delay:-21s; }
-@keyframes hero-back-work-drift {
-  from { transform:translate3d(-2px,3px,-3px) rotate(-.35deg); }
-  to { transform:translate3d(3px,-4px,4px) rotate(.4deg); }
-}
-
-@media (prefers-reduced-motion:reduce) {
-  .hero-back-work > span { animation:none; }
 }
 
 /* Static upper aurora: broad cosmic veils behind WebGL, never cloud sprites. */
@@ -5000,7 +4933,6 @@ body > .hero-contact { position:fixed; }
 :root { --native-handoff-y:0px; }
 .stars,
 .world3d,
-.hero-work-backdrop,
 .hero-aurora,
 .hero-focus-light,
 .hero-back-title,
@@ -5015,7 +4947,6 @@ body > .hero-contact { position:fixed; }
 html.native-scroll-active main,
 html.native-scroll-active .stars,
 html.native-scroll-active .world3d,
-html.native-scroll-active .hero-work-backdrop,
 html.native-scroll-active .hero-aurora,
 html.native-scroll-active .hero-focus-light,
 html.native-scroll-active .product-comet-back-title,
@@ -11022,12 +10953,6 @@ html.native-scroll-active #motionNative .native-cosmic-backdrop {
   --hero-short-art-scale:1;
   --hero-short-ui-scale:1;
 }
-.hero-work-backdrop {
-  right:auto;
-  bottom:auto;
-  width:var(--design-viewport-width);
-  height:var(--hero-height-frame);
-}
 .hero-aurora,
 .hero-focus-light {
   right:auto;
@@ -11044,14 +10969,6 @@ html.native-scroll-active #motionNative .native-cosmic-backdrop {
   height:var(--design-viewport-height);
 }
 .world3d { height:var(--hero-3d-render-height,var(--design-viewport-height)); }
-/* The work-card plane belongs to the centred authored Hero cluster and narrows
-   moderately toward 800px. Aurora/focus are viewport paint layers: their
-   outer clipping plane expands above 1536px, while the central authored light
-   remains centred and unchanged. */
-.hero-work-backdrop {
-  left:50%;
-  width:clamp(1100px,calc(59.239vw + 626.09px),1536px);
-}
 .top-nav,
 .ai-hero { left:50%; }
 .hero-corner-left { left:var(--hero-wide-frame-inset); }
@@ -11180,26 +11097,6 @@ html.native-scroll-active #motionNative .native-cosmic-backdrop {
   #launch .hero-title {
     transform:scale(var(--hero-title-combined-scale,.85));
     transform-origin:50% 0;
-  }
-  /* A smaller, stronger mobile constellation: four rear cards frame the
-     centre while two selected WebGL cards retain the foreground depth. */
-  .hero-back-work--c,
-  .hero-back-work--f { display:none; }
-  .hero-back-work--a {
-    --work-x:calc(50% - 36.96vw - 104.35px);--work-y:66%;--work-w:180px;
-    --work-ry:15deg;--work-rz:-8deg;--work-opacity:.54;
-  }
-  .hero-back-work--b {
-    --work-x:calc(50% - 33.70vw - 100.43px);--work-y:30%;--work-w:136px;
-    --work-ry:11deg;--work-rz:5deg;--work-opacity:.36;
-  }
-  .hero-back-work--d {
-    --work-x:calc(50% + 21.74vw + 266.09px);--work-y:25%;--work-w:170px;
-    --work-ry:-14deg;--work-rz:10deg;--work-opacity:.5;
-  }
-  .hero-back-work--e {
-    --work-x:calc(50% + 43.48vw + 62.17px);--work-y:58%;--work-w:148px;
-    --work-ry:-10deg;--work-rz:-9deg;--work-opacity:.34;
   }
   .top-nav {
     top:22.4px;
@@ -11482,7 +11379,6 @@ html.native-scroll-active #motionNative .native-cosmic-backdrop {
     height:420px;
     min-height:420px;
   }
-  .hero-work-backdrop,
   .hero-aurora,
   .hero-focus-light { height:420px; }
 }
@@ -11893,10 +11789,81 @@ html.native-scroll-active .motion-native-section {
   font-weight:var(--weight-semibold);
   line-height:1.08;
   transform:scale(var(--hero-front-tall-fit-scale,1));
-  translate:0 calc(var(--hero-front-lift,0px) + var(--hero-front-narrow-tall-lift,0px));
+  translate:0 var(--hero-front-lift,0px);
   transform-origin:50% 0;
 }
 #launch .hero-title span:last-child i { font-weight:var(--weight-medium); }
+/* A local atmospheric shadow separates the front words from bright ribbons.
+   It belongs to the existing text layer, so its movement and scale stay shared. */
+@media (min-width:550.01px) {
+  #launch .hero-title span:last-child {
+    isolation:isolate;
+    filter:none;
+    text-shadow:none;
+  }
+  #launch .hero-title span:last-child::before {
+    content:"";
+    position:absolute;
+    inset:-.24em -.32em -.2em;
+    z-index:-1;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse 42% 48% at 28% 52%,rgba(3,7,19,.44) 0%,rgba(5,9,23,.24) 48%,rgba(5,9,23,0) 100%),
+      radial-gradient(ellipse 42% 48% at 72% 52%,rgba(3,7,19,.44) 0%,rgba(5,9,23,.24) 48%,rgba(5,9,23,0) 100%);
+  }
+}
+
+/* One visible rear word and its front line share the mobile resting layout.
+   The rear word retains its original material and independent exit motion. */
+@media (max-width:550px) {
+  .hero-back-title-echo { display:none; }
+  .hero-back-title {
+    display:block;
+    box-sizing:border-box;
+    padding:.12em .06em .16em;
+    font-weight:var(--weight-bold);
+    line-height:.9;
+    letter-spacing:-.055em;
+  }
+  #launch .copy-block {
+    --hero-mobile-title-gutter:clamp(18px,5vw,28px);
+    left:50vw;
+    top:var(--hero-mobile-title-top,clamp(92px,15vh,150px));
+    width:calc(100vw - var(--hero-mobile-title-gutter) * 2);
+    transform:translateX(-50%);
+  }
+  #launch .hero-title {
+    width:100%;
+    gap:0;
+    font-size:var(--hero-mobile-title-size,calc((100vw - 36px) * .145));
+    line-height:.9;
+    letter-spacing:-.055em;
+    transform:none;
+    text-shadow:0 8px 28px rgba(4,8,22,.32);
+  }
+  #launch .hero-title span:first-child {
+    visibility:hidden;
+    width:max-content;
+    padding:0 .06em;
+    font-size:1em;
+    font-weight:var(--weight-bold);
+    line-height:.9;
+    letter-spacing:-.055em;
+  }
+  #launch .hero-title span:last-child {
+    width:max-content;
+    margin:-.14em 0 0;
+    padding:0 .2em;
+    font-size:.7em;
+    line-height:1.02;
+    letter-spacing:-.04em;
+    transform:none;
+    translate:none;
+    filter:none;
+  }
+}
+
+
 .product-comet-back-title > span {
   font-size:var(--type-display);
   font-weight:var(--weight-semibold);
@@ -14147,7 +14114,7 @@ html.hero-boot-pending #heroStartupLoader {
   100% { stroke-dashoffset:-1; }
 }
 html.hero-boot-pending:not(.hero-boot-ui) body > :is(.hero-corner,.hero-contact,.journey-status,#aiGuide) { opacity:0!important; }
-html.hero-boot-pending:not(.hero-boot-revealing) body > :is(.top-nav,main,#world3d,.hero-back-title,.hero-back-title-echo,.hero-work-backdrop,.hero-aurora,.hero-focus-light,.product-comet-back-title) { opacity:0!important; }
+html.hero-boot-pending:not(.hero-boot-revealing) body > :is(.top-nav,main,#world3d,.hero-back-title,.hero-back-title-echo,.hero-aurora,.hero-focus-light,.product-comet-back-title) { opacity:0!important; }
 html.hero-boot-pending #pageScrollbar { opacity:0!important;pointer-events:none!important; }
 html.hero-boot-pending body > :is(.hero-corner,.top-nav,.hero-contact,.journey-status,#aiGuide,main) { pointer-events:none!important; }
 </style>
@@ -14225,14 +14192,6 @@ html.hero-boot-pending body > :is(.hero-corner,.top-nav,.hero-contact,.journey-s
   <i class="hero-focus-particle" style="--x:39%;--y:57%;--s:6px;--o:.26;--c:137,203,229;--b:1.1px"></i>
   <i class="hero-focus-particle" style="--x:59%;--y:55%;--s:5px;--o:.3;--c:205,171,222;--b:.7px"></i>
   <i class="hero-focus-particle" style="--x:72%;--y:51%;--s:4px;--o:.36;--c:184,133,201"></i>
-</div>
-<div class="hero-work-backdrop" id="heroWorkBackdrop" aria-hidden="true">
-  <figure class="hero-back-work hero-back-work--a"><span><img data-shared-image="./previews/saCarousel5.png" alt=""></span></figure>
-  <figure class="hero-back-work hero-back-work--b"><span><img data-shared-image="./previews/metro.png" alt=""></span></figure>
-  <figure class="hero-back-work hero-back-work--c"><span><img data-shared-image="./previews/dogCarousel3.jpg" alt=""></span></figure>
-  <figure class="hero-back-work hero-back-work--d"><span><img data-shared-image="./previews/rectPostNew6.png" alt=""></span></figure>
-  <figure class="hero-back-work hero-back-work--e"><span><img data-shared-image="./previews/dogCarousel4.jpg" alt=""></span></figure>
-  <figure class="hero-back-work hero-back-work--f"><span><img data-shared-image="./previews/rectPostNew2.png" alt=""></span></figure>
 </div>
 <div class="hero-back-title-echo" aria-hidden="true">Гармонія</div>
 <div class="hero-back-title" aria-hidden="true">Гармонія</div>
@@ -15080,15 +15039,14 @@ window.__portfolioImageCache=(()=>{
   const entries=new Map();
   const keyFor=source=>new URL(source,document.baseURI).href;
   const cached=source=>entries.get(keyFor(source))?.url||'';
-  function load(source,{priority='auto',hero=false}={}){
+  function load(source,{priority='auto'}={}){
     const key=keyFor(source);
     let entry=entries.get(key);
-    if(!entry){entry={url:'',promise:null,controller:null,error:null,hero:false};entries.set(key,entry);}
-    if(hero)entry.hero=true;
+    if(!entry){entry={url:'',promise:null,controller:null,error:null};entries.set(key,entry);}
     if(entry.url)return Promise.resolve(entry.url);
     if(navigator.onLine===false)return Promise.reject(new Error('offline'));
     if(entry.promise){
-      if(entry.controller?.signal.aborted)return entry.promise.catch(()=>load(source,{priority,hero}));
+      if(entry.controller?.signal.aborted)return entry.promise.catch(()=>load(source,{priority}));
       return entry.promise;
     }
     if(entry.error)return Promise.reject(entry.error);
@@ -15231,7 +15189,7 @@ window.__portfolioPosters=(()=>{
     const binding={url,attach:null,pending:null};
     bindings.set(target,binding);
     if(attribute==='src')target.style.visibility='hidden';
-    const attach=()=>window.__portfolioImageCache.load(url,{priority:'low',hero:Boolean(target.closest('#heroWorkBackdrop'))}).then(async local=>{
+    const attach=()=>window.__portfolioImageCache.load(url,{priority:'low'}).then(async local=>{
       if(bindings.get(target)!==binding)return;
       target.setAttribute(attribute,local);
       if(attribute==='src'){
@@ -15261,16 +15219,10 @@ window.__portfolioPosters=(()=>{
   }
   return {source,set,release,warm};
 })();
-document.querySelectorAll('#heroWorkBackdrop img[data-shared-image]').forEach(image=>{
-  window.__portfolioPosters.set(image,image.dataset.sharedImage,'src');
-});
 addEventListener('load',()=>{
-  const heroFiles=[...window.__portfolioImageCache.entries.values()].filter(entry=>entry.hero).map(entry=>entry.promise).filter(Boolean);
-  Promise.allSettled(heroFiles).then(()=>{
-    const start=()=>window.__casePreviewQueue.start();
-    if('requestIdleCallback' in window)requestIdleCallback(start,{timeout:1200});
-    else setTimeout(start,120);
-  });
+  const start=()=>window.__casePreviewQueue.start();
+  if('requestIdleCallback' in window)requestIdleCallback(start,{timeout:1200});
+  else setTimeout(start,120);
 },{once:true});
 addEventListener('journey-progress',event=>{
   if(event.detail?.index===1){window.__casePreviewQueue.start();window.__productImageQueue.start();}
@@ -15415,13 +15367,6 @@ function heroTallVisualScale(){
   const maximumScale=1.08+widthEase*.16;
   return 1+(maximumScale-1)*heightEase;
 }
-function heroTallCardScale(){
-  const height=Math.min(sceneViewportHeight(),HERO_HEIGHT_END);
-  if(height<=HERO_HEIGHT_START)return 1;
-  return window.innerWidth>=800
-    ?height/HERO_HEIGHT_START
-    :heroTallVisualScale();
-}
 function heroPostCapShift(){
   const excess=Math.max(0,sceneViewportHeight()-HERO_HEIGHT_END);
   if(!excess)return 0;
@@ -15478,30 +15423,124 @@ window.__journeyNativeStart=JOURNEY_NATIVE_START;
 
 const heroBackTitle = document.querySelector('.hero-back-title');
 const heroBackTitleEcho = document.querySelector('.hero-back-title-echo');
-const heroWorkBackdrop = document.getElementById('heroWorkBackdrop');
 const heroUpperLine = document.querySelector('#launch .hero-title span:first-child');
 const heroFrontLine = document.querySelector('#launch .hero-title span:last-child');
+const heroTitle=heroUpperLine?.parentElement;
+let mobileHeroFigureMetrics=null;
+let prepareMobileHeroFigureMetrics=()=>{};
+let mobileHeroFigureKey='';
+let mobileHeroFigureTopCache=0;
+const mobileHeroTitleCamera=new THREE.PerspectiveCamera(HERO_BASE_FOV,1,.1,180);
+const mobileHeroTitlePoint=new THREE.Vector3();
+
+/* Project a resting silhouette for text layout only. The live sculpture and
+   its camera are never changed; no geometry reads run in the animation loop. */
+function measureMobileHeroFigureTop(){
+  const height=sceneViewportHeight(),width=window.innerWidth;
+  if(!mobileHeroFigureMetrics)prepareMobileHeroFigureMetrics();
+  if(!mobileHeroFigureMetrics)return Math.min(height,900)*.28;
+  const key=[width,height].join(':');
+  if(key===mobileHeroFigureKey)return mobileHeroFigureTopCache;
+  const data=mobileHeroFigureMetrics;
+  const progress=(Math.max(340,Math.min(1050,width))-340)/710;
+  const baseScale=data.baseScale*(.72+progress*.28);
+  const referenceScale=baseScale*.88;
+  const scale=referenceScale*Math.min(1,HERO_HEIGHT_END/height);
+  let originY=data.baseY+(baseScale-referenceScale)*data.top;
+  const frameHeight=heroShortRenderHeight(0);
+  mobileHeroTitleCamera.fov=THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(HERO_BASE_FOV*.5))/heroShortVisualScale()));
+  mobileHeroTitleCamera.position.set(0,.18,9);
+  mobileHeroTitleCamera.lookAt(0,0,1);
+  mobileHeroTitleCamera.updateMatrixWorld(true);
+  const projectY=(y,z,frame)=>{
+    mobileHeroTitleCamera.aspect=width/frame;
+    mobileHeroTitleCamera.updateProjectionMatrix();
+    mobileHeroTitlePoint.set(0,y,z).project(mobileHeroTitleCamera);
+    return (1-mobileHeroTitlePoint.y)*frame*.5;
+  };
+  if(height>HERO_HEIGHT_START){
+    const referenceY=projectY(originY+data.top*referenceScale,0,HERO_HEIGHT_START)+heroPostCapShift();
+    const currentY=projectY(originY+data.top*scale,0,frameHeight);
+    const unitY=projectY(originY+data.top*scale+1,0,frameHeight);
+    originY+=(referenceY-currentY)/(unitY-currentY);
+  }
+  mobileHeroTitleCamera.aspect=width/frameHeight;
+  mobileHeroTitleCamera.updateProjectionMatrix();
+  let top=frameHeight;
+  const points=data.points;
+  for(let index=0;index<points.length;index+=3){
+    mobileHeroTitlePoint.set(points[index]*scale,points[index+1]*scale+originY,points[index+2]*scale).project(mobileHeroTitleCamera);
+    top=Math.min(top,(1-mobileHeroTitlePoint.y)*frameHeight*.5);
+  }
+  mobileHeroFigureKey=key;
+  mobileHeroFigureTopCache=Math.max(0,top-4);
+  return mobileHeroFigureTopCache;
+}
+
+function syncMobileHeroTitle(){
+  if(!heroTitle||!heroUpperLine||!heroFrontLine)return;
+  const copy=heroTitle.parentElement;
+  const width=copy.clientWidth;
+  if(!width)return;
+  /* Measure both complete lines at the same reference size, including the
+     italic overhang padding. One coefficient then scales the whole lockup. */
+  copy.style.setProperty('--hero-mobile-title-size','100px');
+  const lineWidth=Math.max(heroUpperLine.offsetWidth,heroFrontLine.offsetWidth,1);
+  const referenceHeight=heroTitle.offsetHeight||190;
+  const widthSize=100*width*.985/lineWidth;
+  const handoffY=nativeHandoffOffsetY();
+  let headerBottom=0;
+  document.querySelectorAll('body > .top-nav').forEach(element=>{
+    const rect=element.getBoundingClientRect();
+    const bottom=rect.bottom-handoffY;
+    if(rect.width&&bottom>0&&bottom<sceneViewportHeight()*.4)headerBottom=Math.max(headerBottom,bottom);
+  });
+  if(!headerBottom)headerBottom=80*heroShortVisualScale();
+  const gap=Math.max(8,Math.min(16,window.innerWidth*.025));
+  const start=headerBottom+gap;
+  const end=measureMobileHeroFigureTop()-gap;
+  const availableHeight=Math.max(0,end-start);
+  /* A short viewport spends the available space first. The size floor keeps
+     the words readable when the unchanged sculpture must overlap the title. */
+  const size=Math.min(widthSize,Math.max(widthSize*.78,availableHeight*100/referenceHeight));
+  copy.style.setProperty('--hero-mobile-title-size',`${size.toFixed(4)}px`);
+  const titleHeight=heroTitle.offsetHeight;
+  const top=start+Math.max(0,availableHeight-titleHeight)*.5;
+  copy.style.setProperty('--hero-mobile-title-top',`${top.toFixed(2)}px`);
+  /* The hidden semantic row reserves the same space as the single fixed rear
+     word. Its padding is optical bleed, so it must not enlarge the line gap. */
+  if(heroBackTitle){
+    const rect=heroUpperLine.getBoundingClientRect();
+    const section=heroUpperLine.closest('#launch');
+    const sectionRect=section.getBoundingClientRect();
+    const legacyRestDrop=Math.max(0,(HERO_SHORT_HEIGHT_START-Math.max(HERO_SHORT_CROP_HEIGHT,sceneViewportHeight()))*.5);
+    const transform=getComputedStyle(section).transform;
+    const matrix=transform&&transform!=='none'?new DOMMatrixReadOnly(transform):null;
+    Object.assign(heroBackTitle.style,{
+      left:`${rect.left-(matrix?.m41||0)}px`,
+      top:`${rect.top-sectionRect.top-size*.12+12.47-legacyRestDrop}px`,
+      width:`${rect.width}px`,height:'auto',
+      fontSize:`${size}px`,lineHeight:`${size*.9}px`,
+      fontWeight:getComputedStyle(heroUpperLine).fontWeight,
+      fontFamily:getComputedStyle(heroUpperLine).fontFamily
+    });
+  }
+}
+
 function syncHeroResponsiveCss(stage=0) {
   syncTypographySystem();
   const width=Math.max(340,Math.min(1050,window.innerWidth));
   const progress=(width-340)/(1050-340);
-  const workWidth=Math.max(340,Math.min(1536,window.innerWidth));
-  const workScale=workWidth<=800
-    ?0.84+((workWidth-340)/(800-340))*.08
-    :0.92+((workWidth-800)/(1536-800))*.08;
   const tallScale=heroTallVisualScale();
-  const tallCardScale=heroTallCardScale();
   const postCapShift=heroPostCapShift();
   const titleWidthScale=sceneTypographyWidthScale();
   const shortScale=heroShortVisualScale();
   const titleCombinedScale=titleWidthScale*tallScale*shortScale;
-  doc.style.setProperty('--hero-work-responsive-scale',workScale.toFixed(4));
   doc.style.setProperty('--hero-tall-scale',tallScale.toFixed(4));
-  doc.style.setProperty('--hero-card-tall-scale',tallCardScale.toFixed(4));
   doc.style.setProperty('--hero-post-cap-y',`${postCapShift.toFixed(2)}px`);
   doc.style.setProperty('--hero-tall-inverse-scale',(1/tallScale).toFixed(4));
   doc.style.setProperty('--hero-title-combined-scale',titleCombinedScale.toFixed(4));
-  if(heroFrontLine){
+  if(heroFrontLine&&window.innerWidth>550){
     const pageMargin=Number.parseFloat(getComputedStyle(doc).getPropertyValue('--hero-page-margin'))||46;
     const availableWidth=Math.max(1,window.innerWidth-pageMargin*2);
     doc.style.setProperty('--hero-front-tall-fit-scale','1');
@@ -15535,6 +15574,7 @@ function syncHeroResponsiveCss(stage=0) {
   syncHeroShortUiScale(stage);
 }
 function syncHeroTitleDepth() {
+  if(window.innerWidth<=550){syncMobileHeroTitle();return;}
   if (!heroBackTitle || !heroUpperLine) return;
   const rect = heroUpperLine.getBoundingClientRect();
   const launchSection=heroUpperLine.closest('#launch');
@@ -15552,49 +15592,9 @@ function syncHeroTitleDepth() {
     ? rect.width / heroUpperLine.offsetWidth
     : 1;
   const visualFontSize=fontSize*visualScale;
-  // Measure the accepted resting positions before applying this isolated adjustment.
-  doc.style.setProperty('--hero-front-narrow-tall-lift','0px');
-  const narrowTallTitles=window.innerWidth<=550&&sceneViewportHeight()>730;
-  let rearLift=0;
-  if(window.innerWidth<=550){
-    const rearCenter=referenceTop+rect.height*.5-12.47;
-    rearLift=narrowTallTitles?rearCenter*.06:0;
-    if(heroFrontLine){
-      const frontRect=heroFrontLine.getBoundingClientRect();
-      const frontStyle=getComputedStyle(heroFrontLine);
-      const paddingTop=Number.parseFloat(frontStyle.paddingTop)||0;
-      const paddingBottom=Number.parseFloat(frontStyle.paddingBottom)||0;
-      const contentCenter=paddingTop+(heroFrontLine.offsetHeight-paddingTop-paddingBottom)*.5;
-      const frontCenter=frontRect.top-nativeHandoffOffsetY()
-        +contentCenter*frontRect.height/heroFrontLine.offsetHeight;
-      const requestedFrontLift=frontCenter*.12;
-      let frontLift=requestedFrontLift;
-      if(!narrowTallTitles){
-        frontLift=0;
-        const viewportHeight=sceneViewportHeight();
-        if(viewportHeight>HERO_SHORT_CROP_HEIGHT){
-          // Reconstruct the existing 420px stop, including this language's width fit.
-          // The requested lift may use spare space, but cannot close that minimum gap.
-          const minimumScale=sceneTypographyWidthScale()*HERO_SHORT_SCALE_MIN;
-          const currentScale=sceneTypographyWidthScale()*heroShortVisualScale();
-          const currentFit=Number.parseFloat(doc.style.getPropertyValue('--hero-front-tall-fit-scale'))||1;
-          const minimumFit=Math.min(1,currentFit*currentScale/minimumScale);
-          const minimumFrontCenter=heroFrontLine.offsetTop+contentCenter*minimumFit;
-          const localRearCenter=heroUpperLine.offsetTop+heroUpperLine.offsetHeight*.5;
-          const minimumDistance=(minimumFrontCenter-localRearCenter)*minimumScale+12.47;
-          const maximumRearDrop=(HERO_SHORT_HEIGHT_START-HERO_SHORT_CROP_HEIGHT)*.5;
-          const minimumGap=minimumDistance-Math.max(0,minimumDistance*.25-maximumRearDrop)-maximumRearDrop;
-          const rearDrop=Math.max(0,HERO_SHORT_HEIGHT_START-viewportHeight)*.5;
-          const availableLift=Math.max(0,frontCenter-rearCenter-rearDrop-minimumGap);
-          frontLift=Math.min(requestedFrontLift,availableLift);
-        }
-      }
-      doc.style.setProperty('--hero-front-narrow-tall-lift',`${(-frontLift/visualScale).toFixed(4)}px`);
-    }
-  }
   Object.assign(heroBackTitle.style,{
     left:`${referenceLeft - visualFontSize * .14}px`,
-    top:`${referenceTop - visualFontSize * .18 - rearLift}px`,
+    top:`${referenceTop - visualFontSize * .18}px`,
     width:`${rect.width}px`,
     height:`${rect.height}px`,
     fontSize:`${visualFontSize}px`,lineHeight:`${lineHeight*visualScale}px`,fontWeight:style.fontWeight,fontFamily:style.fontFamily
@@ -15608,7 +15608,7 @@ function syncHeroTitleDepth() {
     const echoLineHeight=lineHeight*visualScale*echoScale;
     Object.assign(heroBackTitleEcho.style,{
       left:'0px',
-      top:`${referenceTop+(lineHeight*visualScale-echoLineHeight)/2-30-rearLift}px`,
+      top:`${referenceTop+(lineHeight*visualScale-echoLineHeight)/2-30}px`,
       width:`${window.innerWidth}px`,height:`${echoLineHeight}px`,
       fontSize:`${echoFontSize}px`,lineHeight:`${echoLineHeight}px`,
       fontWeight:style.fontWeight,fontFamily:style.fontFamily
@@ -16803,30 +16803,47 @@ function refreshWorksStudyTimeline(){
     const entryFlow=compactIntro?clamp3d(copyCenter-centerLocal,-visibleFrameWidth,limit):0;
     const titleHoldRouteSpan=compactIntro?animationRouteSpan*.42:0;
     let flow=entryFlow;
+    let departingIndexes=[];
+    const holdRouteSpan=animationRouteSpan*.7;
+    const returnRouteSpan=animationRouteSpan*.3;
+    const moveToFlow=targetFlow=>{
+      if(targetFlow<=flow+.001)return;
+      const routeEnd=route+(targetFlow-flow)/Math.max(.001,worksCardsScrollSpeed);
+      segments.push({kind:'move',routeStart:route,routeEnd,flowStart:flow,flowEnd:targetFlow});
+      /* The outgoing face returns while both cards travel. Its first turn
+         and reading interval retain their existing scroll distance. */
+      departingIndexes.forEach(index=>{
+        const card=cards[index];
+        card.end=launchScrollDistance+Math.min(routeEnd,route+returnRouteSpan);
+        card.duration=card.end-card.start;
+      });
+      departingIndexes=[];
+      route=routeEnd;
+      flow=targetFlow;
+    };
     if(compactIntro){
       segments.push({kind:'hold',routeStart:0,routeEnd:titleHoldRouteSpan,flowStart:flow,flowEnd:flow});
       route=titleHoldRouteSpan;
     }
     columnGroups.forEach(group=>{
       const targetFlow=clamp3d(group.center-centerLocal,flow,limit);
-      if(targetFlow>flow+.001){
-        const routeEnd=route+(targetFlow-flow)/Math.max(.001,worksCardsScrollSpeed);
-        segments.push({kind:'move',routeStart:route,routeEnd,flowStart:flow,flowEnd:targetFlow});
-        route=routeEnd;
-        flow=targetFlow;
-      }
+      moveToFlow(targetFlow);
       const start=launchScrollDistance+route;
-      const end=start+animationRouteSpan;
+      const holdEnd=start+holdRouteSpan;
+      const end=holdEnd+returnRouteSpan;
       group.indexes.forEach(index=>{
-        cards[index]={start,end,duration:animationRouteSpan,centerFlow:flow};
+        cards[index]={start,holdEnd,end,duration:end-start,centerFlow:flow};
       });
-      segments.push({kind:'hold',routeStart:route,routeEnd:route+animationRouteSpan,flowStart:flow,flowEnd:flow});
-      route+=animationRouteSpan;
+      segments.push({kind:'hold',routeStart:route,routeEnd:route+holdRouteSpan,flowStart:flow,flowEnd:flow});
+      route+=holdRouteSpan;
+      departingIndexes=group.indexes;
     });
-    if(flow<limit-.001){
-      const routeEnd=route+(limit-flow)/Math.max(.001,worksCardsScrollSpeed);
-      segments.push({kind:'move',routeStart:route,routeEnd,flowStart:flow,flowEnd:limit});
-      route=routeEnd;
+    moveToFlow(limit);
+    if(departingIndexes.length){
+      /* If the final card has no authored horizontal tail, finish its turn
+         before the Product handoff instead of cutting it off at phase .7. */
+      segments.push({kind:'hold',routeStart:route,routeEnd:route+returnRouteSpan,flowStart:flow,flowEnd:flow});
+      route+=returnRouteSpan;
     }
     worksStudyTimelineCache={
       mobile:true,scriptedFlow:true,compactIntro,tallGrid,
@@ -16887,12 +16904,24 @@ function worksStudyRouteForFlow(flowValue,timeline=worksStudyTimelineCache){
   }
   return timeline.totalWorksRoute;
 }
+function worksStudyPhaseAtRoute(route,card){
+  if(!Number.isFinite(card.holdEnd))return clamp3d((route-card.start)/Math.max(.001,card.duration));
+  if(route<=card.holdEnd)return .7*clamp3d((route-card.start)/Math.max(.001,card.holdEnd-card.start));
+  return .7+.3*clamp3d((route-card.holdEnd)/Math.max(.001,card.end-card.holdEnd));
+}
+function worksStudyRouteAtPhase(phase,card){
+  const value=clamp3d(phase);
+  if(!Number.isFinite(card.holdEnd))return card.start+value*card.duration;
+  return value<=.7
+    ?card.start+value/.7*(card.holdEnd-card.start)
+    :card.holdEnd+(value-.7)/.3*(card.end-card.holdEnd);
+}
 function worksStudyAnimationAtRoute(route,timeline=worksStudyTimelineCache){
   for(let index=0;index<timeline.cards.length;index++){
     const card=timeline.cards[index];
     if(!card)continue;
     if(route<card.start||route>card.end)continue;
-    return {index,phase:clamp3d((route-card.start)/Math.max(.001,card.duration))};
+    return {index,phase:worksStudyPhaseAtRoute(route,card)};
   }
   return null;
 }
@@ -16900,12 +16929,15 @@ function touchWorksCardMoveScale(direction){
   const timeline=worksStudyTimelineCache;
   if(!timeline.scriptedFlow||!direction)return 1;
   const route=journeyScrollPosition-launchScrollDistance;
-  return timeline.segments.some((segment,index)=>{
-    if(segment.kind!=='move'||timeline.segments[index+1]?.kind!=='hold')return false;
+  const moveIndex=timeline.segments.findIndex(segment=>{
+    if(segment.kind!=='move')return false;
     return direction>0
       ?route>=segment.routeStart-.5&&route<segment.routeEnd-.5
       :route>segment.routeStart+.5&&route<=segment.routeEnd+.5;
-  })?3:1;
+  });
+  if(moveIndex<0)return 1;
+  const existingScale=timeline.segments[moveIndex+1]?.kind==='hold'?3:1;
+  return existingScale*1.08;
 }
 function worksStudyPulseRouteSpan(){
   const firstCard=worksStudyCards[0];
@@ -16928,7 +16960,7 @@ function renderWorksCaseStudies(routeState){
     if(isCaseStudyTravel){
       const schedule=worksStudyTimelineCache.cards[index];
       phase=schedule
-        ?clamp3d((journeyScrollRenderPosition-schedule.start)/Math.max(.001,schedule.duration))
+        ?worksStudyPhaseAtRoute(journeyScrollRenderPosition,schedule)
         :0;
     }
     card._studyPhase=phase;
@@ -17424,7 +17456,7 @@ function journeyScrollFromState(state,metrics=journeyScrollMetrics()){
     const nextStudy=state.studyMobile===metrics.studyTimeline.mobile&&Number.isInteger(activeStudy?.index)
       ?metrics.studyTimeline.cards[activeStudy.index]
       :null;
-    if(nextStudy)return nextStudy.start+clamp3d(activeStudy.phase)*nextStudy.duration;
+    if(nextStudy)return worksStudyRouteAtPhase(activeStudy.phase,nextStudy);
     if(state.segment==='approach')return phase*metrics.worksEntry;
     return metrics.worksEntry+worksStudyRouteForFlow(state.works,metrics.studyTimeline);
   }
@@ -20799,14 +20831,16 @@ function renderWorksRoute(now){
     /* The capped scene travel cannot clear a title centred in a wider viewport. */
     heroFrontLine.style.opacity=window.innerWidth>MAX_HORIZONTAL_SECTION_WIDTH?String(1-titleEase):'';
   }
-  const heroShortTitleDrop=Math.max(0,(HERO_SHORT_HEIGHT_START-Math.max(HERO_SHORT_CROP_HEIGHT,sceneViewportHeight()))*.5)*(1-titleEase);
-  if(heroBackTitle){
-    heroBackTitle.style.transform=`translate3d(0,${-12.47+heroShortTitleDrop+titleEase*DESIGN_VIEWPORT_HEIGHT*.68}px,0)`;
-    heroBackTitle.style.opacity=String(1-titleEase);
-  }
-  if(heroBackTitleEcho){
-    heroBackTitleEcho.style.transform=`translate3d(0,${-12.47+heroShortTitleDrop+titleEase*DESIGN_VIEWPORT_HEIGHT*.68}px,0)`;
-    heroBackTitleEcho.style.opacity=window.innerWidth<=450?String((1-titleEase)*.26):'0';
+  {
+    const heroShortTitleDrop=Math.max(0,(HERO_SHORT_HEIGHT_START-Math.max(HERO_SHORT_CROP_HEIGHT,sceneViewportHeight()))*.5)*(1-titleEase);
+    if(heroBackTitle){
+      heroBackTitle.style.transform=`translate3d(0,${-12.47+heroShortTitleDrop+titleEase*DESIGN_VIEWPORT_HEIGHT*.68}px,0)`;
+      heroBackTitle.style.opacity=String(1-titleEase);
+    }
+    if(heroBackTitleEcho){
+      heroBackTitleEcho.style.transform=`translate3d(0,${-12.47+heroShortTitleDrop+titleEase*DESIGN_VIEWPORT_HEIGHT*.68}px,0)`;
+      heroBackTitleEcho.style.opacity=window.innerWidth<=450?String((1-titleEase)*.26):'0';
+    }
   }
   const sectionWidth=horizontalSectionWidth();
   caseSectionsFlow.style.transform=`translate3d(${((worksIndex3d-sectionFlowStage)*sectionWidth).toFixed(2)}px,0,0)`;
@@ -21998,168 +22032,39 @@ if (worldCanvas && !reduced3d) {
     data.lastCameraPosition.copy(camera.position);data.lastCameraQuaternion.copy(camera.quaternion);
     data.lastCameraFov=camera.fov;data.lastCameraAspect=camera.aspect;data.cameraSnapshotReady=true;
   }
-  function heroRoundedPanelGeometry(width,height,radius=.12) {
-    const halfWidth=width/2,halfHeight=height/2,r=Math.min(radius,halfWidth,halfHeight);
-    const shape=new THREE.Shape();
-    shape.moveTo(-halfWidth+r,-halfHeight);
-    shape.lineTo(halfWidth-r,-halfHeight);shape.quadraticCurveTo(halfWidth,-halfHeight,halfWidth,-halfHeight+r);
-    shape.lineTo(halfWidth,halfHeight-r);shape.quadraticCurveTo(halfWidth,halfHeight,halfWidth-r,halfHeight);
-    shape.lineTo(-halfWidth+r,halfHeight);shape.quadraticCurveTo(-halfWidth,halfHeight,-halfWidth,halfHeight-r);
-    shape.lineTo(-halfWidth,-halfHeight+r);shape.quadraticCurveTo(-halfWidth,-halfHeight,-halfWidth+r,-halfHeight);
-    return new THREE.ShapeGeometry(shape,10);
-  }
-  function heroWorkImageMaterial(source,cardAspect,baseOpacity=.5) {
-    const fallback=new THREE.DataTexture(new Uint8Array([25,32,58,255]),1,1,THREE.RGBAFormat);
-    fallback.colorSpace=THREE.SRGBColorSpace;fallback.needsUpdate=true;
-    const uniforms={map:{value:fallback},imageAspect:{value:cardAspect},cardAspect:{value:cardAspect},opacity:{value:baseOpacity}};
-    let textureReady=false,texturePending=false;
-    const loadImage=()=>window.__portfolioImageCache.load(source,{hero:true}).then(local=>{
-      if(textureReady||texturePending)return;
-      texturePending=true;
-      new THREE.TextureLoader().load(local,texture=>{
-        const sourceImage=texture.image;
-        const sourceWidth=sourceImage.naturalWidth||sourceImage.width||1;
-        const sourceHeight=sourceImage.naturalHeight||sourceImage.height||1;
-        const textureScale=Math.min(1,512/Math.max(sourceWidth,sourceHeight));
-        if(textureScale<1){
-          // Downsize only this GPU texture; keep the shared image and card layout intact.
-          const textureCanvas=document.createElement('canvas');
-          textureCanvas.width=Math.max(1,Math.round(sourceWidth*textureScale));
-          textureCanvas.height=Math.max(1,Math.round(sourceHeight*textureScale));
-          const textureContext=textureCanvas.getContext('2d');
-          if(textureContext){
-            try{
-              textureContext.imageSmoothingEnabled=true;
-              textureContext.imageSmoothingQuality='high';
-              textureContext.drawImage(sourceImage,0,0,textureCanvas.width,textureCanvas.height);
-              texture.image=textureCanvas;
-              texture.needsUpdate=true;
-            }catch(error){ /* Keep the original texture if resizing is unavailable. */ }
-          }
-        }
-        texture.colorSpace=THREE.SRGBColorSpace;texture.minFilter=THREE.LinearMipmapLinearFilter;texture.magFilter=THREE.LinearFilter;
-        texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
-        uniforms.map.value=texture;uniforms.imageAspect.value=sourceWidth/sourceHeight;
-        textureReady=true;texturePending=false;fallback.dispose();
-        removeEventListener('online',loadImage);
-      },undefined,()=>{texturePending=false;});
-    }).catch(()=>{});
-    addEventListener('online',loadImage);
-    loadImage();
-    return new THREE.ShaderMaterial({
-      uniforms,transparent:true,depthWrite:false,side:THREE.DoubleSide,toneMapped:false,
-      vertexShader:'varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-      fragmentShader:`
-        uniform sampler2D map;uniform float imageAspect;uniform float cardAspect;uniform float opacity;varying vec2 vUv;
-        float roundedMask(vec2 uv,float radius){vec2 q=abs(uv-.5)-vec2(.5-radius);float d=length(max(q,0.0))+min(max(q.x,q.y),0.0)-radius;return 1.0-smoothstep(-.006,.006,d);}
-        void main(){
-          vec2 sampleUv=vUv;
-          if(imageAspect>cardAspect)sampleUv.x=(vUv.x-.5)*(cardAspect/imageAspect)+.5;
-          else sampleUv.y=(vUv.y-.5)*(imageAspect/cardAspect)+.5;
-          vec4 image=texture2D(map,sampleUv);
-          float mask=roundedMask(vUv,.075);
-          float sheen=pow(max(0.0,1.0-length(vUv-vec2(.18,.9))),4.0)*.12;
-          float luminance=dot(image.rgb,vec3(.2126,.7152,.0722));
-          vec3 coolMonochrome=vec3(luminance)*vec3(.82,.94,1.08);
-          vec3 color=mix(coolMonochrome,image.rgb,.56)*.82;
-          color+=vec3(.16,.2,.28)*sheen;
-          gl_FragColor=vec4(color,mask*image.a*opacity);
-        }`
-    });
-  }
-  function createHeroCardConstellation(z=0) {
-    const constellation=new THREE.Group();
-    constellation.position.z=z;constellation.userData.managedJourney=true;
-    const cards=[];
-    const workCards=[
-      {src:'./previews/QuickWins.png',size:[2.18,1.14],position:[-6.65,-1.72,-.7],rotation:[.06,.43,.13],opacity:.22,phase:.2,mobile:true,mobilePosition:[-3.35,-1.04,-.7],mobileScale:1.28},
-      {src:'./previews/internshipHorizontalPost.png',size:[1.58,.83],position:[4.92,1.56,-1.85],rotation:[-.03,-.28,.05],opacity:.24,phase:1.35,mobile:false},
-      {src:'./previews/dogCarousel1.jpg',size:[1.08,1.32],position:[-5.35,-.82,-1.85],rotation:[.025,.32,.07],opacity:.15,phase:2.5,mobile:false},
-      {src:'./previews/rectPostNew1.png',size:[1.12,1.12],position:[5.48,.68,-1.05],rotation:[-.035,-.35,.075],opacity:.16,phase:3.7,mobile:true,mobilePosition:[3.25,.82,-1.05],mobileScale:1.36},
-      {src:'./previews/deloUApost.jpg',size:[1.24,.65],position:[-4.12,-.12,-3.15],rotation:[.015,.22,.035],opacity:.25,phase:4.75,mobile:false},
-      {src:'./previews/privatBankPost2.png',size:[.74,.93],position:[3.88,.24,-3.2],rotation:[-.015,-.19,.02],opacity:.27,phase:5.7,mobile:false},
-      {src:'./previews/metro.png',size:[.67,.67],position:[-3.25,.35,-4.6],rotation:[.01,.14,.015],opacity:.18,phase:6.65,mobile:false},
-    ];
-    const glassBase={
-      color:0xb7d6ee,roughness:.16,metalness:.05,transmission:.52,thickness:.52,ior:1.32,
-      transparent:true,opacity:.16,clearcoat:1,clearcoatRoughness:.08,envMapIntensity:1.1,depthWrite:false,side:THREE.DoubleSide
-    };
-    workCards.forEach((config,index)=>{
-      const [width,height]=config.size,root=new THREE.Group();
-      const imageOpacity=config.opacity??.44,glassOpacity=imageOpacity*.3,edgeOpacity=imageOpacity*.42;
-      const backingGeometry=heroRoundedPanelGeometry(width,height,Math.min(width,height)*.105);
-      const backingMaterial=new THREE.MeshPhysicalMaterial({...glassBase,color:index===1?0xffc6ac:(index===2?0xbcecff:0xcbd1ff),opacity:glassOpacity});
-      const backing=new THREE.Mesh(backingGeometry,backingMaterial);backing.position.z=-.035;root.add(backing);
-      const imageMaterial=heroWorkImageMaterial(config.src,width/height,imageOpacity);
-      const image=new THREE.Mesh(new THREE.PlaneGeometry(width-.12,height-.12),imageMaterial);image.position.z=.018;root.add(image);
-      const edgeMaterial=new THREE.LineBasicMaterial({color:0xeaf6ff,transparent:true,opacity:edgeOpacity,depthWrite:false});
-      const edge=new THREE.LineSegments(new THREE.EdgesGeometry(backingGeometry,12),edgeMaterial);edge.position.z=.027;root.add(edge);
-      root.userData.opacityTargets=[
-        {material:backingMaterial,base:glassOpacity},{material:imageMaterial,base:imageOpacity,uniform:true},{material:edgeMaterial,base:edgeOpacity}
-      ];
-      root.position.fromArray(config.position);root.rotation.set(...config.rotation);
-      root.userData.card={
-        ...config,
-        basePosition:new THREE.Vector3(...config.position),
-        mobilePosition:config.mobilePosition?new THREE.Vector3(...config.mobilePosition):null,
-        baseRotation:new THREE.Euler(...config.rotation),baseScale:1,index
-      };
-      cards.push(root);constellation.add(root);
-    });
-    constellation.userData.cards=cards;
-    constellation.userData.vanishPoint=new THREE.Vector3(.12,.28,-7.4);
-    universe.add(constellation);return constellation;
-  }
   function heroResponsiveComposition() {
-    /* The central object keeps its established 1050px response. Work cards use
-       a separate shallow 1536 -> 800 response so their peripheral layout does
-       not disappear before the compact composition takes ownership. */
     const width=clamp3d(window.innerWidth,340,1050);
     const progress=(width-340)/(1050-340);
     const objectBaseScale=.72+progress*.28;
     const mobileCompression=window.innerWidth<=800?.88:1;
-    const cardWidth=clamp3d(window.innerWidth,800,1536);
-    const cardProgress=(cardWidth-800)/(1536-800);
     return {
       objectBaseScale,
-      objectScale:objectBaseScale*mobileCompression,
-      cardSpread:.9+cardProgress*.1,
-      cardScale:.96+cardProgress*.04
+      objectScale:objectBaseScale*mobileCompression
     };
   }
   const heroHeightReferenceCamera=new THREE.PerspectiveCamera(48,1,.1,180);
-  const heroHeightCapCamera=new THREE.PerspectiveCamera(48,1,.1,180);
   const heroHeightReferencePoint=new THREE.Vector3();
   const heroHeightCurrentPoint=new THREE.Vector3();
   const heroHeightUnitPoint=new THREE.Vector3();
   const heroHeightProjectionPoint=new THREE.Vector3();
   let heroHeightReferenceReady=false;
-  let heroHeightCapReady=false;
   function heroHeightComposition(stage=0){
     const height=sceneViewportHeight();
     if(height<=HERO_HEIGHT_START)return {
-      active:false,influence:0,objectWorldScale:1,cardFrameScale:1,
-      cardsFollowObject:false,cardsUseHeightCap:false
+      active:false,influence:0,objectWorldScale:1
     };
     const releaseRaw=clamp3d(stage/.42);
     const release=releaseRaw*releaseRaw*(3-2*releaseRaw);
     const influence=1-release;
     const cappedHeight=Math.min(height,HERO_HEIGHT_END);
     const heightCapWorldScale=cappedHeight/height;
-    const cardsFollowObject=window.innerWidth>=800;
-    const frameWorldScale=cardsFollowObject
-      ?heightCapWorldScale
-      :heroTallVisualScale()*HERO_HEIGHT_START/height;
     return {
       active:influence>.0001,
       influence,
       /* Keep natural height growth through 1200px, then counter-scale only the
          excess canvas height. The existing upper anchor therefore preserves
          the exact 1200px composition on every taller viewport. */
-      objectWorldScale:THREE.MathUtils.lerp(1,heightCapWorldScale,influence),
-      cardFrameScale:THREE.MathUtils.lerp(1,frameWorldScale,influence),
-      cardsFollowObject:cardsFollowObject&&height<=HERO_HEIGHT_END,
-      cardsUseHeightCap:cardsFollowObject&&height>HERO_HEIGHT_END
+      objectWorldScale:THREE.MathUtils.lerp(1,heightCapWorldScale,influence)
     };
   }
   function copyHeroReferenceCamera(target,height){
@@ -22178,11 +22083,9 @@ if (worldCanvas && !reduced3d) {
   function prepareHeroHeightReferenceCamera(stage){
     const composition=heroHeightComposition(stage);
     heroHeightReferenceReady=composition.active;
-    heroHeightCapReady=composition.active&&composition.cardsUseHeightCap;
     if(!heroHeightReferenceReady)return composition;
     camera.updateMatrixWorld(true);
     copyHeroReferenceCamera(heroHeightReferenceCamera,HERO_HEIGHT_START);
-    if(heroHeightCapReady)copyHeroReferenceCamera(heroHeightCapCamera,HERO_HEIGHT_END);
     return composition;
   }
   function heroScreenY(point,projectionCamera,height){
@@ -22213,77 +22116,6 @@ if (worldCanvas && !reduced3d) {
       HERO_HEIGHT_START,
       referenceOffset
     );
-  }
-  function updateHeroCardConstellation(constellation,stage,time) {
-    if(!constellation)return;
-    const raw=clamp3d((stage-.015)/.62),collapse=raw*raw*(3-2*raw);
-    const fullyCollapsed=collapse>=1;
-    if(fullyCollapsed&&constellation.userData.fullyCollapsed)return;
-    constellation.userData.fullyCollapsed=fullyCollapsed;
-    constellation.visible=!fullyCollapsed;
-    const responsive=heroResponsiveComposition();
-    const heightComposition=heroHeightComposition(stage);
-    const heightFrameScale=heightComposition.cardFrameScale;
-    constellation.position.y=0;
-    const xScale=responsive.cardSpread;
-    const yScale=.9+responsive.cardSpread*.1;
-    const layoutScale=responsive.cardScale;
-    const compactCards=window.innerWidth<=800;
-    const compactProgress=clamp3d((window.innerWidth-340)/(800-340));
-    const compactLeftXScale=.72+compactProgress*.28;
-    const compactRightXScale=.64+compactProgress*.36;
-    const compactLayoutScale=.92+compactProgress*.04;
-    /* Fade over the movement itself. This is intentionally a pure function of
-       transition progress, so reverse scroll restores the cards at the exact
-       same points without a delayed CSS tail. */
-    const fadeRaw=clamp3d((collapse-.02)/.76),visibility=1-fadeRaw*fadeRaw*(3-2*fadeRaw);
-    if(heroWorkBackdrop){
-      const tallCardScale=heroTallCardScale();
-      const postCapShift=heroPostCapShift()*(1-collapse);
-      const tallCardDrop=window.innerWidth>=800&&sceneViewportHeight()>HERO_HEIGHT_START
-        ?HERO_HEIGHT_START*.46*(tallCardScale-1)*(1-collapse)
-        :0;
-      heroWorkBackdrop.style.setProperty('--hero-work-opacity',(visibility*.68).toFixed(4));
-      heroWorkBackdrop.style.setProperty('--hero-work-scale',(1-collapse*.34).toFixed(4));
-      heroWorkBackdrop.style.setProperty('--hero-work-y',`${(postCapShift+tallCardDrop-collapse*DESIGN_VIEWPORT_HEIGHT*.11).toFixed(2)}px`);
-    }
-    constellation.userData.cards.forEach(root=>{
-      const data=root.userData.card;
-      root.visible=visibility>.002&&(!compactCards||data.mobile);
-      if(!root.visible)return;
-      const base=compactCards?(data.mobilePosition||data.basePosition):data.basePosition;
-      const compactXScale=base.x<0?compactLeftXScale:compactRightXScale;
-      const referenceStartX=base.x*(compactCards?compactXScale:xScale);
-      const referenceStartY=base.y*(compactCards?1:yScale);
-      const startX=referenceStartX*heightFrameScale;
-      let startY=referenceStartY*heightFrameScale;
-      const startZ=base.z;
-      if(heightComposition.active&&!heightComposition.cardsFollowObject){
-        heroHeightCurrentPoint.set(startX,startY,startZ+constellation.position.z);
-        heroHeightReferencePoint.set(referenceStartX,referenceStartY,startZ+constellation.position.z);
-        startY+=heroReferenceWorldYShift(
-          heroHeightCurrentPoint,
-          heroHeightReferencePoint,
-          heightComposition.influence,
-          heightComposition.cardsUseHeightCap?heroHeightCapCamera:heroHeightReferenceCamera,
-          heightComposition.cardsUseHeightCap?HERO_HEIGHT_END:HERO_HEIGHT_START,
-          heroPostCapShift()
-        );
-      }
-      root.position.set(
-        THREE.MathUtils.lerp(startX,constellation.userData.vanishPoint.x,collapse),
-        THREE.MathUtils.lerp(startY,constellation.userData.vanishPoint.y,collapse),
-        THREE.MathUtils.lerp(startZ,constellation.userData.vanishPoint.z,collapse)
-      );
-      root.rotation.x=THREE.MathUtils.lerp(data.baseRotation.x,0,collapse);
-      root.rotation.y=THREE.MathUtils.lerp(data.baseRotation.y,0,collapse);
-      root.rotation.z=THREE.MathUtils.lerp(data.baseRotation.z,0,collapse);
-      root.scale.setScalar((compactCards?compactLayoutScale:layoutScale)*(compactCards?(data.mobileScale||1):1)*(1-collapse*.92)*heightFrameScale);
-      root.userData.opacityTargets.forEach(target=>{
-        if(target.uniform)target.material.uniforms.opacity.value=target.base*visibility;
-        else target.material.opacity=target.base*visibility;
-      });
-    });
   }
   function heroAtmosphere(z=0) {
     const environment=new THREE.Group();environment.position.z=z;environment.userData.managedEnvironment=true;
@@ -22473,7 +22305,6 @@ if (worldCanvas && !reduced3d) {
   function celestialBloom(z) {
     const group=new THREE.Group();group.position.set(0,-.45,z);group.userData.baseY=-.45;group.userData.baseScale=1.08;group.userData.managedJourney=true;
     const environment=heroAtmosphere(z);
-    const cardConstellation=createHeroCardConstellation(z);
     const heroHaloMaterial=new THREE.SpriteMaterial({
       map:heroHaloTexture(),transparent:true,opacity:.68,depthTest:true,depthWrite:false,
       blending:THREE.AdditiveBlending,toneMapped:false
@@ -22696,7 +22527,28 @@ if (worldCanvas && !reduced3d) {
     // Keep the existing responsive anchor, so changing the petals cannot move the pearl.
     heroTopBox.union(knotGeometry.userData.heroLayoutBox.clone().applyMatrix4(group.matrixWorld));
     group.userData.heroVisualTop=Math.max(0,heroTopBox.max.y-group.position.y);
-    universe.add(group);return {group,body,occluder,second,core,coreGlow,coreLight,electricGroup,electricArcs,particles,environment,heroHalo,cardConstellation};
+    const titleBodyScale=body.scale.clone();
+    const titleBodyRotation=body.rotation.clone();
+    prepareMobileHeroFigureMetrics=()=>{
+      if(mobileHeroFigureMetrics)return;
+      const titlePoints=[],titlePoint=new THREE.Vector3(),titlePose=new THREE.Quaternion();
+      const sampleTitleSilhouette=(mesh,scale,poses)=>{
+        const positions=mesh.geometry.getAttribute('position');
+        poses.forEach(pose=>{
+          titlePose.setFromEuler(new THREE.Euler(...pose));
+          for(let index=0;index<positions.count;index+=8){
+            titlePoint.fromBufferAttribute(positions,index).multiply(scale).applyQuaternion(titlePose);
+            titlePoints.push(titlePoint.x,titlePoint.y,titlePoint.z);
+          }
+        });
+      };
+      sampleTitleSilhouette(body,titleBodyScale,[[titleBodyRotation.x,body.userData.heroYawCenter,titleBodyRotation.z]]);
+      mobileHeroFigureMetrics={points:new Float32Array(titlePoints),top:group.userData.heroVisualTop,baseY:group.userData.baseY,baseScale:group.userData.baseScale};
+      mobileHeroFigureKey='';
+    };
+    if(window.innerWidth<=550)requestAnimationFrame(syncHeroTitleDepth);
+
+    universe.add(group);return {group,body,occluder,second,core,coreGlow,coreLight,electricGroup,electricArcs,particles,environment,heroHalo};
   }
 
   const bodies=new Array(sections3d.length).fill(null);
@@ -22778,13 +22630,12 @@ if (worldCanvas && !reduced3d) {
     item.second.visible=release<.94;
   }
 
-  function updateLaunchTransition(item,stage,time,frameScale,updateStaticScene=true){
+  function updateLaunchTransition(item,stage,time,frameScale){
     const release=clamp3d(stage/.82);
     const eased=release*release*(3-2*release);
     const electricity=clamp3d((release-.5)/.32);
     /* The orb stays at its original depth; the camera approaches it and it drifts slightly right. */
     const targetX=1.1*eased,targetY=.45*eased,targetZ=0;
-    if(updateStaticScene)updateHeroCardConstellation(item.cardConstellation,stage,time);
 
     const responsiveComposition=heroResponsiveComposition();
     const heightComposition=heroHeightComposition(stage);
@@ -23048,19 +22899,17 @@ if (worldCanvas && !reduced3d) {
         if(item.environment&&updateHeroStaticScene)updateHeroAtmosphere(item.environment,horizontalStage,t);
       });
       if(bodies[0]){
-        updateLaunchTransition(bodies[0],horizontalStage,t,frameScale,updateHeroStaticScene);
+        updateLaunchTransition(bodies[0],horizontalStage,t,frameScale);
         stabilizeHeroParticles(bodies[0],0,t,heroIdleMotion);
         bodies[0].group.position.x=sphereExit*7;
       }
-    }else if(bodies[0]?.group.visible||bodies[0]?.environment?.visible||bodies[0]?.cardConstellation?.visible){
+    }else if(bodies[0]?.group.visible||bodies[0]?.environment?.visible){
       bodies.forEach(item=>{
         if(!item)return;
         item.group.visible=false;
         if(item.environment)item.environment.visible=false;
-        if(item.cardConstellation)item.cardConstellation.visible=false;
       });
-      if(heroWorkBackdrop)heroWorkBackdrop.style.setProperty('--hero-work-opacity','0');
-      /* A teleport can skip the cards' collapse; recompute them on hero return. */
+      /* A teleport can skip the transition; refresh the scene on hero return. */
       lastHeroStaticStage=Number.NaN;
     }
     universe.children.forEach(child=>{if(child.type==='Group'&&!child.userData.managedEnvironment&&!child.userData.managedJourney&&child.children.length>20)child.rotation.y+=.0008*frameScale;});

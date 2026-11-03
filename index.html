@@ -16809,13 +16809,15 @@ function refreshWorksStudyTimeline(){
     const moveToFlow=targetFlow=>{
       if(targetFlow<=flow+.001)return;
       const routeEnd=route+(targetFlow-flow)/Math.max(.001,worksCardsScrollSpeed);
-      segments.push({kind:'move',routeStart:route,routeEnd,flowStart:flow,flowEnd:targetFlow});
-      /* The outgoing face returns while both cards travel. Its first turn
-         and reading interval retain their existing scroll distance. */
+      const smoothDeparture=departingIndexes.length>0;
+      segments.push({kind:'move',routeStart:route,routeEnd,flowStart:flow,flowEnd:targetFlow,smoothDeparture});
+      /* Translation and the return turn share the entire departure, with
+         zero speed/acceleration at both ends. Reveal/read distance is intact. */
       departingIndexes.forEach(index=>{
         const card=cards[index];
-        card.end=launchScrollDistance+Math.min(routeEnd,route+returnRouteSpan);
+        card.end=launchScrollDistance+routeEnd;
         card.duration=card.end-card.start;
+        card.smoothDeparture=true;
       });
       departingIndexes=[];
       route=routeEnd;
@@ -16879,6 +16881,21 @@ function refreshWorksStudyTimeline(){
     segments:[]
   };
 }
+function worksStudyDepartureProgress(value){
+  const t=clamp3d(value);
+  return t*t*t*(t*(t*6-15)+10);
+}
+function worksStudyDepartureInput(progress){
+  const value=clamp3d(progress);
+  if(value===0||value===1)return value;
+  let low=0,high=1;
+  for(let index=0;index<28;index++){
+    const middle=(low+high)*.5;
+    if(worksStudyDepartureProgress(middle)<value)low=middle;
+    else high=middle;
+  }
+  return (low+high)*.5;
+}
 function worksStudyFlowAtRoute(routeOffset,timeline=worksStudyTimelineCache){
   const route=Math.max(0,routeOffset);
   if(!timeline.scriptedFlow)return clamp3d(route*worksCardsScrollSpeed,0,worksFlowLimit());
@@ -16886,7 +16903,8 @@ function worksStudyFlowAtRoute(routeOffset,timeline=worksStudyTimelineCache){
     if(route>segment.routeEnd)continue;
     if(segment.kind==='hold'||segment.routeEnd<=segment.routeStart)return segment.flowEnd;
     const progress=clamp3d((route-segment.routeStart)/(segment.routeEnd-segment.routeStart));
-    return segment.flowStart+(segment.flowEnd-segment.flowStart)*progress;
+    const travel=segment.smoothDeparture?worksStudyDepartureProgress(progress):progress;
+    return segment.flowStart+(segment.flowEnd-segment.flowStart)*travel;
   }
   return worksFlowLimit();
 }
@@ -16898,23 +16916,26 @@ function worksStudyRouteForFlow(flowValue,timeline=worksStudyTimelineCache){
   );
   if(!timeline.scriptedFlow)return flow/Math.max(.001,worksCardsScrollSpeed);
   for(const segment of timeline.segments){
-    if(segment.kind!=='move'||flow>segment.flowEnd+.001)continue;
+    if(segment.kind!=='move'||flow>segment.flowEnd)continue;
     const progress=(flow-segment.flowStart)/Math.max(.001,segment.flowEnd-segment.flowStart);
-    return segment.routeStart+clamp3d(progress)*(segment.routeEnd-segment.routeStart);
+    const input=segment.smoothDeparture?worksStudyDepartureInput(progress):clamp3d(progress);
+    return segment.routeStart+input*(segment.routeEnd-segment.routeStart);
   }
   return timeline.totalWorksRoute;
 }
 function worksStudyPhaseAtRoute(route,card){
   if(!Number.isFinite(card.holdEnd))return clamp3d((route-card.start)/Math.max(.001,card.duration));
   if(route<=card.holdEnd)return .7*clamp3d((route-card.start)/Math.max(.001,card.holdEnd-card.start));
-  return .7+.3*clamp3d((route-card.holdEnd)/Math.max(.001,card.end-card.holdEnd));
+  const progress=clamp3d((route-card.holdEnd)/Math.max(.001,card.end-card.holdEnd));
+  return .7+.3*(card.smoothDeparture?worksStudyDepartureProgress(progress):progress);
 }
 function worksStudyRouteAtPhase(phase,card){
   const value=clamp3d(phase);
   if(!Number.isFinite(card.holdEnd))return card.start+value*card.duration;
-  return value<=.7
-    ?card.start+value/.7*(card.holdEnd-card.start)
-    :card.holdEnd+(value-.7)/.3*(card.end-card.holdEnd);
+  if(value<=.7)return card.start+value/.7*(card.holdEnd-card.start);
+  const progress=(value-.7)/.3;
+  const input=card.smoothDeparture?worksStudyDepartureInput(progress):progress;
+  return card.holdEnd+input*(card.end-card.holdEnd);
 }
 function worksStudyAnimationAtRoute(route,timeline=worksStudyTimelineCache){
   for(let index=0;index<timeline.cards.length;index++){
@@ -20672,6 +20693,16 @@ function updateRenderedJourneyRoute(deltaSeconds){
   const velocityEase=1-Math.exp(-deltaSeconds/.14);
   journeyScrollRenderVelocity+=(desiredVelocity-journeyScrollRenderVelocity)*velocityEase;
   const next=journeyScrollRenderPosition+journeyScrollRenderVelocity*deltaSeconds;
+  const studyEnd=launchScrollDistance+worksStudyTimelineCache.totalWorksRoute;
+  const mobileStudyMotion=worksStudyTimelineCache.scriptedFlow
+    &&journeyScrollRenderPosition>=launchScrollDistance&&journeyScrollRenderPosition<=studyEnd
+    &&journeyScrollPosition>=launchScrollDistance&&journeyScrollPosition<=studyEnd;
+  if(mobileStudyMotion&&(gap===0||(gap>0&&next>journeyScrollPosition)||(gap<0&&next<journeyScrollPosition))){
+    /* Settling on the requested position must not turn into a reverse flip. */
+    journeyScrollRenderPosition=journeyScrollPosition;
+    journeyScrollRenderVelocity=0;
+    return;
+  }
   journeyScrollRenderPosition=clamp3d(next,0,nativeJourneyEndRoute());
   if(journeyScrollRenderPosition!==next){
     journeyScrollRenderVelocity=0;
